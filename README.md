@@ -1,2 +1,3 @@
 # react-graph-ui
-React library adding graph and flow diagram builder components
+
+React library adding graph and flow diagram builder components.
