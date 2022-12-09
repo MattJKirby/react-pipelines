@@ -47,7 +47,7 @@ export const FlowZoom = ({children, nodeList, edgeList, setTransform}: FlowZoomP
 
   return (
     <div className='' ref={flowZoom} style={{ width: '100%', height: '100%', zIndex: -1, backgroundColor: 'transparent'}}>
-      <div style={{ position: 'absolute', height: "100%", left: 0, top: 0, width: "100%", transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.k})`, transformOrigin: '0 0'}}>
+      <div style={{ height: "100%", left: 0, top: 0, width: "100%", transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.k})`, transformOrigin: '0 0'}}>
         <NodeRenderer nodeList={nodeList} transform={{ k: k, x: x, y: y}}/>
         {children}
       </div>

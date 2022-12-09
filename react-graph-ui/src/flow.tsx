@@ -15,7 +15,7 @@ export const Flow = () => {
 
 
   return (
-    <div style={{position: 'relative', width: '100%', height: '100%'}}>
+    <div style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}>
       <FlowZoom setTransform={setTransform} nodeList={nodeList} />
       <FlowCanvas transform={transform} gap={40} size={1} />
     </div> 
