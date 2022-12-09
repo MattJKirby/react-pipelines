@@ -1,4 +1,5 @@
 import React from "react"
+import Flow from "../../src/flow"
 
 /**
  * Page for displaing graph UI components
@@ -6,7 +7,7 @@ import React from "react"
  */
 const graphUI = () => {
   return (
-    <p>This works</p>
+    <Flow />
   )
 
 }
