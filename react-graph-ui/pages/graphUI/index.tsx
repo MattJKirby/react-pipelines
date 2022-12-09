@@ -7,7 +7,10 @@ import Flow from "../../src/flow"
  */
 const graphUI = () => {
   return (
-    <Flow />
+    <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
+      <Flow />    
+    </div>
+    
   )
 
 }
