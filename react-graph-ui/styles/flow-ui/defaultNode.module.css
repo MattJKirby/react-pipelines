@@ -1,0 +1,36 @@
+.nodeContainer {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #c4cbd1;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px, rgb(0 0 0 / 6%) 0px 2px 4px -1px;
+  font-size: small;
+  color: #696f8c;
+}
+
+.nodeHeader {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  display: flex;
+  padding: 8px;
+  background-color: #fff;
+  border-bottom: 1px solid #c4cbd1;
+}
+
+.nodeMainContent {
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+
+}
+
+.nodeFooter {
+  display: flex;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #F9FAFC;
+  color: #3366FF;
+  font-size: small;
+}
