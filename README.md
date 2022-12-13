@@ -10,9 +10,11 @@ Quick and dirty! I'll make it nice soon :)
 
 ## Getting Started
 
-First, run the development server:
+First, navigate to the project folder and run the development server:
 
 ```bash
+cd react-graph-ui
+# then
 npm run dev
 # or
 yarn dev
