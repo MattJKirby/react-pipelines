@@ -1,3 +1,15 @@
+# React Graph UI
+
+## Summary
+
+This is a React library the enables the creation and visualisation of interactive node-based flow diagrams. Nodes can be entirely customised, including their edges and anchor points. Graphs exist on a canvas the can be zoomed and scrolled over with the help from the d3-zoom and d3-drag JavaScript libraries.
+
+## Why is this a NextJS app??
+
+Quick and dirty! I'll make it nice soon :)
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
