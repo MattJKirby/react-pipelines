@@ -2,7 +2,7 @@
 
 ## Summary
 
-This is a React library the enables the creation and visualisation of interactive node-based flow diagrams. Nodes can be entirely customised, including their edges and anchor points. Graphs exist on a canvas the can be zoomed and scrolled over with the help from the d3-zoom and d3-drag JavaScript libraries.
+This is a React library the enables the creation and visualisation of interactive node-based flow diagrams. Nodes can be entirely customised, including their edges and anchor points. Graphs exist on a canvas that can be zoomed and scrolled over with help from the d3-zoom and d3-drag JavaScript libraries.
 
 ## Why is this a NextJS app??
 
