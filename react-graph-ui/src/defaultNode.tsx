@@ -9,7 +9,7 @@ interface DefaultNodeProps {
   transform: any
 }
 
-const DefaultNode = ({node, transform}: DefaultNodeProps) => {
+const DefaultNode = ({node}: DefaultNodeProps) => {
   const nodeRef = createRef<HTMLDivElement>()
   const [position, setPosition] = useState<{x: number, y: number}>({x: 0, y: 0})
   
@@ -22,7 +22,7 @@ const DefaultNode = ({node, transform}: DefaultNodeProps) => {
 
 
   return (
-    <Draggable key={node.id} node={node} transform={transform} setPosition={updatePosition}>
+    <Draggable key={node.id} node={node} setPosition={updatePosition}>
       <div className={styles.nodeContainer} ref={nodeRef}>
         <div className={styles.nodeHeader}>
           {node.name}

@@ -7,10 +7,9 @@ import { EdgeRenderer } from "./edgeRenderer"
 interface NodeRendererProps {
   nodeList?: any
   edgeList?: any
-  transform: any
   customNodeTypes?: any
 }
-export const NodeRenderer = ({nodeList, transform, customNodeTypes, edgeList}: NodeRendererProps) => {
+export const NodeRenderer = ({nodeList, customNodeTypes, edgeList}: NodeRendererProps) => {
 
   const nodeTypes: { [key: string]: ComponentType<any> } = {default: DefaultNode}
 
@@ -19,7 +18,7 @@ export const NodeRenderer = ({nodeList, transform, customNodeTypes, edgeList}: N
         {nodeList.map(node => {
           const NodeType = nodeTypes[node.type] as ComponentType<any> || nodeTypes['default']
           return(
-            <NodeType key={node.id} node={node} transform={transform}/>
+            <NodeType key={node.id} node={node}/>
           )
         })}
         <EdgeRenderer></EdgeRenderer>
