@@ -1,5 +1,6 @@
 import React from 'react';
 import { forwardRef, useEffect, useRef, useState } from 'react';
+import useTransformStore from './store/transformStore';
 
 interface FlowCanvasProps {
   gap: number
@@ -13,17 +14,19 @@ const createGridDotsPath = (size: number, fill: string): React.ReactElement => {
   return <circle cx={size} cy={size} r={size} fill={fill} />;
 };
 
-export const FlowCanvas = ({transform, gap, size, color, backgroundColor}: FlowCanvasProps) => {
-
-  const [scaledGap, setScaledGap] = useState(gap * transform.k)
-  const [xOffset, setXOffset] = useState(transform.x % scaledGap)
-  const [yOffset, setYOffset] = useState(transform.y % scaledGap)
+export const FlowCanvas = ({gap, size, color, backgroundColor}: FlowCanvasProps) => {
+  const scale = useTransformStore((state) => state.scale);
+  const translateX = useTransformStore((state) => state.translateX);
+  const translateY = useTransformStore((state) => state.translateY);
+  const [scaledGap, setScaledGap] = useState(gap * scale)
+  const [xOffset, setXOffset] = useState(translateX % scaledGap)
+  const [yOffset, setYOffset] = useState(translateY % scaledGap)
 
   useEffect(() => {
-    setScaledGap(gap * transform.k)
-    setXOffset(transform.x % scaledGap)
-    setYOffset(transform.y % scaledGap)
-  }, [gap, transform, scaledGap])
+    setScaledGap(gap * scale)
+    setXOffset(translateX % scaledGap)
+    setYOffset(translateY % scaledGap)
+  }, [gap, scale, scaledGap, translateX, translateY])
 
 
   return (
@@ -36,7 +39,7 @@ export const FlowCanvas = ({transform, gap, size, color, backgroundColor}: FlowC
         height={scaledGap}
         patternUnits="userSpaceOnUse"
         >
-          {createGridDotsPath(size * transform.k, color? color :'#8f95b2')}
+          {createGridDotsPath(size * scale, color? color :'#8f95b2')}
         </pattern>
         <rect x="0" y="0" width="100%" height="100%" fill={`url(#${'pattern'})`} />
 
