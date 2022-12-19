@@ -24,21 +24,7 @@ const DefaultNode = ({node}: DefaultNodeProps) => {
   return (
     <Draggable key={node.id} node={node} setPosition={updatePosition}>
       <div className={styles.nodeContainer} ref={nodeRef}>
-        <div className={styles.nodeHeader}>
-          {node.name}
-        </div>
-        
-        <div className={styles.nodeMainContent}>
-          {/* {node.outputs.map((output => (
-            <NodeOutput key={output} output={output} containerRef={nodeRef}/>
-          )))} */}
-          
-        </div>
-        {Object.hasOwn(node, 'footer') &&
-          <div className={styles.nodeFooter}>
-            {node.footer}
-          </div>
-        }
+        {node.name}
         
       </div>
     </Draggable>
