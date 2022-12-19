@@ -1,4 +1,5 @@
 import React from "react"
+import FlowCanvas from "../../src/canvas"
 import Flow from "../../src/flow"
 
 /**
@@ -8,7 +9,9 @@ import Flow from "../../src/flow"
 const graphUI = () => {
   return (
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
-      <Flow />    
+      <Flow>
+        <FlowCanvas gap={40} size={1} />
+      </Flow>    
     </div>
     
   )

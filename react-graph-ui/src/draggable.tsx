@@ -1,29 +1,31 @@
 import * as d3 from 'd3-drag'
 import {select} from 'd3-selection'
+import React from 'react'
 import { useEffect, useRef, useState } from 'react'
+import useTransformStore from './stores/transformStore'
 
 interface DraggableProps {
   children: React.ReactNode
-  transform: any
   setPosition: (x: number, y: number) => void
 }
 
-export const Draggable = ({children, transform, setPosition}: DraggableProps) => {
+export const Draggable = ({children, setPosition}: DraggableProps) => {
   const flowDraggable = useRef<HTMLDivElement>(null)
+  const scale = useTransformStore((state) => state.scale)
   const [x, setX] = useState(0)
   const [y, setY] = useState(0)
 
   useEffect(() => {
-    const drag = d3.drag().subject(() => {
+    const drag = d3.drag().on('drag', (event) => {
+      setY(y + event.y / scale)
+      setX(x + event.x / scale)
+    }).subject(() => {
       const selection = select(flowDraggable.current as Element)
-      return{x: selection.attr('x'), y: selection.attr('y')}
-    }).on('drag', (event) => {
-      setY(y + event.y / transform.k)
-      setX(x + event.x / transform.k)
+      return {x: selection.attr('x'), y: selection.attr('y')}
     }).filter((e) => dragFilter(e))
 
     select(flowDraggable.current as Element).call(drag)
-  }, [setX, setY, transform, x, y])
+  }, [scale, setX, setY, x, y])
 
   useEffect(() => {
     const x = flowDraggable.current?.offsetLeft
