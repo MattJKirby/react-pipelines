@@ -1,6 +1,7 @@
 import React, { Children } from "react"
 import { useEffect, useState } from "react"
 import FlowCanvas from "./canvas"
+import { useNodeStore } from "./stores/nodeStore"
 import FlowZoom from "./zoom"
 
 export const Flow = ({children}) => {
@@ -11,6 +12,11 @@ export const Flow = ({children}) => {
   const edgeList = [
     {sourceNodeId: 0, sourceNodeOutput: 'Output 1', targetNodeId: 1, targetNodeInput: 'Input 1'}
   ]
+  
+
+  const nodes = useNodeStore((state) => state.nodes)
+
+  console.log(nodes)
 
 
   return (
