@@ -4,7 +4,7 @@ import {create,select} from 'd3-selection'
 import FlowCanvas from "./canvas";
 import NodeRenderer from "./nodeRenderer";
 import React from "react";
-import useTransformStore from "./store/transformStore";
+import useTransformStore from "./stores/transformStore";
 
 interface FlowZoomProps {
   children?: React.ReactNode
@@ -16,39 +16,25 @@ interface FlowZoomProps {
 
 export const FlowZoom = ({children, nodeList, edgeList, setTransform}: FlowZoomProps) => {
   const flowZoom = useRef<HTMLDivElement>(null);
-  // const [k, setK] = useState(1);
-  // const [x, setX] = useState(0);
-  // const [y, setY] = useState(0);
   const scale = useTransformStore((state) => state.scale);
   const translateX = useTransformStore((state) => state.translateX);
   const translateY = useTransformStore((state) => state.translateY);
   const setScale = useTransformStore((state) => state.setScale);
   const setTranslateX = useTransformStore((state) => state.setTranslateX);
   const setTranslateY = useTransformStore((state) => state.setTranslateY);
-  // const [transform, setTransformx] = useState({k: k, x: x, y: y})
 
   useEffect(() => {
     if(flowZoom.current){
       const zoom = d3.zoom().on("zoom", (event) => {
         const { x, y, k } = event.transform;
-        // setTransform(event.transform)
-        // setK(k);
-        // setX(x);
-        // setY(y); 
         setScale(k);
         setTranslateX(x);
         setTranslateY(y);
 
-       event.sourceEvent.preventDefault()
-       event.sourceEvent.stopPropagation();
-      
+        event.sourceEvent.preventDefault()
+        event.sourceEvent.stopPropagation();
       }).scaleExtent([0.1, 2]).filter(event => zoomFilter(event));
-     const selection = select(flowZoom.current as Element).call(zoom);
-      const updatedTransform = d3.zoomIdentity.translate(translateX, translateY).scale(scale);
-      // setTransformx(updatedTransform)
-      setScale(updatedTransform.k);
-      setTranslateX(updatedTransform.x);
-      setTranslateY(updatedTransform.y);
+      select(flowZoom.current as Element).call(zoom);
     }
     
   }, [scale, setScale, setTranslateX, setTranslateY, translateX, translateY])
