@@ -1,6 +1,6 @@
 import React from 'react';
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import useTransformStore from './store/transformStore';
+import useTransformStore from './stores/transformStore';
 
 interface FlowCanvasProps {
   gap: number
