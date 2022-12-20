@@ -3,25 +3,37 @@ import { useEffect, useState } from "react"
 import FlowCanvas from "./canvas"
 import { useNodeStore } from "./stores/nodeStore"
 import FlowZoom from "./zoom"
+import { Node } from "./Node/Node"
 
-export const Flow = ({children}) => {
-  const nodeList = [
-    {id: 0, type: 'default', name: 'node1', footer: "This is some footer content", outputs: ['Output 1', ' Output 2']}, 
-    {id: 1, text: 'node2', name: 'Node2', outputs: ['Output 1']}]
+interface FlowProps {
+  children: React.ReactNode;
+  nodes: Node[]
+}
 
-  const edgeList = [
-    {sourceNodeId: 0, sourceNodeOutput: 'Output 1', targetNodeId: 1, targetNodeInput: 'Input 1'}
-  ]
+export const Flow = ({children, nodes}: FlowProps) => {
+  const addNode = useNodeStore((state) => state.addNode)
+  const storedNodes = useNodeStore((state) => state.nodes)
+
+ 
+    nodes.forEach(node => {
+      if(storedNodes.filter(n => n.id === node.id).length < 1) {
+          addNode(node)
+      }
+    })
+
+    useEffect(() => {
+      nodes.forEach(node => {
+        addNode(node)
+      })
+      storedNodes
+    }, [addNode, nodes])
   
-
-  const nodes = useNodeStore((state) => state.nodes)
-
-  console.log(nodes)
-
+ 
 
   return (
     <div style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}>
-      <FlowZoom nodeList={nodeList} />
+      {/* NodeList is not required */}
+      <FlowZoom nodeList={nodes} />
       {children}
     </div> 
   )
