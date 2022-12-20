@@ -11,10 +11,8 @@ interface NodeRendererProps {
   customNodeTypes?: any
 }
 export const NodeRenderer = ({nodeList, customNodeTypes, edgeList}: NodeRendererProps) => {
-  const addNode = useNodeStore((state) => state.addNode);
   const nodes = useNodeStore((state) => state.nodes);
   const nodeTypes: { [key: string]: ComponentType<any> } = {default: DefaultNode}
-
 
   return (
     <div style={{position: 'relative', display: 'flex'}}>
