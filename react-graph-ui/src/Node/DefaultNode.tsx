@@ -9,7 +9,7 @@ const DefaultNode = ({nodeData}: DefaultNodeProps) => {
 
   return (
     <div>
-      fksjdhkjsd
+      {nodeData.name}
     </div>
   )
 }
