@@ -3,11 +3,10 @@ import { forwardRef, useEffect, useRef, useState } from 'react';
 import useTransformStore from './stores/transformStore';
 
 interface FlowCanvasProps {
-  gap: number
-  size: number
-  color?: string
-  backgroundColor?: string,
-  transform: any
+  gap: number;
+  size: number;
+  color?: string;
+  backgroundColor?: string;
 }
 
 const createGridDotsPath = (size: number, fill: string): React.ReactElement => {
