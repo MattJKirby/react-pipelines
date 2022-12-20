@@ -1,5 +1,6 @@
 
 export interface Node {
-  id: number
-  type: string 
+  id: number;
+  type: string;
+  name: string;
 }
