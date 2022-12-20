@@ -1,16 +1,16 @@
 import create, { State } from "zustand";
-import { Node } from "../Node/Node";
+import { INodeData } from "../Node/INodeData";
 
 interface NodeState {
-  nodes: Node[];
-  addNode: (node: Node) => void;
+  nodes: INodeData[];
+  addNode: (node: INodeData) => void;
   removeNode: (id: number) => void;
   updateNodePosition: (id: number, x: number, y: number) => void;
 }
 
 export const useNodeStore = create<NodeState>((set) => ({
   nodes: [],
-  addNode: (node: Node) => {
+  addNode: (node: INodeData) => {
     set((state) => ({
       nodes: [...state.nodes, node],
     }))

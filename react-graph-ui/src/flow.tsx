@@ -2,11 +2,11 @@ import React, { useRef } from "react"
 import { useEffect } from "react"
 import { useNodeStore } from "./stores/nodeStore"
 import FlowZoom from "./zoom"
-import { Node } from "./Node/Node"
+import { INodeData } from "./Node/INodeData"
 
 interface FlowProps {
   children: React.ReactNode;
-  nodes: Node[]
+  nodes: INodeData[]
 }
 
 export const Flow = ({children, nodes}: FlowProps) => {

@@ -1,5 +1,5 @@
 
-export interface Node {
+export interface INodeData {
   id: number;
   type: string;
   name: string;
