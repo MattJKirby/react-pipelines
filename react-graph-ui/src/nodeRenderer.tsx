@@ -1,9 +1,10 @@
 import React from "react"
 import { ComponentType, createElement, Key } from "react"
-import DefaultNode from "./defaultNode"
+import Node from "./Node/Node"
 import Draggable from "./draggable"
 import { EdgeRenderer } from "./edgeRenderer"
 import { useNodeStore } from "./stores/nodeStore"
+import DefaultNode from "./Node/DefaultNode"
 
 interface NodeRendererProps {
   nodeList?: any
@@ -19,7 +20,10 @@ export const NodeRenderer = ({nodeList, customNodeTypes, edgeList}: NodeRenderer
         {nodes.map(node => {
           const NodeType = nodeTypes[node.type] as ComponentType<any> || nodeTypes['default']
           return(
-            <NodeType key={node.id} node={node}/>
+            <Node key={node.id} nodeData={node}>
+                <NodeType node={node}/>
+            </Node>
+            
           )
         })}
         <EdgeRenderer></EdgeRenderer>
