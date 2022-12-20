@@ -1,19 +1,16 @@
 import React from "react"
-import { ComponentType, createElement, Key } from "react"
+import { ComponentType } from "react"
 import Node from "./Node/Node"
-import Draggable from "./draggable"
 import { EdgeRenderer } from "./edgeRenderer"
 import { useNodeStore } from "./stores/nodeStore"
 import DefaultNode from "./Node/DefaultNode"
+import { useGraphStore } from "./stores/GraphStore"
 
-interface NodeRendererProps {
-  nodeList?: any
-  edgeList?: any
-  customNodeTypes?: any
-}
-export const NodeRenderer = ({nodeList, customNodeTypes, edgeList}: NodeRendererProps) => {
+
+export const NodeRenderer = () => {
   const nodes = useNodeStore((state) => state.nodes);
-  const nodeTypes: { [key: string]: ComponentType<any> } = {default: DefaultNode}
+  const userNodeTypes = useGraphStore((state) => state.userNodeTypes)
+  const nodeTypes: { [key: string]: ComponentType<any> } = {...{default: DefaultNode}, ...userNodeTypes}
 
   return (
     <div style={{position: 'relative', display: 'flex'}}>
@@ -21,9 +18,8 @@ export const NodeRenderer = ({nodeList, customNodeTypes, edgeList}: NodeRenderer
           const NodeType = nodeTypes[node.type] as ComponentType<any> || nodeTypes['default']
           return(
             <Node key={node.id} nodeData={node}>
-                <NodeType node={node}/>
+                <NodeType nodeData={node}/>
             </Node>
-            
           )
         })}
         <EdgeRenderer></EdgeRenderer>
