@@ -22,10 +22,9 @@ const DefaultNode = ({node}: DefaultNodeProps) => {
 
 
   return (
-    <Draggable key={node.id} node={node} setPosition={updatePosition}>
+    <Draggable key={node.id} setPosition={updatePosition}>
       <div className={styles.nodeContainer} ref={nodeRef}>
         {node.name}
-        
       </div>
     </Draggable>
   )
