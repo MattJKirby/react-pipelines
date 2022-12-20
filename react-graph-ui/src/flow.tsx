@@ -1,6 +1,5 @@
-import React, { Children } from "react"
-import { useEffect, useState } from "react"
-import FlowCanvas from "./canvas"
+import React, { useRef } from "react"
+import { useEffect } from "react"
 import { useNodeStore } from "./stores/nodeStore"
 import FlowZoom from "./zoom"
 import { Node } from "./Node/Node"
@@ -11,29 +10,24 @@ interface FlowProps {
 }
 
 export const Flow = ({children, nodes}: FlowProps) => {
+  const nodesRef = useRef(useNodeStore.getState().nodes)
   const addNode = useNodeStore((state) => state.addNode)
-  const storedNodes = useNodeStore((state) => state.nodes)
+  
+  useEffect(() => useNodeStore.subscribe(
+    state => (nodesRef.current = state.nodes)
+  ), [])
 
- 
+  useEffect(() => {
     nodes.forEach(node => {
-      if(storedNodes.filter(n => n.id === node.id).length < 1) {
-          addNode(node)
+      if(!nodesRef.current.some(n => n.id === node.id)){
+        addNode(node)
       }
     })
-
-    useEffect(() => {
-      nodes.forEach(node => {
-        addNode(node)
-      })
-      storedNodes
-    }, [addNode, nodes])
-  
- 
+  }, [addNode, nodes, nodesRef])
 
   return (
     <div style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}>
-      {/* NodeList is not required */}
-      <FlowZoom nodeList={nodes} />
+      <FlowZoom />
       {children}
     </div> 
   )
