@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import FlowCanvas from "../../src/canvas"
 import Flow from "../../src/flow"
 import { useNodeStore } from "../../src/stores/nodeStore"
@@ -7,29 +7,26 @@ import { useNodeStore } from "../../src/stores/nodeStore"
  * Page for displaing graph UI components
  * @returns 
  */
-const graphUI = () => {
-
-  const addNode = useNodeStore((state) => state.addNode)
-
+const GraphUI = () => {
   const initialNodeList = [
-    {id: 0, type: 'default', name: 'node1', }, 
-    {id: 1, type: 'default', name: 'Node2', outputs: ['Output 1']}]
+    {id: 0, type: 'default', name: 'node1', position: {x: 50, y: 50}}, 
+    {id: 1, type: 'default', name: 'Node2', position: {x: 100, y: 50}, outputs: ['Output 1']}]
 
-  const edgeList = [
-    {sourceNodeId: 0, sourceNodeOutput: 'Output 1', targetNodeId: 1, targetNodeInput: 'Input 1'}
-  ]
+    const edgeList = [
+      {sourceNodeId: 0, sourceNodeOutput: 'Output 1', targetNodeId: 1, targetNodeInput: 'Input 1'}
+    ]
+
+  const [nodes, setNodes] = useState(initialNodeList)
 
   const newNode = () => {
-    const newNode = { id: initialNodeList.length, type: 'default', name: 'asdf'}
-    addNode(newNode)
-
-    console.log(initialNodeList, true)
+    const newNode = { id: nodes.length, type: 'default', name: 'asdf'}
+    setNodes([...nodes, newNode])
   }
 
   return (
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
       <button onClick={newNode}>Add Node</button> 
-      <Flow nodes={initialNodeList}>
+      <Flow nodes={nodes}>
         <FlowCanvas gap={40} size={1} />
       </Flow>    
     </div>
@@ -37,4 +34,4 @@ const graphUI = () => {
   )
 
 }
-export default graphUI
+export default GraphUI
