@@ -3,39 +3,35 @@ import {select} from 'd3-selection'
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import useTransformStore from './stores/transformStore'
+import { useZoomContextStore } from './stores/zoomContextStore'
 
 interface DraggableProps {
   children: React.ReactNode
-  setPosition: (x: number, y: number) => void
+  initPosition?: {x: number, y: number}
+  updatePosition: (x: number, y: number) => void
 }
 
-export const Draggable = ({children, setPosition}: DraggableProps) => {
+export const Draggable = ({children, initPosition, updatePosition}: DraggableProps) => {
   const flowDraggable = useRef<HTMLDivElement>(null)
   const scale = useTransformStore((state) => state.scale)
-  const [x, setX] = useState(0)
-  const [y, setY] = useState(0)
+  const zoomContextDimensions = useZoomContextStore((state) => state.contextDimensions);
+  const zoomContextPosition = useZoomContextStore((state) => state.contextPosition);
+  const [position, setPosition] = useState(initPosition != undefined ? initPosition : {x: -zoomContextPosition.offsetX, y: -zoomContextPosition.offsetY});
 
   useEffect(() => {
     const drag = d3.drag().on('drag', (event) => {
-      setY(y + event.y / scale)
-      setX(x + event.x / scale)
+      setPosition({x: position.x + event.x / scale, y: position.y + event.y / scale})
     }).subject(() => {
       const selection = select(flowDraggable.current as Element)
       return {x: selection.attr('x'), y: selection.attr('y')}
     }).filter((e) => dragFilter(e))
 
     select(flowDraggable.current as Element).call(drag)
-  }, [scale, setX, setY, x, y])
+  }, [position.x, position.y, scale])
 
   useEffect(() => {
-    const x = flowDraggable.current?.offsetLeft
-    const y = flowDraggable.current?.offsetTop
-
-    if(x !== undefined && y !== undefined){
-      setPosition(x,y)
-    }
-    
-  },[setPosition, x, y])
+      updatePosition(position.x, position.y)
+  },[position, updatePosition, zoomContextDimensions, zoomContextPosition])
 
   const dragFilter = (e) => {
     const className = e.target.classList.contains('flow-ui-noDrag')
@@ -44,7 +40,7 @@ export const Draggable = ({children, setPosition}: DraggableProps) => {
   
 
   return (
-    <div style={{zIndex: '1', left: `${x}px`, top: `${y}px`, position: 'fixed'}} ref={flowDraggable}>
+    <div style={{zIndex: '1', left: `${position.x}px`, top: `${position.y}px`, position: 'fixed'}} ref={flowDraggable}>
       {children}
     </div>
     
