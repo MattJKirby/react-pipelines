@@ -1,9 +1,9 @@
 import React, { ComponentType, useRef } from "react"
 import { useEffect } from "react"
-import { useNodeStore } from "./stores/nodeStore"
+import { useNodeStore } from "./Stores/NodeStore"
 import FlowZoom from "./zoom"
 import { INodeData } from "./Node/INodeData"
-import { useGraphStore } from "./stores/GraphStore"
+import { useGraphStore } from "./Stores/GraphStore"
 
 interface FlowProps {
   children: React.ReactNode;

@@ -3,8 +3,8 @@ import * as d3 from "d3-zoom";
 import {select} from 'd3-selection'
 import NodeRenderer from "./nodeRenderer";
 import React from "react";
-import useTransformStore from "./stores/transformStore";
-import { useZoomContextStore } from "./stores/zoomContextStore";
+import useTransformStore from "./Stores/TransformStore";
+import { useZoomContextStore } from "./Stores/ZoomContextStore";
 
 interface FlowZoomProps {
   children?: React.ReactNode

@@ -2,8 +2,8 @@ import * as d3 from 'd3-drag'
 import {select} from 'd3-selection'
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import useTransformStore from './stores/transformStore'
-import { useZoomContextStore } from './stores/zoomContextStore'
+import useTransformStore from './Stores/TransformStore'
+import { useZoomContextStore } from './Stores/ZoomContextStore'
 
 interface DraggableProps {
   children: React.ReactNode

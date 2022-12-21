@@ -1,10 +1,10 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { ComponentType } from "react"
-import Node from "./Node/Node"
+import NodeContainer from "./Containers/NodeContainer"
 import { EdgeRenderer } from "./edgeRenderer"
-import { useNodeStore } from "./stores/nodeStore"
+import { useNodeStore } from "./Stores/NodeStore"
 import DefaultNode from "./Node/DefaultNode"
-import { useGraphStore } from "./stores/GraphStore"
+import { useGraphStore } from "./Stores/GraphStore"
 
 
 export const NodeRenderer = () => {
@@ -16,13 +16,13 @@ export const NodeRenderer = () => {
     <div style={{position: 'relative', display: 'flex'}}>
         {nodes.map(node => {
           const NodeType = nodeTypes[node.type] as ComponentType<any> || nodeTypes['default']
-          return(
-            <Node key={node.id} nodeData={node}>
+          
+          return (
+            <NodeContainer key={node.id} nodeData={node}>
                 <NodeType nodeData={node}/>
-            </Node>
+            </NodeContainer>
           )
         })}
-        <EdgeRenderer></EdgeRenderer>
     </div>
   )
 }
