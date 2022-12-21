@@ -1,19 +1,16 @@
 import Draggable from "../draggable"
-import { NodeOutput } from "../components/outputs/nodeOutput"
-import { createRef, useEffect, useRef, useState } from "react"
+import { createRef } from "react"
 import React from "react"
-import { useNodeStore } from "../stores/nodeStore"
+import { useNodeStore } from "../Stores/NodeStore"
 
 interface NodeProps {
   children: React.ReactNode;
   nodeData: any
 }
 
-const Node = ({children, nodeData}: NodeProps) => {
+const NodeContainer = ({children, nodeData}: NodeProps) => {
   const nodeRef = createRef<HTMLDivElement>()
-  const nodes = useNodeStore((state) => state.nodes)
   const updateStoredPosition = useNodeStore((state) => state.updateNodePosition)
-  
   
   const updatePosition = (x: number, y: number) => {
     if(x !== nodeData.position?.x && y !== nodeData.position?.y){
@@ -30,4 +27,4 @@ const Node = ({children, nodeData}: NodeProps) => {
   )
 }
 
-export default Node
+export default NodeContainer
