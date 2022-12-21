@@ -1,7 +1,8 @@
-import Draggable from "../draggable"
+import DragContainer from "./DragContainer"
 import { createRef } from "react"
 import React from "react"
 import { useNodeStore } from "../Stores/NodeStore"
+import { Provider } from '../NodeIdContext'
 
 interface NodeProps {
   children: React.ReactNode;
@@ -9,7 +10,6 @@ interface NodeProps {
 }
 
 const NodeContainer = ({children, nodeData}: NodeProps) => {
-  const nodeRef = createRef<HTMLDivElement>()
   const updateStoredPosition = useNodeStore((state) => state.updateNodePosition)
   
   const updatePosition = (x: number, y: number) => {
@@ -19,11 +19,11 @@ const NodeContainer = ({children, nodeData}: NodeProps) => {
   }
 
   return (
-    <Draggable key={nodeData.id} initPosition={nodeData.position} updatePosition={updatePosition}>
-      <div ref={nodeRef}>
+    <DragContainer key={nodeData.id} initPosition={nodeData.position} updatePosition={updatePosition}>
+      <Provider value={nodeData.id}>
         {children}
-      </div>
-    </Draggable>
+      </Provider>
+    </DragContainer>
   )
 }
 
