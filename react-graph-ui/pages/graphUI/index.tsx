@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import FlowCanvas from "../../src/canvas"
-import Flow from "../../src/flow"
-import TestNode from "../../src/Node/TestNode"
+import Flow from "../../src/Components/Graph/flow"
+import TestNode from "../../src/Components/Node/TestNode"
 
 const initialNodeList = [
   {id: 0, type: 'default', name: 'node1', position: {x: 50, y: 50}}, 
