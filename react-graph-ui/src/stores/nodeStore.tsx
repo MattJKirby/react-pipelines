@@ -1,5 +1,5 @@
 import create, { State } from "zustand";
-import { INodeData } from "../Node/INodeData";
+import { INodeData } from "../Components/Node/INodeData";
 
 interface NodeState {
   nodes: INodeData[];
