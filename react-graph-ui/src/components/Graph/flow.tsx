@@ -4,13 +4,16 @@ import { useNodeStore } from "../../Stores/NodeStore"
 import ZoomContainer from "../../Containers/ZoomContainer"
 import { INodeData } from "../Node/INodeData"
 import { useGraphStore } from "../../Stores/GraphStore"
-import NodeRenderer from "../../Renderers/NodeRenderer"
+import NodeRenderer, { NodeTypeProps } from "../../Renderers/NodeRenderer"
 import { EdgeRenderer } from "../../Renderers/EdgeRenderer"
+import { IEdgeData } from "../Edges/IEdgeData"
+import { useEdgeStore } from "../../Stores/EdgeStore"
 
 interface FlowProps {
   children: React.ReactNode;
   nodes: INodeData[];
-  nodeTypes: { [key: string]: ComponentType<any> };
+  nodeTypes: { [key: string]: ComponentType<NodeTypeProps> };
+  edges: IEdgeData[];
 }
 
 /**
@@ -18,9 +21,11 @@ interface FlowProps {
  * @param param0 
  * @returns 
  */
-export const Flow = ({children, nodes, nodeTypes}: FlowProps) => {
+export const Flow = ({children, nodes, nodeTypes, edges}: FlowProps) => {
   const nodesRef = useRef(useNodeStore.getState().nodes)
+  const edgesRef = useRef(useEdgeStore.getState().edges)
   const addNode = useNodeStore((state) => state.addNode)
+  const addEdge = useEdgeStore((state) => state.addEdge)
   const setUserNodeTypes = useGraphStore((state) => state.setUserNodeTypes)
 
 
@@ -48,6 +53,24 @@ export const Flow = ({children, nodes, nodeTypes}: FlowProps) => {
   useEffect(() => {
     setUserNodeTypes(nodeTypes);
     }, [setUserNodeTypes, nodeTypes]);
+
+  /**
+   * Subscribe to edge store to enable edgeRef to follow edgeStore.
+   */
+  useEffect(() => useEdgeStore.subscribe(
+    state => (edgesRef.current = state.edges)
+  ), [])
+
+  /**
+   * On EdgeData change, add nex edges to EdgeStore
+   */
+  useEffect(() => {
+    edges.forEach(edge => {
+      if(!edgesRef.current.find(e => e.edgeId === edge.edgeId)){
+        addEdge(edge)
+      }
+    })
+  })
 
   return (
     <div style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}>
