@@ -4,7 +4,7 @@ import { IHandleData } from "../Components/Handles/IHandleData";
 interface NodeIOState {
   nodeHandles: IHandleData[]
   registerNodeHandle: (handle: IHandleData) => void;
-  updateHandlePosition: (nodeId: number, handleId: string, x: number, y: number) => void;
+  updateHandlePosition: (nodeId: number, handleId: string, position: {x: number, y: number}) => void;
   getSourceHandles: () => IHandleData[];
   getTargetHandles: () => IHandleData[];
   getHandle: (nodeId: number, handleId: string) => IHandleData | undefined;
@@ -21,11 +21,11 @@ export const useNodeIOStore = create<NodeIOState>((set, get) => ({
       nodeHandles: [...state.nodeHandles, handle],
     }))
   },
-  updateHandlePosition: (nodeId: number, handleId: string, x: number, y: number) => {
+  updateHandlePosition: (nodeId: number, handleId: string, position: {x: number, y: number}) => {
     set((state) => ({
       nodeHandles: state.nodeHandles.map(handle => {
         if (handle.nodeId === nodeId && handle.id === handleId) {
-          return { ...handle, position: { x: x, y: y } }
+          return { ...handle, position: position }
         }
         return handle
       })
