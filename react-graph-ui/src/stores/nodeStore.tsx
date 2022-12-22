@@ -1,4 +1,4 @@
-import create, { State } from "zustand";
+import create from "zustand";
 import { INodeData } from "../Components/Node/INodeData";
 
 interface NodeState {
@@ -23,8 +23,8 @@ export const useNodeStore = create<NodeState>((set) => ({
   updateNodePosition: (id: number, x: number, y: number) => {
     set((state) => ({
       nodes: state.nodes.map(node => {
-        if(node.id === id){
-          return {...node, position: {x: x, y: y}}
+        if (node.id === id) {
+          return { ...node, position: { x: x, y: y } }
         }
         return node
       })
