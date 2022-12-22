@@ -24,6 +24,7 @@ export const Handle = ({ children, type, id }: HandleProps) => {
   const nodeData = useNodeData() as INodeData
   const registerNodeHandle = useNodeIOStore((state) => state.registerNodeHandle)
   const getHandle = useNodeIOStore((state) => state.getHandle)
+  const updateHandlePosition = useNodeIOStore((state) => state.updateHandlePosition)
   const handleRef = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState(calculateHandlePosition(nodeData.position, handleRef.current))
   const isTarget = type === 'target'
@@ -36,14 +37,14 @@ export const Handle = ({ children, type, id }: HandleProps) => {
   }, [getHandle, id, isTarget, nodeData, pos, registerNodeHandle])
   
   useEffect(() => {
-    setPos(calculateHandlePosition(nodeData.position, handleRef.current))
-  }, [nodeData.position])
+    updateHandlePosition(nodeData.id, id, (calculateHandlePosition(nodeData.position, handleRef.current)))
+  }, [id, nodeData.id, nodeData.position, updateHandlePosition])
 
 
   return (
-    <div ref={handleRef} className={'flow-ui-noDrag flow-ui-noZoom'} style={{ display: 'flex', justifyContent: isTarget ? "start" : "end"}}>
+    <div  className={'flow-ui-noDrag flow-ui-noZoom'} style={{justifyContent: isTarget ? "start" : "end"}}>
       {children}
-      {children === undefined && <span style={{height: "10px", width: "10px", borderRadius: "50%", display: "inline-block", backgroundColor: "#bbb"}}></span>}
+      {children === undefined && <span ref={handleRef} style={{height: "10px", width: "10px", borderRadius: "50%", display: "inline-block", backgroundColor: "#bbb"}}></span>}
     </div>
   )
 }
