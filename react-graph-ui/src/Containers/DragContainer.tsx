@@ -14,7 +14,6 @@ interface DraggableProps {
 export const DragContainer = ({children, initPosition, updatePosition}: DraggableProps) => {
   const flowDraggable = useRef<HTMLDivElement>(null)
   const scale = useTransformStore((state) => state.scale)
-  const zoomContextDimensions = useZoomContextStore((state) => state.contextDimensions);
   const zoomContextPosition = useZoomContextStore((state) => state.contextPosition);
   const [position, setPosition] = useState(initPosition != undefined ? initPosition : {x: -zoomContextPosition.offsetX, y: -zoomContextPosition.offsetY});
 
@@ -31,12 +30,10 @@ export const DragContainer = ({children, initPosition, updatePosition}: Draggabl
 
   useEffect(() => {
       updatePosition(position.x, position.y)
-  },[position, updatePosition, zoomContextDimensions, zoomContextPosition])
+  },[position, updatePosition])
 
-  const dragFilter = (e) => {
-    const className = e.target.classList.contains('flow-ui-noDrag')
-    return !className
-  }
+  const dragFilter = (e) => e.target.closest('.flow-ui-noDrag') === null;
+  
   
 
   return (

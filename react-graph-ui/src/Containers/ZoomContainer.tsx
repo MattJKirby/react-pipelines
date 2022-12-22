@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import * as d3 from "d3-zoom";
 import {select} from 'd3-selection'
-import NodeRenderer from "../Renderers/NodeRenderer";
 import React from "react";
 import useTransformStore from "../Stores/TransformStore";
 import { useZoomContextStore } from "../Stores/ZoomContextStore";
@@ -49,10 +48,7 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
     
   }, [scale, setScale, setTranslateX, setTranslateY, translateX, translateY, updateZoomContext])
 
-  const zoomFilter = (e) => {
-    const className = e.target.classList.contains('flow-ui-noZoom')
-    return !className
-  }
+  const zoomFilter = (e) => e.target.closest('.flow-ui-noZoom') === null;
 
   return (
     <div ref={flowZoom} style={{ width: '100%', height: '100%', zIndex: -1, backgroundColor: 'transparent'}}>
