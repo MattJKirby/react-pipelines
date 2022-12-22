@@ -5,6 +5,7 @@ import ZoomContainer from "../../Containers/ZoomContainer"
 import { INodeData } from "../Node/INodeData"
 import { useGraphStore } from "../../Stores/GraphStore"
 import NodeRenderer from "../../Renderers/NodeRenderer"
+import { EdgeRenderer } from "../../Renderers/EdgeRenderer"
 
 interface FlowProps {
   children: React.ReactNode;
@@ -52,6 +53,7 @@ export const Flow = ({children, nodes, nodeTypes}: FlowProps) => {
     <div style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}>
       <ZoomContainer>
         <NodeRenderer />
+        <EdgeRenderer />
       </ZoomContainer>
       {children}
     </div> 
