@@ -11,7 +11,7 @@ const TestNode = ({nodeData}: TestNodeProps) => {
   return (
     <div>
       TestNode
-      <Handle />
+      <Handle id="A" type="target" />
     </div>
   )
 }
