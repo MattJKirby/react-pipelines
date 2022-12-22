@@ -1,8 +1,10 @@
 import DragContainer from "./DragContainer"
-import { createRef } from "react"
+import { useRef } from "react"
 import React from "react"
 import { useNodeStore } from "../Stores/NodeStore"
 import NodeIdContext from '../Contexts/NodeIdContext'
+import NodeDataContext from "../Contexts/NodeDataContext"
+
 
 interface NodeProps {
   children: React.ReactNode;
@@ -20,9 +22,9 @@ const NodeContainer = ({children, nodeData}: NodeProps) => {
 
   return (
     <DragContainer key={nodeData.id} initPosition={nodeData.position} updatePosition={updatePosition}>
-      <NodeIdContext.Provider value={nodeData.id}>
+      <NodeDataContext.Provider value={nodeData}>
         {children}
-      </NodeIdContext.Provider>
+      </NodeDataContext.Provider>
     </DragContainer>
   )
 }
