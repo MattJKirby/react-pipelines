@@ -4,15 +4,14 @@ import NodeContainer from "../Containers/NodeContainer"
 import { useNodeStore } from "../Stores/NodeStore"
 import DefaultNode from "../Components/Node/DefaultNode"
 import { useGraphStore } from "../Stores/GraphStore"
-import { INodeData } from "../Components/Node/INodeData"
 
 export interface NodeTypeProps {
-  nodeData: INodeData
+
 }
 
 
 export const NodeRenderer = () => {
-  const nodes = useNodeStore((state) => state.nodes);
+  const nodes = useNodeStore((state) => state.getNodes());
   const userNodeTypes = useGraphStore((state) => state.userNodeTypes)
   const nodeTypes: { [key: string]: ComponentType<NodeTypeProps> } = {...{default: DefaultNode}, ...userNodeTypes}
 
@@ -22,8 +21,8 @@ export const NodeRenderer = () => {
           const NodeType = nodeTypes[node.type] as ComponentType<NodeTypeProps> || nodeTypes['default']
           
           return (
-            <NodeContainer key={node.id} nodeData={node}>
-                <NodeType nodeData={node}/>
+            <NodeContainer key={node.id} nodeId={node.id}>
+                <NodeType />
             </NodeContainer>
           )
         })}
