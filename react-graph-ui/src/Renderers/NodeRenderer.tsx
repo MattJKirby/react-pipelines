@@ -21,7 +21,7 @@ export const NodeRenderer = () => {
           const NodeType = nodeTypes[node.type] as ComponentType<NodeTypeProps> || nodeTypes['default']
           
           return (
-            <NodeContainer key={node.id} nodeId={node.id}>
+            <NodeContainer key={node.id} node={node}>
                 <NodeType />
             </NodeContainer>
           )
