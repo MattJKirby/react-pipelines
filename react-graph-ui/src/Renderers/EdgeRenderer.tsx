@@ -1,10 +1,7 @@
-import React, { ReactElement, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useEdgeStore } from "../Stores/EdgeStore"
 import { useNodeIOStore } from "../Stores/NodeIOStore"
 
-interface EdgeRendererProps {
-
-}
 
 export const EdgeRenderer = () => {
   const nodeHandles = useNodeIOStore((state) => state.nodeHandles)
@@ -13,6 +10,7 @@ export const EdgeRenderer = () => {
 
   useEffect(() => {
     if(nodeHandles[0] !== undefined){
+      
       setHandlePos(nodeHandles[0].position)
     }
     
@@ -25,7 +23,7 @@ export const EdgeRenderer = () => {
       {edges.map((edge, index) => {
         return (
        
-          <path key={index} d={`M${handlePos.x} ${handlePos.y} L 200 400`} style={{stroke: 'red'}} shape-rendering = "geometricPrecision"/>
+          <path key={index} d={`M${handlePos.x} ${handlePos.y} L 200 400`} style={{stroke: 'red'}} transform="translate(50px, 30px)"/>
         
         )
       })}
