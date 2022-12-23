@@ -16,7 +16,7 @@ export const DragContainer = ({children, initPosition, updatePosition}: Draggabl
   const scale = useTransformStore((state) => state.transform.scale)
   const zoomContextPosition = useZoomContextStore((state) => state.contextPosition);
   const [position, setPosition] = useState(initPosition != undefined ? initPosition : {x: -zoomContextPosition.offsetX, y: -zoomContextPosition.offsetY});
-  const dragFilter = (e: d3.D3DragEvent) => e.target.closest('.flow-ui-noDrag') === null;
+  const dragFilter = (e) => e.target.closest('.flow-ui-noDrag') === null;
 
   useEffect(() => {
     const drag = d3.drag().on('drag', (event) => {setPosition({x: position.x + event.x / scale, y: position.y + event.y / scale})
