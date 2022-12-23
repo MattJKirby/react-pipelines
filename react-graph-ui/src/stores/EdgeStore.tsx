@@ -6,7 +6,7 @@ interface EdgeState {
   addEdge: (edge: IEdgeData) => void
 }
 
-export const useEdgeStore = create<EdgeState>((set, get) => ({
+export const useEdgeStore = create<EdgeState>((set) => ({
   edges: [],
   addEdge: (edge: IEdgeData) => {
     set((state) => ({
