@@ -2,26 +2,27 @@ import DragContainer from "./DragContainer"
 import React from "react"
 import { useNodeStore } from "../Stores/NodeStore"
 import NodeDataContext from "../Contexts/NodeDataContext"
-import { INodeData } from "../Components/Node/INodeData"
 
 
 export interface NodeContainerProps {
   children: React.ReactNode;
-  nodeData: INodeData
+  nodeId: number
 }
 
-const NodeContainer = ({children, nodeData}: NodeContainerProps) => {
+const NodeContainer = ({children, nodeId}: NodeContainerProps) => {
+  const node = useNodeStore((state) => state.getNodeById(nodeId))
   const updateNodePosition = useNodeStore((state) => state.updateNodePosition)
   
-  const handlePositionUpdate = (x: number, y: number) => {
-    if(x !== nodeData.position?.x && y !== nodeData.position?.y){
-      updateNodePosition(nodeData.id, x, y)
+  const handlePositionUpdate = (position: {x: number, y: number}) => {
+    if(position !== node?.position){
+      updateNodePosition(nodeId,position)
     }
   }
 
+
   return (
-    <NodeDataContext.Provider value={nodeData}>
-      <DragContainer key={nodeData.id} initPosition={nodeData.position} updatePosition={handlePositionUpdate}>
+    <NodeDataContext.Provider value={node}>
+      <DragContainer initPosition={node?.position} updatePosition={handlePositionUpdate}>
         {children}
       </DragContainer>
     </NodeDataContext.Provider>
