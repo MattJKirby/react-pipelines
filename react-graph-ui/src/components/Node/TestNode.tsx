@@ -1,12 +1,11 @@
 import React from "react"
+import { useNodeContext } from "../../Contexts/NodeDataContext";
 import { Handle } from "../Handles/Handle";
 import { INodeData } from "./INodeData";
 
-interface TestNodeProps {
-  nodeData: INodeData
-}
 
-const TestNode = ({nodeData}: TestNodeProps) => {
+const TestNode = () => {
+  const node = useNodeContext() as INodeData
 
   return (
     <div>

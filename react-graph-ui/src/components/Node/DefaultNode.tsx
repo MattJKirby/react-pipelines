@@ -1,17 +1,15 @@
 import React from "react"
+import { useNodeContext } from "../../Contexts/NodeDataContext";
 import { Handle } from "../Handles/Handle";
 import { INodeData } from "./INodeData";
 
-interface DefaultNodeProps {
-  nodeData: INodeData
-}
-
-const DefaultNode = ({nodeData}: DefaultNodeProps) => {
+const DefaultNode = () => {
+  const node = useNodeContext() as INodeData
 
   return (
     <div>
-      {nodeData.name}
-      <Handle />
+      {node.name}
+      <Handle id="0"/>
     </div>
   )
 }
