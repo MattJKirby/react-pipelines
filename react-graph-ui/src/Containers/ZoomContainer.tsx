@@ -12,12 +12,7 @@ interface FlowZoomProps {
 export const ZoomContainer = ({children}: FlowZoomProps) => {
   const flowZoom = useRef<HTMLDivElement>(null);
   const zoomContext = useRef<HTMLDivElement>(null);
-  const scale = useTransformStore((state) => state.scale);
-  const translateX = useTransformStore((state) => state.translateX);
-  const translateY = useTransformStore((state) => state.translateY);
-  const setScale = useTransformStore((state) => state.setScale);
-  const setTranslateX = useTransformStore((state) => state.setTranslateX);
-  const setTranslateY = useTransformStore((state) => state.setTranslateY);
+  const {transform, setTransform} = useTransformStore()
   const setZoomContextDimensions = useZoomContextStore((state) => state.setContextDimensions);
   const setZoomContextPosition = useZoomContextStore((state) => state.setContextPosition);
 
@@ -27,17 +22,15 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
       const contextRect = context.getBoundingClientRect();
       const zoomRect = flowZoom.current.getBoundingClientRect();
       setZoomContextDimensions({width: contextRect.width, height: contextRect.height})
-      setZoomContextPosition({offsetX: (contextRect.left - zoomRect.left) / scale, offsetY: (contextRect.top - zoomRect.top) / scale})
+      setZoomContextPosition({offsetX: (contextRect.left - zoomRect.left) / transform.scale, offsetY: (contextRect.top - zoomRect.top) / transform.scale})
     }
-  }, [scale, setZoomContextDimensions, setZoomContextPosition]);
+  }, [transform.scale, setZoomContextDimensions, setZoomContextPosition]);
 
   useEffect(() => {
     if(flowZoom.current){
-      const zoom = d3.zoom().on("zoom", (event) => {
+      const zoom = d3.zoom().on("zoom", (event: d3.) => {
         const { x, y, k } = event.transform;
-        setScale(k);
-        setTranslateX(x);
-        setTranslateY(y);
+        setTransform({scale: k, translateX: x, translateY: y})
 
         event.sourceEvent.preventDefault()
         event.sourceEvent.stopPropagation();
@@ -46,13 +39,13 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
       updateZoomContext()
     }
     
-  }, [scale, setScale, setTranslateX, setTranslateY, translateX, translateY, updateZoomContext])
+  }, [transform, updateZoomContext, setTransform])
 
   const zoomFilter = (e) => e.target.closest('.flow-ui-noZoom') === null;
 
   return (
     <div ref={flowZoom} style={{ width: '100%', height: '100%', zIndex: -1, backgroundColor: 'transparent'}}>
-      <div ref={zoomContext} style={{ height: "100%", left: 0, top: 0, width: "100%", transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`, transformOrigin: '0 0'}}>
+      <div ref={zoomContext} style={{ height: "100%", left: 0, top: 0, width: "100%", transform: `translate(${transform.translateX}px, ${transform.translateY}px) scale(${transform.scale})`, transformOrigin: '0 0'}}>
         {children}
       </div>
     </div>
