@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { useNodeData } from "../../Contexts/NodeDataContext";
+import { useNodeContext } from "../../Contexts/NodeDataContext";
 import { useNodeIOStore } from "../../Stores/NodeIOStore";
 import { INodeData } from "../Node/INodeData";
 
@@ -21,7 +21,7 @@ const calculateHandlePosition = (nodePosition: {x: number, y: number}, handleRef
 }
 
 export const Handle = ({ children, type, id }: HandleProps) => {
-  const nodeData = useNodeData() as INodeData
+  const nodeData = useNodeContext() as INodeData
   const registerNodeHandle = useNodeIOStore((state) => state.registerNodeHandle)
   const getHandle = useNodeIOStore((state) => state.getHandle)
   const updateHandlePosition = useNodeIOStore((state) => state.updateHandlePosition)
