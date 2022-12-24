@@ -8,7 +8,7 @@ const initialNodeList = [
   {id: 1, type: 'TestNode', name: 'Node2', position: {x: 100, y: 50}, outputs: ['Output 1']}]
 
   const initialEdgeList = [
-    {id: "edge-1", sourceNodeId: "0", sourceNodeOutput: 'Output 1', targetNodeId: 1, targetNodeInput: 'Input 1'}
+    {id: "edge-1", sourceNodeId: 0, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target'}
   ]
 
 /**

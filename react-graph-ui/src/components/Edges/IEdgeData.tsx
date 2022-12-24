@@ -1,6 +1,6 @@
 export interface IEdgeData {
   id: string;
-  sourceNodeId: string;
+  sourceNodeId: number;
   sourceNodeOutput: string;
   targetNodeId: number;
   targetNodeInput: string;
