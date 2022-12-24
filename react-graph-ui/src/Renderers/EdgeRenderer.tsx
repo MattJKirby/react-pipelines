@@ -39,14 +39,15 @@ export const EdgeRenderer = () => {
         const edgeCoordinate = edgeCoordinates.find(e => e.edgeId === edge.id)
         const sourceHandlePosition = nodeSourceHandles.find(s => s.nodeId === edge.sourceNodeId && s.id === edge.sourceNodeOutput)?.position
         const targetHandlePosition = nodeTargetHandles.find(t => t.nodeId === edge.targetNodeId && t.id === edge.targetNodeInput)?.position
-
-
-        if(sourceHandlePosition && targetHandlePosition !== undefined) {
-          setEdgeCoordinates(edgeCoordinates.map(e => e.edgeId === edge.id ? {...e, source: sourceHandlePosition, target: targetHandlePosition} : e))
+          
+        if(edgeCoordinate?.source !== sourceHandlePosition || edgeCoordinate?.target !== targetHandlePosition){
+          if(sourceHandlePosition && targetHandlePosition !== undefined && edgeCoordinate !== undefined){
+            edgeCoordinate.source = sourceHandlePosition
+            edgeCoordinate.target = targetHandlePosition
+            setEdgeCoordinates([...edgeCoordinates.filter(e => e.edgeId !== edge.id), edgeCoordinate])
+          }
         }
-        
       })
-      
     }
   }, [dragNodeId, edgeCoordinates, edges, nodeSourceHandles, nodeTargetHandles])
 
@@ -56,7 +57,7 @@ export const EdgeRenderer = () => {
       {edgeCoordinates.map((edge, index) => {
         return (
        
-          <path key={index} d={`M${edge.source.x} ${edge.source.y} L ${edge.target.x} ${edge.target.y}`} style={{stroke: 'red'}} transform="translate(50px, 30px)"/>
+          <path key={index} d={`M${edge.source.x} ${edge.source.y} L ${edge.target.x} ${edge.target.y}`} style={{stroke: '#bbb'}}/>
         
         )
       })}
