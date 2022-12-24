@@ -9,7 +9,7 @@ const DefaultNode = () => {
   return (
     <div>
       {node.name}
-      <Handle id="0"/>
+      <Handle id="source"/>
     </div>
   )
 }
