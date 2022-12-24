@@ -5,10 +5,13 @@ import TestNode from "../../src/Components/Node/TestNode"
 
 const initialNodeList = [
   {id: 0, type: 'default', name: 'node1', position: {x: 50, y: 50}}, 
-  {id: 1, type: 'TestNode', name: 'Node2', position: {x: 100, y: 50}, outputs: ['Output 1']}]
+  {id: 1, type: 'TestNode', name: 'Node2', position: {x: 100, y: 50}},
+  {id: 2, type: 'default', name: 'node3', position: {x: 50, y: 100}}, 
+]
 
   const initialEdgeList = [
-    {id: "edge-1", sourceNodeId: 0, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target'}
+    {id: "edge-1", sourceNodeId: 0, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target'},
+    {id: "edge-2", sourceNodeId: 2, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target'}
   ]
 
 /**
@@ -30,7 +33,7 @@ const GraphUI = () => {
       <button onClick={newNode}>Add Node</button> 
       <Flow nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
         <FlowCanvas gap={40} size={1} />
-      </Flow>    
+      </Flow>
     </div>
     
   )
