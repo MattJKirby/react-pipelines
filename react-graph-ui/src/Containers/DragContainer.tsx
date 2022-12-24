@@ -8,10 +8,11 @@ import { useZoomContextStore } from '../Stores/ZoomContextStore'
 interface DraggableProps {
   children: React.ReactNode;
   initPosition?: {x: number, y: number};
-  updatePosition: (posiiton: {x: number, y: number}) => void
+  onPositionUpdate: (posiiton: {x: number, y: number}) => void;
+  onDrag: (isDragging: boolean) => void;
 }
 
-export const DragContainer = ({children, initPosition, updatePosition}: DraggableProps) => {
+export const DragContainer = ({children, initPosition, onPositionUpdate, onDrag}: DraggableProps) => {
   const flowDraggable = useRef<HTMLDivElement>(null)
   const scale = useTransformStore((state) => state.transform.scale)
   const zoomContextPosition = useZoomContextStore((state) => state.contextPosition);
@@ -21,16 +22,17 @@ export const DragContainer = ({children, initPosition, updatePosition}: Draggabl
   useEffect(() => {
     const drag = d3.drag().on('drag', (event) => {setPosition({x: position.x + event.x / scale, y: position.y + event.y / scale})
     }).subject(() => {
+      onDrag(true);
       const selection = select(flowDraggable.current as Element)
       return {x: selection.attr('x'), y: selection.attr('y')}
-    }).filter((e) => dragFilter(e))
+    }).filter((e) => dragFilter(e)).on('end', () => onDrag(false))
 
     select(flowDraggable.current as Element).call(drag)
-  }, [position, scale])
+  }, [onDrag, position, scale])
 
   useEffect(() => {
-    updatePosition(position)
-},[position, updatePosition])
+    onPositionUpdate(position)
+},[position, onPositionUpdate])
   
   return (
     <div style={{zIndex: '1', left: `${position.x}px`, top: `${position.y}px`, position: 'fixed'}} ref={flowDraggable}>
