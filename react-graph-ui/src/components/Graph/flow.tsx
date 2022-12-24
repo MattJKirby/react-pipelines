@@ -66,7 +66,7 @@ export const Flow = ({children, nodes, nodeTypes, edges}: FlowProps) => {
    */
   useEffect(() => {
     edges.forEach(edge => {
-      if(!edgesRef.current.find(e => e.edgeId === edge.edgeId)){
+      if(!edgesRef.current.find(e => e.id === edge.id)){
         addEdge(edge)
       }
     })
