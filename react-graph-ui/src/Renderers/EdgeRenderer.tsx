@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { createIf } from "typescript"
 import { useEdgeStore } from "../Stores/EdgeStore"
 import { useInteractionStore } from "../Stores/InteractionStore"
 import { useNodeIOStore } from "../Stores/NodeIOStore"
@@ -15,7 +14,7 @@ export const EdgeRenderer = () => {
   const nodeSourceHandles = useNodeIOStore((state) => state.getSourceHandles())
   const nodeTargetHandles = useNodeIOStore((state) => state.getTargetHandles())
   const edges = useEdgeStore((state) => state.edges)
-  const dragNodeId = useInteractionStore((state) => state.dragNodeId)
+  const dragNodeId = useInteractionStore((state) => state.dragInteractionNodeId)
   const [edgeCoordinates, setEdgeCoordinates] = useState<EdgeCoordinate[]>([])
 
   useEffect(() => {
