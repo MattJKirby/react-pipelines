@@ -8,6 +8,10 @@ import NodeRenderer, { NodeTypeProps } from "../../Renderers/NodeRenderer"
 import { EdgeRenderer } from "../../Renderers/EdgeRenderer"
 import { IEdgeData } from "../Edges/IEdgeData"
 import { useEdgeStore } from "../../Stores/EdgeStore"
+import { useInteractionStore } from "../../Stores/InteractionStore"
+import { InteractionRenderer } from "../../Renderers/InteractionRenderer"
+import { TransformPosition } from "../Utility/TransformUtility"
+import useTransformStore, { ITransform } from "../../Stores/TransformStore"
 
 interface FlowProps {
   children: React.ReactNode;
@@ -22,15 +26,18 @@ interface FlowProps {
  * @returns 
  */
 export const Flow = ({children, nodes, nodeTypes, edges}: FlowProps) => {
+  const flowRef = useRef<HTMLDivElement>(null)
   const nodesRef = useRef(useNodeStore.getState().nodes)
   const edgesRef = useRef(useEdgeStore.getState().edges)
+  const transform = useTransformStore<ITransform>((state) => state.transform)
+  const {edgeInteraction, setEdgeInteraction, resetEdgeInteraction} = useInteractionStore()
   const addNode = useNodeStore((state) => state.addNode)
   const addEdge = useEdgeStore((state) => state.addEdge)
   const setUserNodeTypes = useGraphStore((state) => state.setUserNodeTypes)
-
+  
 
   /**
-   * Enables the nodesRef to suscriube to state.nodes
+   * Enables the nodesRef to subscribe to state.nodes
    */
   useEffect(() => useNodeStore.subscribe(
     state => (nodesRef.current = state.nodes)
@@ -72,11 +79,29 @@ export const Flow = ({children, nodes, nodeTypes, edges}: FlowProps) => {
     })
   })
 
+  /**
+   * Flow utilities file?
+   * @param event 
+   * @param element 
+   * @param transform 
+   * @returns 
+   */
+  const calculateMousePosition = (event: React.MouseEvent, element: HTMLDivElement, transform: ITransform) => {
+    const rect = element.getBoundingClientRect()
+    return TransformPosition({x: event.clientX - rect.left, y: event.clientY - rect.top}, transform)
+  }
+
   return (
-    <div style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}>
+    <div
+      ref={flowRef}
+      onMouseUp={() => resetEdgeInteraction()}
+      onMouseMove={(e: React.MouseEvent) => edgeInteraction && flowRef.current && setEdgeInteraction({...edgeInteraction, mousePosition: calculateMousePosition(e, flowRef.current, transform)})}
+      style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}
+    >
       <ZoomContainer>
         <NodeRenderer />
         <EdgeRenderer />
+        <InteractionRenderer />
       </ZoomContainer>
       {children}
     </div> 
