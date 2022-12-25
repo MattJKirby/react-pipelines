@@ -7,7 +7,7 @@ const DefaultNode = () => {
   const node = useNodeContext() as INodeData
 
   return (
-    <div>
+    <div style={{userSelect: "none"}}>
       {node.name}
       <Handle id="source"/>
     </div>
