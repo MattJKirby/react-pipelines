@@ -1,6 +1,6 @@
 import React from "react"
 import { ComponentType } from "react"
-import NodeContainer from "../Containers/NodeContainer"
+import Node from "../Components/Node/Node"
 import { useNodeStore } from "../Stores/NodeStore"
 import DefaultNode from "../Components/Node/DefaultNode"
 import { useGraphStore } from "../Stores/GraphStore"
@@ -21,9 +21,9 @@ export const NodeRenderer = () => {
           const NodeType = nodeTypes[node.type] as ComponentType<NodeTypeProps> || nodeTypes['default']
           
           return (
-            <NodeContainer key={node.id} node={node}>
+            <Node key={node.id} node={node}>
                 <NodeType />
-            </NodeContainer>
+            </Node>
           )
         })}
     </div>
