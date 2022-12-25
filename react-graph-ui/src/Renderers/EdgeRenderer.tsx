@@ -14,7 +14,7 @@ export const EdgeRenderer = () => {
   const nodeSourceHandles = useNodeIOStore((state) => state.getSourceHandles())
   const nodeTargetHandles = useNodeIOStore((state) => state.getTargetHandles())
   const edges = useEdgeStore((state) => state.edges)
-  const dragNodeId = useInteractionStore((state) => state.dragInteractionNodeId)
+  const {dragInteractionNodeId} = useInteractionStore()
   const [edgeCoordinates, setEdgeCoordinates] = useState<EdgeCoordinate[]>([])
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const EdgeRenderer = () => {
       if(edgeCoordinates.find(e => e.edgeId === edge.id) === undefined){
         const sourceHandlePosition = nodeSourceHandles.find(s => s.nodeId === edge.sourceNodeId && s.id === edge.sourceNodeOutput)?.position
         const targetHandlePosition = nodeTargetHandles.find(t => t.nodeId === edge.targetNodeId && t.id === edge.targetNodeInput)?.position
-  
+       
         if(sourceHandlePosition && targetHandlePosition !== undefined) {
           setEdgeCoordinates([...edgeCoordinates, {edgeId: edge.id, source: sourceHandlePosition, target: targetHandlePosition}])
         }
@@ -31,8 +31,8 @@ export const EdgeRenderer = () => {
   }, [edgeCoordinates, edges, nodeSourceHandles, nodeTargetHandles])
 
   useEffect(() => {
-    if(dragNodeId !== undefined){
-      const connectedEdges = edges.filter(e => e.sourceNodeId === dragNodeId || e.targetNodeId === dragNodeId)
+    if(dragInteractionNodeId !== undefined){
+      const connectedEdges = edges.filter(e => e.sourceNodeId === dragInteractionNodeId || e.targetNodeId === dragInteractionNodeId)
 
       connectedEdges.forEach(edge => {
         const edgeCoordinate = edgeCoordinates.find(e => e.edgeId === edge.id)
@@ -48,16 +48,16 @@ export const EdgeRenderer = () => {
         }
       })
     }
-  }, [dragNodeId, edgeCoordinates, edges, nodeSourceHandles, nodeTargetHandles])
+  }, [dragInteractionNodeId, edgeCoordinates, edges, nodeSourceHandles, nodeTargetHandles])
+
 
 
   return (
-    <svg width={'100%'} height={'100%'} overflow="visible">
+    <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
       {edgeCoordinates.map((edge, index) => {
-        return (
-       
-          <path key={index} d={`M${edge.source.x} ${edge.source.y} L ${edge.target.x} ${edge.target.y}`} style={{stroke: '#bbb'}}/>
         
+        return (
+          <path key={index} d={`M${edge.source.x} ${edge.source.y} L ${edge.target.x} ${edge.target.y}`} style={{stroke: '#bbb'}}/>
         )
       })}
     </svg>

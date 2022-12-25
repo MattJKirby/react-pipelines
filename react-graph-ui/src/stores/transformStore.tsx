@@ -1,8 +1,20 @@
 import create from 'zustand'
 
-type TransformState = {
-  transform: {scale: number, translateX: number, translateY: number}
-  setTransform: (transform: {scale: number, translateX: number, translateY: number}) => void
+/**
+ * What we can expect from the transform state object
+ */
+export interface ITransform {
+  scale: number;
+  translateX: number;
+  translateY: number;
+}
+
+/**
+ * Properties and methods defined in the transform useTransfromStore hook
+ */
+interface TransformState {
+  transform: ITransform;
+  setTransform: (transform: ITransform) => void;
 }
 
 /**
@@ -10,7 +22,7 @@ type TransformState = {
  */
 const useTransformStore = create<TransformState>((set) => ({
   transform: {scale: 1, translateX: 0, translateY: 0},
-  setTransform: (transform: {scale: number, translateX: number, translateY: number}) => set({transform})
+  setTransform: (transform: ITransform) => set({transform})
 }))
 
 export default useTransformStore
