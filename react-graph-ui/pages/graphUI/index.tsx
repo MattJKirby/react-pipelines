@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react"
 import FlowCanvas from "../../src/canvas"
-import Flow from "../../src/Components/Graph/flow"
+import Graph from "../../src/Components/Graph"
 import TestNode from "../../src/Components/Node/TestNode"
 
 const initialNodeList = [
@@ -31,9 +31,9 @@ const GraphUI = () => {
   return (
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
       <button onClick={newNode}>Add Node</button> 
-      <Flow nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
+      <Graph nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
         <FlowCanvas gap={40} size={1} />
-      </Flow>
+      </Graph>
     </div>
     
   )

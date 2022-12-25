@@ -10,10 +10,10 @@ import { IEdgeData } from "../Edges/IEdgeData"
 import { useEdgeStore } from "../../Stores/EdgeStore"
 import { useInteractionStore } from "../../Stores/InteractionStore"
 import { InteractionRenderer } from "../../Renderers/InteractionRenderer"
-import { TransformPosition } from "../Utility/TransformUtility"
 import useTransformStore, { ITransform } from "../../Stores/TransformStore"
+import { calculateScaledMousePosition } from "./utils"
 
-interface FlowProps {
+interface GraphProps {
   children: React.ReactNode;
   nodes: INodeData[];
   nodeTypes: { [key: string]: ComponentType<NodeTypeProps> };
@@ -25,7 +25,7 @@ interface FlowProps {
  * @param param0 
  * @returns 
  */
-export const Flow = ({children, nodes, nodeTypes, edges}: FlowProps) => {
+export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
   const flowRef = useRef<HTMLDivElement>(null)
   const nodesRef = useRef(useNodeStore.getState().nodes)
   const edgesRef = useRef(useEdgeStore.getState().edges)
@@ -79,23 +79,11 @@ export const Flow = ({children, nodes, nodeTypes, edges}: FlowProps) => {
     })
   })
 
-  /**
-   * Flow utilities file?
-   * @param event 
-   * @param element 
-   * @param transform 
-   * @returns 
-   */
-  const calculateMousePosition = (event: React.MouseEvent, element: HTMLDivElement, transform: ITransform) => {
-    const rect = element.getBoundingClientRect()
-    return TransformPosition({x: event.clientX - rect.left, y: event.clientY - rect.top}, transform)
-  }
-
   return (
     <div
       ref={flowRef}
       onMouseUp={() => resetEdgeInteraction()}
-      onMouseMove={(e: React.MouseEvent) => edgeInteraction && flowRef.current && setEdgeInteraction({...edgeInteraction, mousePosition: calculateMousePosition(e, flowRef.current, transform)})}
+      onMouseMove={(e: React.MouseEvent) => edgeInteraction && flowRef.current && setEdgeInteraction({...edgeInteraction, mousePosition: calculateScaledMousePosition(e, flowRef.current, transform)})}
       style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}
     >
       <ZoomContainer>
@@ -108,4 +96,4 @@ export const Flow = ({children, nodes, nodeTypes, edges}: FlowProps) => {
   )
 }
 
-export default Flow
+export default Graph
