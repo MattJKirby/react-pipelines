@@ -7,7 +7,7 @@ import { useZoomContextStore } from '../Stores/ZoomContextStore'
 
 interface DraggableProps {
   children: React.ReactNode;
-  initPosition?: {x: number, y: number};
+  initPosition: {x: number, y: number};
   onPositionUpdate: (posiiton: {x: number, y: number}) => void;
   onDrag: (isDragging: boolean) => void;
 }
@@ -15,8 +15,7 @@ interface DraggableProps {
 export const DragContainer = ({children, initPosition, onPositionUpdate, onDrag}: DraggableProps) => {
   const flowDraggable = useRef<HTMLDivElement>(null)
   const scale = useTransformStore((state) => state.transform.scale)
-  const zoomContextPosition = useZoomContextStore((state) => state.contextPosition);
-  const [position, setPosition] = useState(initPosition != undefined ? initPosition : {x: -zoomContextPosition.offsetX, y: -zoomContextPosition.offsetY});
+  const [position, setPosition] = useState(initPosition);
   const dragFilter = (e) => e.target.closest('.flow-ui-noDrag') === null;
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export const DragContainer = ({children, initPosition, onPositionUpdate, onDrag}
 },[position, onPositionUpdate])
   
   return (
-    <div style={{zIndex: '1', left: `${position.x}px`, top: `${position.y}px`, position: 'fixed'}} ref={flowDraggable}>
+    <div ref={flowDraggable}>
       {children}
     </div>
     
