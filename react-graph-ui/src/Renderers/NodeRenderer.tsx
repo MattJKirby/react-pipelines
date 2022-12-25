@@ -1,6 +1,6 @@
 import React from "react"
 import { ComponentType } from "react"
-import Node from "../Components/Node/Node"
+import Node from "../Components/Node"
 import { useNodeStore } from "../Stores/NodeStore"
 import DefaultNode from "../Components/Node/DefaultNode"
 import { useGraphStore } from "../Stores/GraphStore"
