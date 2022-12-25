@@ -1,5 +1,5 @@
 import create from "zustand";
-import { IEdgeData } from "../Components/Edges/IEdgeData";
+import { IEdgeData } from "../Components/Edge/IEdgeData";
 
 interface EdgeState {
   edges: IEdgeData[]
