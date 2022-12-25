@@ -2,8 +2,7 @@ import * as d3 from 'd3-drag'
 import {select} from 'd3-selection'
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import useTransformStore from '../Stores/TransformStore'
-import { useZoomContextStore } from '../Stores/ZoomContextStore'
+import useTransformStore, { ITransform } from '../Stores/TransformStore'
 
 interface DraggableProps {
   children: React.ReactNode;
@@ -14,12 +13,12 @@ interface DraggableProps {
 
 export const DragContainer = ({children, initPosition, onPositionUpdate, onDrag}: DraggableProps) => {
   const flowDraggable = useRef<HTMLDivElement>(null)
-  const scale = useTransformStore((state) => state.transform.scale)
+  const transform = useTransformStore<ITransform>((state) => state.transform)
   const [position, setPosition] = useState(initPosition);
   const dragFilter = (e) => e.target.closest('.flow-ui-noDrag') === null;
 
   useEffect(() => {
-    const drag = d3.drag().on('drag', (event) => {setPosition({x: position.x + event.x / scale, y: position.y + event.y / scale})
+    const drag = d3.drag().on('drag', (event) => {setPosition({x: position.x + event.x / transform.scale, y: position.y + event.y / transform.scale})
     }).subject(() => {
       onDrag(true);
       const selection = select(flowDraggable.current as Element)
@@ -27,7 +26,7 @@ export const DragContainer = ({children, initPosition, onPositionUpdate, onDrag}
     }).filter((e) => dragFilter(e)).on('end', () => onDrag(false))
 
     select(flowDraggable.current as Element).call(drag)
-  }, [onDrag, position, scale])
+  }, [onDrag, position, transform])
 
   useEffect(() => {
     onPositionUpdate(position)

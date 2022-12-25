@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import useTransformStore from './Stores/TransformStore';
+import useTransformStore, { ITransform } from './Stores/TransformStore';
 
 interface FlowCanvasProps {
   gap: number;
@@ -14,7 +14,7 @@ const createGridDotsPath = (size: number, fill: string): React.ReactElement => {
 };
 
 export const FlowCanvas = ({ gap, size, color, backgroundColor }: FlowCanvasProps) => {
-  const transform = useTransformStore((state) => state.transform)
+  const transform = useTransformStore<ITransform>((state) => state.transform)
   const [scaledGap, setScaledGap] = useState(gap * transform.scale)
   const [xOffset, setXOffset] = useState(transform.translateX % scaledGap)
   const [yOffset, setYOffset] = useState(transform.translateY % scaledGap)
