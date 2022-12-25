@@ -1,4 +1,3 @@
-
 export interface INodeData {
   id: number;
   type: string;
