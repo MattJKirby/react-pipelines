@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import DragContainer from "../../Containers/DragContainer";
 import { useNodeContext } from "../../Contexts/NodeDataContext";
+import { useInteractionStore } from "../../Stores/InteractionStore";
 import { useNodeIOStore } from "../../Stores/NodeIOStore";
 import { INodeData } from "../Node/INodeData";
 
@@ -22,10 +24,11 @@ const calculateHandlePosition = (nodePosition: {x: number, y: number}, handleRef
 
 export const Handle = ({ children, type, id }: HandleProps) => {
   const nodeData = useNodeContext() as INodeData
-  const registerNodeHandle = useNodeIOStore((state) => state.registerNodeHandle)
+  const {registerNodeHandle, updateHandlePosition}  = useNodeIOStore()
   const getHandle = useNodeIOStore((state) => state.getHandle)
-  const updateHandlePosition = useNodeIOStore((state) => state.updateHandlePosition)
+  const {setEdgeInteractionSourceHandleId, resetEdgeInteractionSourceHandleId, edgeInteractionSourceHandleId} = useInteractionStore()
   const handleRef = useRef<HTMLDivElement>(null)
+  const dragRef = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState(calculateHandlePosition(nodeData.position, handleRef.current))
   const isTarget = type === 'target'
   
@@ -40,11 +43,48 @@ export const Handle = ({ children, type, id }: HandleProps) => {
     updateHandlePosition(nodeData.id, id, (calculateHandlePosition(nodeData.position, handleRef.current)))
   }, [id, nodeData.id, nodeData.position, updateHandlePosition])
 
+  // useEffect(() => {
+  //   console.log("AJDLKFJDHKLJ")
+  //   const element = handleRef.current
+
+    
+  //     element?.addEventListener("drag", (e) => console.log("asdf"))
+  //     handleRef.current?.addEventListener("drag", () => , false)
+
+  //     // return () => {
+  //     //   element?.removeEventListener('click', setEdgeInteractionSourceHandleId(id), false);
+  //     // };
+    
+  // },[id, setEdgeInteractionSourceHandleId])
+
+  const handleDragStart = (e) => {
+    setEdgeInteractionSourceHandleId(id)
+     e.dataTransfer.setDragImage(dragRef.current, 10, 10);
+    
+  }
+
+  const handleDragEnd = (e) => {
+    console.log("ASDF")
+    resetEdgeInteractionSourceHandleId()
+    e.preventDefault();
+  }
+
+  useEffect(() => {
+    
+    console.log(edgeInteractionSourceHandleId)
+  }, [edgeInteractionSourceHandleId])
+
+
+
 
   return (
-    <div  className={'flow-ui-noDrag flow-ui-noZoom'} style={{justifyContent: isTarget ? "start" : "end"}}>
+  
+      <div className={'flow-ui-noDrag flow-ui-noZoom'} draggable={true} onDragStart={(e) => handleDragStart(e)}  onDrag={(e) => handleDragEnd(e)} style={{justifyContent: isTarget ? "start" : "end", border: "1px solid red", display: "inline-flex"}}>
       {children}
-      {children === undefined && <span ref={handleRef} style={{height: "10px", width: "10px", borderRadius: "50%", display: "inline-block", backgroundColor: "#bbb"}}></span>}
+      {children === undefined && <div draggable={false} ref={handleRef} style={{height: "10px", width: "10px", borderRadius: "50%", display: "inline-block", backgroundColor: "#bbb"}}></div>}
+      <div draggable={false} ref={dragRef} style={{opacity: "0", width: "10px", height: "10px", position: "absolute"}}></div>
     </div>
+    
+    
   )
 }
