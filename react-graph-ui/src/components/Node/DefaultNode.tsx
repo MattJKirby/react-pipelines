@@ -1,6 +1,6 @@
 import React from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
-import { Handle } from "../Handles/Handle";
+import { Handle } from "../Handle";
 import { INodeData } from "./INodeData";
 
 const DefaultNode = () => {

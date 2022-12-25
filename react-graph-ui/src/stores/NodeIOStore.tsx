@@ -1,5 +1,5 @@
 import create from "zustand";
-import { IHandleData } from "../Components/Handles/IHandleData";
+import { IHandleData } from "../Components/Handle/IHandleData";
 
 interface NodeIOState {
   nodeHandles: IHandleData[]

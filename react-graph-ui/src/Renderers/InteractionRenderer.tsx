@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { IHandleData } from "../Components/Handles/IHandleData"
+import { IHandleData } from "../Components/Handle/IHandleData"
 import { useInteractionStore } from "../Stores/InteractionStore"
 import { useNodeIOStore } from "../Stores/NodeIOStore"
 
