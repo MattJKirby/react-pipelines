@@ -11,24 +11,23 @@ interface EdgeCoordinate {
 
 
 export const EdgeRenderer = () => {
-  const nodeSourceHandles = useNodeIOStore((state) => state.getSourceHandles())
-  const nodeTargetHandles = useNodeIOStore((state) => state.getTargetHandles())
-  const edges = useEdgeStore((state) => state.edges)
-  const {dragInteractionNodeId} = useInteractionStore()
+  const nodeHandles = useNodeIOStore((state) => state.nodeHandles)
+  const {edges, newEdge} = useEdgeStore()
+  const {dragInteractionNodeId, edgeInteraction, resetEdgeInteraction} = useInteractionStore()
   const [edgeCoordinates, setEdgeCoordinates] = useState<EdgeCoordinate[]>([])
 
   useEffect(() => {
     edges.forEach(edge => {
-      if(edgeCoordinates.find(e => e.edgeId === edge.id) === undefined){
-        const sourceHandlePosition = nodeSourceHandles.find(s => s.nodeId === edge.sourceNodeId && s.id === edge.sourceNodeOutput)?.position
-        const targetHandlePosition = nodeTargetHandles.find(t => t.nodeId === edge.targetNodeId && t.id === edge.targetNodeInput)?.position
+      if(edgeCoordinates.find(e => e.edgeId === edge.id) === undefined){     
+        const sourceHandlePosition = nodeHandles.find(s => s.nodeId === edge.sourceNodeId && s.id === edge.sourceNodeOutput)?.position
+        const targetHandlePosition = nodeHandles.find(t => t.nodeId === edge.targetNodeId && t.id === edge.targetNodeInput)?.position
        
-        if(sourceHandlePosition && targetHandlePosition !== undefined) {
+        if(sourceHandlePosition !== undefined && targetHandlePosition !== undefined) {
           setEdgeCoordinates([...edgeCoordinates, {edgeId: edge.id, source: sourceHandlePosition, target: targetHandlePosition}])
         }
       }
     })
-  }, [edgeCoordinates, edges, nodeSourceHandles, nodeTargetHandles])
+  }, [edgeCoordinates, edgeInteraction, edges, nodeHandles])
 
   useEffect(() => {
     if(dragInteractionNodeId !== undefined){
@@ -36,20 +35,27 @@ export const EdgeRenderer = () => {
 
       connectedEdges.forEach(edge => {
         const edgeCoordinate = edgeCoordinates.find(e => e.edgeId === edge.id)
-        const sourceHandlePosition = nodeSourceHandles.find(s => s.nodeId === edge.sourceNodeId && s.id === edge.sourceNodeOutput)?.position
-        const targetHandlePosition = nodeTargetHandles.find(t => t.nodeId === edge.targetNodeId && t.id === edge.targetNodeInput)?.position
+        const sourceHandlePosition = nodeHandles.find(s => s.nodeId === edge.sourceNodeId && s.id === edge.sourceNodeOutput)?.position
+        const targetHandlePosition = nodeHandles.find(t => t.nodeId === edge.targetNodeId && t.id === edge.targetNodeInput)?.position
           
         if(edgeCoordinate?.source !== sourceHandlePosition || edgeCoordinate?.target !== targetHandlePosition){
           if(sourceHandlePosition && targetHandlePosition !== undefined && edgeCoordinate !== undefined){
-            edgeCoordinate.source = sourceHandlePosition
-            edgeCoordinate.target = targetHandlePosition
-            setEdgeCoordinates([...edgeCoordinates.filter(e => e.edgeId !== edge.id), edgeCoordinate])
+            setEdgeCoordinates([...edgeCoordinates.filter(e => e.edgeId !== edge.id), {...edgeCoordinate, source: sourceHandlePosition, target: targetHandlePosition}])
           }
         }
       })
     }
-  }, [dragInteractionNodeId, edgeCoordinates, edges, nodeSourceHandles, nodeTargetHandles])
+  }, [dragInteractionNodeId, edgeCoordinates, edges, nodeHandles])
 
+  useEffect(() => {
+    if(edgeInteraction?.targetNodeId !== undefined && edgeInteraction.targetHandleId !== undefined){
+      const edge = edges.find(e => e.sourceNodeId === edgeInteraction.sourceNodeId && e.sourceNodeOutput === edgeInteraction.sourceHandleId && e.targetNodeId === edgeInteraction.targetNodeId && e.targetNodeInput === edgeInteraction.targetHandleId)
+      if(edge === undefined){
+        newEdge(edgeInteraction.sourceNodeId, edgeInteraction.sourceHandleId, edgeInteraction.targetNodeId, edgeInteraction.targetHandleId)
+      }
+      resetEdgeInteraction()
+    }
+  }, [edgeInteraction?.sourceHandleId, edgeInteraction?.sourceNodeId, edgeInteraction?.targetHandleId, edgeInteraction?.targetNodeId, edges, newEdge, resetEdgeInteraction])
 
 
   return (
@@ -57,7 +63,14 @@ export const EdgeRenderer = () => {
       {edgeCoordinates.map((edge, index) => {
         
         return (
-          <path key={index} d={`M${edge.source.x} ${edge.source.y} L ${edge.target.x} ${edge.target.y}`} style={{stroke: '#bbb'}}/>
+          <g 
+            key={index} 
+            style={{border: "1px solid red", fill: "red"}}
+            onClick={() => console.log("ASDFG")} 
+            >
+            <path d={`M${edge.source.x} ${edge.source.y} L ${edge.target.x} ${edge.target.y}`} style={{stroke: '#bbb'}}/>
+          </g>
+          
         )
       })}
     </svg>
