@@ -23,7 +23,12 @@ export const InteractionRenderer = () => {
   }, [edgeInteraction, getHandle])
 
   return (
-    <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
+    <svg 
+      width={'100%'} 
+      height={'100%'} 
+      overflow="visible" 
+      style={{position: "absolute", pointerEvents: "none"}}
+      >
       {edgeInteractionTargetPosition && 
         <path 
           d={`M${edgeInteractionSourceHandle?.position.x} ${edgeInteractionSourceHandle?.position.y} L ${edgeInteractionTargetPosition.x} ${edgeInteractionTargetPosition.y}`} 
