@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
+import { useEdgeStore } from "../../Stores/EdgeStore";
 import { useInteractionStore } from "../../Stores/InteractionStore";
 import { useNodeIOStore } from "../../Stores/NodeIOStore";
 import { INodeData } from "../Node/INodeData";
@@ -24,7 +25,7 @@ export const Handle = ({ children, type, id }: HandleProps) => {
   const nodeData = useNodeContext() as INodeData
   const isTarget = type === 'target'
   const {registerNodeHandle, updateHandlePosition, getHandle}  = useNodeIOStore()
-  const {newEdgeInteraction, resetEdgeInteraction} = useInteractionStore()
+  const {newEdgeInteraction, setEdgeInteraction, resetEdgeInteraction, edgeInteraction} = useInteractionStore()
   
   useEffect(() => {
     if(getHandle(nodeData.id, id) === undefined && handleRef.current !== null){
@@ -38,10 +39,24 @@ export const Handle = ({ children, type, id }: HandleProps) => {
     }
   }, [id, nodeData.id, nodeData.position, updateHandlePosition])
 
+  const handleMouseUp = (e) => {
+    e.stopPropagation();
+    e.preventDefault()
+    if(edgeInteraction !== undefined){
+      const handle = getHandle(edgeInteraction.sourceNodeId, edgeInteraction.sourceHandleId)
+      
+      if(handle?.isTarget !== isTarget){
+        setEdgeInteraction({...edgeInteraction, targetNodeId: nodeData.id, targetHandleId: id})
+        return
+      } 
+      resetEdgeInteraction()
+    }
+  }
+
   return (
       <div className={'flow-ui-noDrag flow-ui-noZoom'} 
         onMouseDown={() => newEdgeInteraction(nodeData.id,id)}
-        onMouseUp={() => resetEdgeInteraction()}
+        onMouseUp={(e) => handleMouseUp(e)}
         style={{display: "inline-flex"}}
       >
       {children}
