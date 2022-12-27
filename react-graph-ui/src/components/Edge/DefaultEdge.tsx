@@ -1,7 +1,7 @@
 import React from "react"
 import { useEdgeContext } from "../../Contexts/EdgeDataContext";
 import { IHandleData } from "../Handle/IHandleData";
-import { CalculateStraightEdgePath } from "./utils";
+import { CalculateStraightPath } from "./utils";
 
 const DefaultEdge = () => {
   const edge = useEdgeContext() as {source: IHandleData, target: IHandleData}
@@ -9,7 +9,7 @@ const DefaultEdge = () => {
   return (
     <>
     {edge && 
-      <path d={CalculateStraightEdgePath(edge.source, edge.target)} style={{stroke: '#bbb'}}/>
+      <path d={CalculateStraightPath(edge.source, edge.target)} style={{stroke: '#bbb'}}/>
       }
     </>
   )
