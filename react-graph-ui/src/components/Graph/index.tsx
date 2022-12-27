@@ -28,7 +28,7 @@ interface GraphProps {
 export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
   const flowRef = useRef<HTMLDivElement>(null)
   const nodesRef = useRef(useNodeStore.getState().nodes)
-  const edgesRef = useRef(useEdgeStore.getState().edges)
+  const edgesRef = useRef(useEdgeStore.getState().edgeDataList)
   const transform = useTransformStore<ITransform>((state) => state.transform)
   const {edgeInteraction, setEdgeInteraction, resetEdgeInteraction} = useInteractionStore()
   const addNode = useNodeStore((state) => state.addNode)
@@ -65,7 +65,7 @@ export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
    * Subscribe to edge store to enable edgeRef to follow edgeStore.
    */
   useEffect(() => useEdgeStore.subscribe(
-    state => (edgesRef.current = state.edges)
+    state => (edgesRef.current = state.edgeDataList)
   ), [])
 
   /**
