@@ -10,8 +10,8 @@ const initialNodeList = [
 ]
 
   const initialEdgeList = [
-    {id: "edge-1", sourceNodeId: 0, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target'},
-    {id: "edge-2", sourceNodeId: 2, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target'}
+    {id: "edge-1", sourceNodeId: 0, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target', type: 'default'},
+    {id: "edge-2", sourceNodeId: 2, sourceNodeOutput: 'source', targetNodeId: 1, targetNodeInput: 'target', type: 'default'}
   ]
 
 /**

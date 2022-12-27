@@ -4,4 +4,5 @@ export interface IEdgeData {
   sourceNodeOutput: string;
   targetNodeId: number;
   targetNodeInput: string;
+  type: string
 }
