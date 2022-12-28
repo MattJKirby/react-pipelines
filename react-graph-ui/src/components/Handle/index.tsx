@@ -13,6 +13,7 @@ interface HandleProps {
   children?: React.ReactNode;
   id: string;
   type?: string;
+  edgeType?: string;
 }
 
 /**
@@ -20,7 +21,7 @@ interface HandleProps {
  * @param param0 
  * @returns 
  */
-export const Handle = ({ children, type, id }: HandleProps) => {
+export const Handle = ({ children, type, id, edgeType }: HandleProps) => {
   const handleRef = useRef<HTMLDivElement>(null)
   const nodeData = useNodeContext() as INodeData
   const isTarget = type === 'target'
@@ -39,11 +40,10 @@ export const Handle = ({ children, type, id }: HandleProps) => {
     }
   }, [id, nodeData.id, nodeData.position, updateHandlePosition])
 
-  const handleMouseUp = (e) => {
+  const handleMouseUp = (e: MouseEvent) => {
     e.stopPropagation();
-    e.preventDefault()
+    e.preventDefault();
     if(edgeInteraction !== undefined){
-      
       if(edgeInteraction.sourceHandleIsTarget !== isTarget){
         setEdgeInteraction({...edgeInteraction, targetNodeId: nodeData.id, targetHandleId: id})
         return
@@ -54,7 +54,7 @@ export const Handle = ({ children, type, id }: HandleProps) => {
 
   return (
       <div className={'flow-ui-noDrag flow-ui-noZoom'} 
-        onMouseDown={() => newEdgeInteraction(nodeData.id, id, isTarget)}
+        onMouseDown={() => newEdgeInteraction(nodeData.id, id, isTarget, edgeType)}
         onMouseUp={(e) => handleMouseUp(e)}
         style={{display: "inline-flex"}}
       >

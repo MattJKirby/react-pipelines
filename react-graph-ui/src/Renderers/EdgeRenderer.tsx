@@ -17,36 +17,32 @@ export interface EdgeTypeProps {
 export const EdgeRenderer = () => {
   const userEdgeTypes = useGraphStore((state) => state.userEdgeTypes)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...userEdgeTypes}
-  const nodeHandles = useNodeIOStore((state) => state.nodeHandles)
   const {edgeDataList, getEdge, newEdge} = useEdgeStore()
   const {edgeInteraction, resetEdgeInteraction} = useInteractionStore()
+  const {getHandle} = useNodeIOStore()
 
   useEffect(() => {
     if(edgeInteraction !== undefined){
-      const {sourceNodeId, sourceHandleId,targetNodeId, targetHandleId, sourceHandleIsTarget} = edgeInteraction
+      const {sourceNodeId, sourceHandleId,targetNodeId, targetHandleId, sourceHandleIsTarget, edgeType} = edgeInteraction
 
       if(sourceNodeId !== undefined && sourceHandleId !== undefined && targetNodeId !== undefined && targetHandleId !== undefined){
         const existingEdge = sourceHandleIsTarget ? getEdge(targetNodeId, targetHandleId, sourceNodeId, sourceHandleId) : getEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId)
 
         if(existingEdge === undefined){
-          newEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId)
+          newEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId, edgeType)
         }
         resetEdgeInteraction()
       }
     }
   }, [edgeInteraction, edgeDataList, newEdge, resetEdgeInteraction, getEdge])
 
-  const getNodeHandle = (nodeId: number, handleId: string): IHandleData | undefined => {
-    return nodeHandles.find(h => h.nodeId === nodeId && h.id === handleId)
-  }
-
 
   return (
     <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
       {edgeDataList.map((edge, index) => {
         const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default']
-        const source = getNodeHandle(edge.sourceNodeId, edge.sourceNodeOutput)
-        const target = getNodeHandle(edge.targetNodeId, edge.targetNodeInput)
+        const source = getHandle(edge.sourceNodeId, edge.sourceNodeOutput)
+        const target = getHandle(edge.targetNodeId, edge.targetNodeInput)
 
       if(source && target){
         return (
