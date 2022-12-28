@@ -43,9 +43,8 @@ export const Handle = ({ children, type, id }: HandleProps) => {
     e.stopPropagation();
     e.preventDefault()
     if(edgeInteraction !== undefined){
-      const handle = getHandle(edgeInteraction.sourceNodeId, edgeInteraction.sourceHandleId)
       
-      if(handle?.isTarget !== isTarget){
+      if(edgeInteraction.sourceHandleIsTarget !== isTarget){
         setEdgeInteraction({...edgeInteraction, targetNodeId: nodeData.id, targetHandleId: id})
         return
       } 
@@ -55,7 +54,7 @@ export const Handle = ({ children, type, id }: HandleProps) => {
 
   return (
       <div className={'flow-ui-noDrag flow-ui-noZoom'} 
-        onMouseDown={() => newEdgeInteraction(nodeData.id,id)}
+        onMouseDown={() => newEdgeInteraction(nodeData.id, id, isTarget)}
         onMouseUp={(e) => handleMouseUp(e)}
         style={{display: "inline-flex"}}
       >
