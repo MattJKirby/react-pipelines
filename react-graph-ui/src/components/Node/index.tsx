@@ -30,7 +30,7 @@ const Node = ({children, node}: NodeContainerProps) => {
   return (
     <NodeDataContext.Provider value={node}>
       <DragContainer initPosition={node.position} onPositionUpdate={handlePositionUpdate} onDrag={setIsDragging}>
-        <div style={{zIndex: '1', left: `${position.x}px`, top: `${position.y}px`, position: 'fixed'}}>
+        <div style={{zIndex: '1', left: `${position.x}px`, top: `${position.y}px`, position: 'fixed', userSelect: "none"}}>
           {children}
         </div>
       </DragContainer>
