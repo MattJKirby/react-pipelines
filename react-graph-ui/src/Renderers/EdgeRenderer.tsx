@@ -18,19 +18,23 @@ export const EdgeRenderer = () => {
   const userEdgeTypes = useGraphStore((state) => state.userEdgeTypes)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...userEdgeTypes}
   const nodeHandles = useNodeIOStore((state) => state.nodeHandles)
-  const {edgeDataList, newEdge} = useEdgeStore()
+  const {edgeDataList, getEdge, newEdge} = useEdgeStore()
   const {edgeInteraction, resetEdgeInteraction} = useInteractionStore()
 
   useEffect(() => {
-    if(edgeInteraction?.targetNodeId !== undefined && edgeInteraction.targetHandleId !== undefined){
-      const existingEdge = edgeDataList.find(e => e.sourceNodeId === edgeInteraction.sourceNodeId && e.sourceNodeOutput === edgeInteraction.sourceHandleId && e.targetNodeId === edgeInteraction.targetNodeId && e.targetNodeInput === edgeInteraction.targetHandleId)
-      if(existingEdge === undefined){
-        console.log("ADDED EDGE")
-        newEdge(edgeInteraction.sourceNodeId, edgeInteraction.sourceHandleId, edgeInteraction.targetNodeId, edgeInteraction.targetHandleId)
+    if(edgeInteraction !== undefined){
+      const {sourceNodeId, sourceHandleId,targetNodeId, targetHandleId, sourceHandleIsTarget} = edgeInteraction
+
+      if(sourceNodeId !== undefined && sourceHandleId !== undefined && targetNodeId !== undefined && targetHandleId !== undefined){
+        const existingEdge = sourceHandleIsTarget ? getEdge(targetNodeId, targetHandleId, sourceNodeId, sourceHandleId) : getEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId)
+
+        if(existingEdge === undefined){
+          newEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId)
+        }
+        resetEdgeInteraction()
       }
-      resetEdgeInteraction()
     }
-  }, [edgeInteraction, edgeDataList, newEdge, resetEdgeInteraction])
+  }, [edgeInteraction, edgeDataList, newEdge, resetEdgeInteraction, getEdge])
 
   const getNodeHandle = (nodeId: number, handleId: string): IHandleData | undefined => {
     return nodeHandles.find(h => h.nodeId === nodeId && h.id === handleId)
