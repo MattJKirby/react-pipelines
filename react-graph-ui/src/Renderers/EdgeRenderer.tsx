@@ -1,8 +1,6 @@
 import React, { ComponentType, useEffect } from "react"
 import { Edge } from "../Components/Edge"
 import DefaultEdge from "../Components/Edge/DefaultEdge"
-import { IEdgeData } from "../Components/Edge/IEdgeData"
-import { IHandleData } from "../Components/Handle/IHandleData"
 import { useEdgeStore } from "../Stores/EdgeStore"
 import { useGraphStore } from "../Stores/GraphStore"
 import { useInteractionStore } from "../Stores/InteractionStore"
