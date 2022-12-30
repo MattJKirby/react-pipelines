@@ -38,6 +38,7 @@ export interface IGraphStoreActions {
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<NodeTypeProps> }) => void;
 
   // Edge Store Actions
+  addEdge: (edge: IEdge) => void;
   setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
 
   // Handle Store Actions
