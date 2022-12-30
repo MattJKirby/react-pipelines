@@ -1,6 +1,6 @@
-import { IGraphStore } from "../Types";
+import { IGraphStoreProps } from "../Types";
 
-export const initialGraphState: IGraphStore = {
+export const initialGraphState: IGraphStoreProps = {
   graphTransform: { scale: 1, translateX: 0, translateY: 0 },
   nodes: [],
   edges: [],
