@@ -1,5 +1,4 @@
-import create from "zustand/react";
-import createContext from "zustand/context";
+import { StoreApi } from "zustand";
 import { createStore } from "zustand";
 import { IGraphState, ITransform, IXYPosition } from "../Types";
 import { initialGraphState } from "./initialState";
@@ -10,9 +9,7 @@ import { INode } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { IHandle } from "../Types/handle";
 
-const { GraphProvider, UseGraphStore } = createContext();
-
-const createGraphStore = () => {
+export const createGraphStore = (): StoreApi<IGraphState> => 
   createStore<IGraphState>((set,get) => ({
     ...initialGraphState,
 
@@ -63,4 +60,3 @@ const createGraphStore = () => {
     setHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => set({handleInteraction: {sourceHandle: handle, mousePosition: mousePosition, edgeType: edgeType === undefined ? "default" : edgeType, targetHandle: undefined}}),
     resetHandleInteraction: () => set({handleInteraction: undefined}),
   }))
-}
