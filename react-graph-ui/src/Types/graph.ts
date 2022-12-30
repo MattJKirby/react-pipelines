@@ -6,7 +6,7 @@ import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode } from "./node";
 
-export interface IGraphStore {
+export interface IGraphStoreProps {
   // Graph Store
   graphTransform: ITransform;
 
@@ -52,4 +52,4 @@ export interface IGraphStoreActions {
   resetHandleInteraction: () => void;
 }
 
-export interface IGraphState extends IGraphStore, IGraphStoreActions {}
+export interface IGraphState extends IGraphStoreProps, IGraphStoreActions {}
