@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useEffect, useState } from 'react';
-import useTransformStore, { ITransform } from '../../Stores/TransformStore';
+import { useStore } from '../../Hooks/useStore';
+import { IGraphState } from '../../Types';
 import { createGridDotsPath } from './utils';
 
 interface GraphCanvasProps {
@@ -10,8 +11,13 @@ interface GraphCanvasProps {
   backgroundColor?: string;
 }
 
-export const GraphCanvas = ({ gap, size, color, backgroundColor }: GraphCanvasProps) => {
-  const transform = useTransformStore<ITransform>((state) => state.transform)
+const selector = (s: IGraphState) => ({
+  graphId: s.graphId,
+  transform: s.graphTransform,
+});
+
+const GraphCanvas = ({ gap, size, color, backgroundColor }: GraphCanvasProps) => {
+  const {transform, graphId} = useStore(selector)
   const [scaledGap, setScaledGap] = useState(gap * transform.scale)
   const [xOffset, setXOffset] = useState(transform.translateX % scaledGap)
   const [yOffset, setYOffset] = useState(transform.translateY % scaledGap)
@@ -22,11 +28,10 @@ export const GraphCanvas = ({ gap, size, color, backgroundColor }: GraphCanvasPr
     setYOffset(transform.translateY % scaledGap)
   }, [gap, scaledGap, transform])
 
-
   return (
     <svg width={'100%'} height={'100%'} style={{ backgroundColor: backgroundColor ? backgroundColor : '#f9fafc', pointerEvents: 'none', position: 'absolute', top: 0, zIndex: -1 }}>
       <pattern
-        id='pattern'
+        id={`pattern-${graphId}`}
         x={xOffset}
         y={yOffset}
         width={scaledGap}
@@ -35,11 +40,13 @@ export const GraphCanvas = ({ gap, size, color, backgroundColor }: GraphCanvasPr
       >
         {createGridDotsPath(size * transform.scale, color ? color : '#8f95b2')}
       </pattern>
-      <rect x="0" y="0" width="100%" height="100%" fill={`url(#${'pattern'})`} />
+      <rect x="0" y="0" width="100%" height="100%" fill={`url(#pattern-${graphId})`} />
 
     </svg>
   )
 }
 
+GraphCanvas.DisplayName = "GraphCanvas"
 
-export default GraphCanvas
+
+export default memo(GraphCanvas)
