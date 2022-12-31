@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useRef } from "react";
 import * as d3 from "d3-zoom";
 import {select} from 'd3-selection'
@@ -18,7 +19,7 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
   const setTransform = useStore(s => s.setGraphTransform)
   const setZoomContextDimensions = useZoomContextStore((state) => state.setContextDimensions);
   const setZoomContextPosition = useZoomContextStore((state) => state.setContextPosition);
-  const zoomFilter = (e) => e.target.closest('.flow-ui-noZoom') === null;
+  const zoomFilter = (e: any) => e.target.closest('.flow-ui-noZoom') === null;
 
   const updateZoomContext = useCallback(() => {
     const context = zoomContext.current
