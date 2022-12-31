@@ -3,7 +3,6 @@ import { useEffect } from "react"
 import { useNodeStore } from "../../Stores/NodeStore"
 import ZoomContainer from "../../Containers/ZoomContainer"
 import { INodeData } from "../Node/INodeData"
-import { useGraphStore } from "../../Stores/GraphStore"
 import NodeRenderer, { NodeTypeProps } from "../../Renderers/NodeRenderer"
 import { EdgeRenderer } from "../../Renderers/EdgeRenderer"
 import { IEdgeData } from "../Edge/IEdgeData"
@@ -23,6 +22,7 @@ interface GraphProps {
 
 const selector = (s: IGraphState) => ({
   transform: s.graphTransform,
+  setCustomNodeTypes: s.setCustomNodeTypes
 });
 
 /**
@@ -34,11 +34,10 @@ export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
   const flowRef = useRef<HTMLDivElement>(null)
   const nodesRef = useRef(useNodeStore.getState().nodes)
   const edgesRef = useRef(useEdgeStore.getState().edgeDataList)
-  const {transform} = useStore(selector)
+  const {transform, setCustomNodeTypes} = useStore(selector)
   const {edgeInteraction, setEdgeInteraction, resetEdgeInteraction} = useInteractionStore()
   const addNode = useNodeStore((state) => state.addNode)
   const addEdge = useEdgeStore((state) => state.addEdge)
-  const setUserNodeTypes = useGraphStore((state) => state.setUserNodeTypes)
   
   /**
    * Enables the nodesRef to subscribe to state.nodes
@@ -62,8 +61,8 @@ export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
    * Publish nodeTypes to the store
    */
   useEffect(() => {
-    setUserNodeTypes(nodeTypes);
-    }, [setUserNodeTypes, nodeTypes]);
+    setCustomNodeTypes(nodeTypes);
+    }, [setCustomNodeTypes, nodeTypes]);
 
   /**
    * Subscribe to edge store to enable edgeRef to follow edgeStore.

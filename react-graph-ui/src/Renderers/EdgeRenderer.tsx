@@ -1,21 +1,24 @@
 import React, { ComponentType, useEffect } from "react"
 import { Edge } from "../Components/Edge"
 import DefaultEdge from "../Components/Edge/DefaultEdge"
+import { useStore } from "../Hooks/useStore"
 import { useEdgeStore } from "../Stores/EdgeStore"
-import { useGraphStore } from "../Stores/GraphStore"
 import { useInteractionStore } from "../Stores/InteractionStore"
 import { useNodeIOStore } from "../Stores/NodeIOStore"
-
-
+import { IGraphState } from "../Types"
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface EdgeTypeProps {
 }
 
+const selector = (s: IGraphState) => ({
+  customEdgeTypes: s.customEdgeTypes
+});
+
 
 export const EdgeRenderer = () => {
-  const userEdgeTypes = useGraphStore((state) => state.userEdgeTypes)
-  const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...userEdgeTypes}
+  const {customEdgeTypes} = useStore(selector)
+  const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
   const {edgeDataList, getEdge, newEdge} = useEdgeStore()
   const {edgeInteraction, resetEdgeInteraction} = useInteractionStore()
   const {getHandle} = useNodeIOStore()
