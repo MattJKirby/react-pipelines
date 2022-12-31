@@ -8,6 +8,7 @@ import { INode } from "./node";
 
 export interface IGraphStoreProps {
   // Graph Store
+  graphId: string;
   graphTransform: ITransform;
 
   // Node Store
@@ -54,3 +55,7 @@ export interface IGraphStoreActions {
 }
 
 export interface IGraphState extends IGraphStoreProps, IGraphStoreActions {}
+
+export type IInitialGraphProps = Subset<IGraphStoreProps, {
+  graphId: string;
+}>
