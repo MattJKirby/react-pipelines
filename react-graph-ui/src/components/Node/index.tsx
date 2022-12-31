@@ -1,9 +1,9 @@
 import DragContainer from "../../Containers/DragContainer"
 import React, { useEffect, useState } from "react"
-import { useNodeStore } from "../../Stores/NodeStore"
 import NodeDataContext from "../../Contexts/NodeDataContext"
 import { INodeData } from "./INodeData";
 import { useInteractionStore } from "../../Stores/InteractionStore";
+import { useNodeStore } from "../../Stores/NodeStore";
 
 
 export interface NodeContainerProps {

@@ -1,4 +1,5 @@
 import { ComponentType } from "react";
+import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { NodeTypeProps } from "../Renderers/NodeRenderer";
 import { IEdge } from "./edge";

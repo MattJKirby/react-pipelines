@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, MouseEvent } from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
-import { useEdgeStore } from "../../Stores/EdgeStore";
 import { useInteractionStore } from "../../Stores/InteractionStore";
 import { useNodeIOStore } from "../../Stores/NodeIOStore";
 import { INodeData } from "../Node/INodeData";
@@ -55,7 +54,7 @@ export const Handle = ({ children, type, id, edgeType }: HandleProps) => {
   return (
       <div className={'flow-ui-noDrag flow-ui-noZoom'} 
         onMouseDown={() => newEdgeInteraction(nodeData.id, id, isTarget, edgeType)}
-        onMouseUp={(e) => handleMouseUp(e)}
+        onMouseUp={(e: MouseEvent) => handleMouseUp(e)}
         style={{display: "inline-flex"}}
       >
       {children}

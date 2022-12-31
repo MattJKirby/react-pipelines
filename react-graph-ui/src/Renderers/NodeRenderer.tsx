@@ -5,6 +5,7 @@ import { useNodeStore } from "../Stores/NodeStore"
 import DefaultNode from "../Components/Node/DefaultNode"
 import { useGraphStore } from "../Stores/GraphStore"
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface NodeTypeProps {
 
 }
