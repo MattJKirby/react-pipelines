@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react"
 import NodeDataContext from "../../Contexts/NodeDataContext"
 import { INodeData } from "./INodeData";
 import { useInteractionStore } from "../../Stores/InteractionStore";
-import { useNodeStore } from "../../Stores/NodeStore";
+import { IGraphState } from "../../Types";
+import { useStore } from "../../Hooks/useStore";
 
 
 export interface NodeContainerProps {
@@ -11,8 +12,12 @@ export interface NodeContainerProps {
   node: INodeData;
 }
 
+const selector = (s: IGraphState) => ({
+  updateNodePosition: s.updateNodePosition
+});
+
 const Node = ({children, node}: NodeContainerProps) => {
-  const updateNodePosition = useNodeStore((state) => state.updateNodePosition)
+  const {updateNodePosition} = useStore(selector)
   const {setDragInteractionNode: setDragNode, resetDragNode} = useInteractionStore()
   const [isDragging, setIsDragging] = useState(false)
   const [position, setPosition] = useState(node.position)

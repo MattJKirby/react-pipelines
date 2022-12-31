@@ -1,6 +1,5 @@
 import React, { ComponentType, useRef } from "react"
 import { useEffect } from "react"
-import { useNodeStore } from "../../Stores/NodeStore"
 import ZoomContainer from "../../Containers/ZoomContainer"
 import { INodeData } from "../Node/INodeData"
 import NodeRenderer, { NodeTypeProps } from "../../Renderers/NodeRenderer"
@@ -12,6 +11,7 @@ import { InteractionRenderer } from "../../Renderers/InteractionRenderer"
 import { calculateScaledMousePosition } from "./utils"
 import { useStore } from "../../Hooks/useStore"
 import { IGraphState } from "../../Types"
+import { useStoreApi } from "../../Hooks/useStoreApi"
 
 interface GraphProps {
   children: React.ReactNode;
@@ -21,8 +21,10 @@ interface GraphProps {
 }
 
 const selector = (s: IGraphState) => ({
+  graphNodes: s.nodes,
   transform: s.graphTransform,
-  setCustomNodeTypes: s.setCustomNodeTypes
+  setCustomNodeTypes: s.setCustomNodeTypes,
+  addNode: s.addNode,
 });
 
 /**
@@ -32,19 +34,19 @@ const selector = (s: IGraphState) => ({
  */
 export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
   const flowRef = useRef<HTMLDivElement>(null)
-  const nodesRef = useRef(useNodeStore.getState().nodes)
+  const store = useStoreApi()
+  const nodesRef = useRef(useStoreApi().getState().nodes)
   const edgesRef = useRef(useEdgeStore.getState().edgeDataList)
-  const {transform, setCustomNodeTypes} = useStore(selector)
+  const {transform, setCustomNodeTypes, addNode} = useStore(selector)
   const {edgeInteraction, setEdgeInteraction, resetEdgeInteraction} = useInteractionStore()
-  const addNode = useNodeStore((state) => state.addNode)
   const addEdge = useEdgeStore((state) => state.addEdge)
   
   /**
    * Enables the nodesRef to subscribe to state.nodes
    */
-  useEffect(() => useNodeStore.subscribe(
+  useEffect(() => store.subscribe(
     state => (nodesRef.current = state.nodes)
-  ), [])
+  ), [store])
 
   /**
    * When nodeData is modified, publish changes to the NodeStore

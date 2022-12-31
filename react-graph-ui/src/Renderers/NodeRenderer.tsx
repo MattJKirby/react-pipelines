@@ -1,7 +1,6 @@
 import React from "react"
 import { ComponentType } from "react"
 import Node from "../Components/Node"
-import { useNodeStore } from "../Stores/NodeStore"
 import DefaultNode from "../Components/Node/DefaultNode"
 import { IGraphState } from "../Types"
 import { useStore } from "../Hooks/useStore"
@@ -12,12 +11,12 @@ export interface NodeTypeProps {
 }
 
 const selector = (s: IGraphState) => ({
+  nodes: s.nodes,
   customNodeTypes: s.customNodeTypes
 });
 
 export const NodeRenderer = () => {
-  const nodes = useNodeStore((state) => state.getNodes());
-  const {customNodeTypes} = useStore(selector)
+  const {customNodeTypes, nodes} = useStore(selector)
   const nodeTypes: { [key: string]: ComponentType<NodeTypeProps> } = {...{default: DefaultNode}, ...customNodeTypes}
 
   return (
