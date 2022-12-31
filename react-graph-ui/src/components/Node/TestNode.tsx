@@ -9,7 +9,7 @@ const TestNode = () => {
 
   return (
     <div>
-      TestNode
+      {node.name} (Test)
       <Handle id="target" type="target" />
     </div>
   )
