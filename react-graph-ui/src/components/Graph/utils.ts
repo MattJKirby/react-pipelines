@@ -1,5 +1,4 @@
-import { ITransform } from "../../Stores/TransformStore"
-
+import { ITransform } from "../../Types";
 
 /**
  * Method for calculating scaled mouse position relative to a given element

@@ -10,8 +10,9 @@ import { IEdgeData } from "../Edge/IEdgeData"
 import { useEdgeStore } from "../../Stores/EdgeStore"
 import { useInteractionStore } from "../../Stores/InteractionStore"
 import { InteractionRenderer } from "../../Renderers/InteractionRenderer"
-import useTransformStore, { ITransform } from "../../Stores/TransformStore"
 import { calculateScaledMousePosition } from "./utils"
+import { useStore } from "../../Hooks/useStore"
+import { IGraphState } from "../../Types"
 
 interface GraphProps {
   children: React.ReactNode;
@@ -19,6 +20,10 @@ interface GraphProps {
   nodeTypes: { [key: string]: ComponentType<NodeTypeProps> };
   edges: IEdgeData[];
 }
+
+const selector = (s: IGraphState) => ({
+  transform: s.graphTransform,
+});
 
 /**
  * Graph entrypoint component
@@ -29,13 +34,12 @@ export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
   const flowRef = useRef<HTMLDivElement>(null)
   const nodesRef = useRef(useNodeStore.getState().nodes)
   const edgesRef = useRef(useEdgeStore.getState().edgeDataList)
-  const transform = useTransformStore<ITransform>((state) => state.transform)
+  const {transform} = useStore(selector)
   const {edgeInteraction, setEdgeInteraction, resetEdgeInteraction} = useInteractionStore()
   const addNode = useNodeStore((state) => state.addNode)
   const addEdge = useEdgeStore((state) => state.addEdge)
   const setUserNodeTypes = useGraphStore((state) => state.setUserNodeTypes)
   
-
   /**
    * Enables the nodesRef to subscribe to state.nodes
    */
