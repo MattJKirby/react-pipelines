@@ -2,7 +2,8 @@ import * as d3 from 'd3-drag'
 import {select} from 'd3-selection'
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import useTransformStore, { ITransform } from '../Stores/TransformStore'
+import { useStore } from '../Hooks/useStore';
+import { ITransform } from '../Types';
 
 interface DraggableProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ interface DraggableProps {
 
 export const DragContainer = ({children, initPosition, onPositionUpdate, onDrag}: DraggableProps) => {
   const flowDraggable = useRef<HTMLDivElement>(null)
-  const transform = useTransformStore<ITransform>((state) => state.transform)
+  const transform = useStore<ITransform>((state) => state.graphTransform)
   const [position, setPosition] = useState(initPosition);
   const dragFilter = (e) => e.target.closest('.flow-ui-noDrag') === null;
 

@@ -2,8 +2,10 @@ import { useCallback, useEffect, useRef } from "react";
 import * as d3 from "d3-zoom";
 import {select} from 'd3-selection'
 import React from "react";
-import useTransformStore from "../Stores/TransformStore";
-import { useZoomContextStore } from "../Stores/ZoomContextStore";
+
+import { useZoomContextStore } from "../Stores/zoomContextStore";
+import { useStore } from "../Hooks/useStore";
+
 
 interface FlowZoomProps {
   children?: React.ReactNode
@@ -12,7 +14,8 @@ interface FlowZoomProps {
 export const ZoomContainer = ({children}: FlowZoomProps) => {
   const flowZoom = useRef<HTMLDivElement>(null);
   const zoomContext = useRef<HTMLDivElement>(null);
-  const {transform, setTransform} = useTransformStore()
+  const transform= useStore(s => s.graphTransform)
+  const setTransform = useStore(s => s.setGraphTransform)
   const setZoomContextDimensions = useZoomContextStore((state) => state.setContextDimensions);
   const setZoomContextPosition = useZoomContextStore((state) => state.setContextPosition);
   const zoomFilter = (e) => e.target.closest('.flow-ui-noZoom') === null;
