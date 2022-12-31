@@ -1,6 +1,6 @@
 import { StoreApi } from "zustand";
 import { createStore } from "zustand";
-import { IGraphState, ITransform, IXYPosition } from "../Types";
+import { IGraphState, IInitialGraphProps, ITransform, IXYPosition } from "../Types";
 import { initialGraphState } from "./initialState";
 import { ComponentType } from "react";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
@@ -9,10 +9,12 @@ import { INode } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { IHandle } from "../Types/handle";
 
-export const createGraphStore = (): StoreApi<IGraphState> => 
-  createStore<IGraphState>((set,get) => ({
-    ...initialGraphState,
 
+export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGraphState> => {
+  return createStore<IGraphState>((set,get) => ({
+    ...initialGraphState,
+    ...initialProps,
+   
     // Graph Store Actions
     setGraphTransform: (graphTransform: ITransform) => set({graphTransform}),
 
@@ -59,4 +61,4 @@ export const createGraphStore = (): StoreApi<IGraphState> =>
     resetNodeDragInteraction: () => set({nodeDragInteraction: undefined}),
     setHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => set({handleInteraction: {sourceHandle: handle, mousePosition: mousePosition, edgeType: edgeType === undefined ? "default" : edgeType, targetHandle: undefined}}),
     resetHandleInteraction: () => set({handleInteraction: undefined}),
-  }))
+  }))}
