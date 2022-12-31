@@ -22,9 +22,17 @@ export const EdgeRenderer = () => {
 
   useEffect(() => {
     if(edgeInteraction !== undefined){
-      const {sourceNodeId, sourceHandleId,targetNodeId, targetHandleId, sourceHandleIsTarget, edgeType} = edgeInteraction
 
-      if(sourceNodeId !== undefined && sourceHandleId !== undefined && targetNodeId !== undefined && targetHandleId !== undefined){
+      let completeInteraction = true
+      Object.values(edgeInteraction).forEach((value) => {
+        if(value === undefined){
+          completeInteraction = false
+          return
+        }
+      })
+   
+      if(completeInteraction){
+        const {sourceNodeId, sourceHandleId,targetNodeId, targetHandleId, sourceHandleIsTarget, edgeType} = edgeInteraction
         const existingEdge = sourceHandleIsTarget ? getEdge(targetNodeId, targetHandleId, sourceNodeId, sourceHandleId) : getEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId)
 
         if(existingEdge === undefined){
@@ -32,6 +40,7 @@ export const EdgeRenderer = () => {
         }
         resetEdgeInteraction()
       }
+      
     }
   }, [edgeInteraction, edgeDataList, newEdge, resetEdgeInteraction, getEdge])
 
