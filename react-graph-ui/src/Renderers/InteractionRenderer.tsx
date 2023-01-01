@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react"
 import { useStore } from "../Hooks/useStore";
-import { IGraphState, IHandle } from "../Types";
+import { IGraphState } from "../Types";
 
 const selector = (s: IGraphState) => ({
   handleInteraction: s.handleInteraction,
@@ -12,17 +11,6 @@ const selector = (s: IGraphState) => ({
  */
 export const InteractionRenderer = () => {
   const {handleInteraction} = useStore(selector)
-  const [handleInteractionSource, setHandleInteractionSource] = useState<IHandle | undefined>(undefined)
-  const [handleInteractionTarget, setHandleInteractionTarget] = useState<IHandle | undefined>(undefined)
-
-  useEffect(() => {
-    if(handleInteraction){
-      setHandleInteractionSource(handleInteraction.sourceHandle)
-      setHandleInteractionTarget(handleInteraction.targetHandle)
-      return
-    }
-    setHandleInteractionTarget(undefined)
-  }, [handleInteraction])
 
   return (
     <svg 
@@ -31,9 +19,9 @@ export const InteractionRenderer = () => {
       overflow="visible" 
       style={{position: "absolute", pointerEvents: "none"}}
       >
-      {handleInteractionTarget && 
+      {handleInteraction && 
         <path 
-          d={`M${handleInteractionSource?.position.x} ${handleInteractionSource?.position.y} L ${handleInteractionTarget.position. x} ${handleInteractionTarget.position.y}`} 
+          d={`M${handleInteraction.sourceHandle.position.x} ${handleInteraction.sourceHandle.position.y} L${handleInteraction.mousePosition. x} ${handleInteraction.mousePosition.y}`} 
           style={{stroke: '#bbb'}}
         />}
     </svg>
