@@ -1,26 +1,28 @@
 import { useEffect, useState } from "react"
-import { IHandleData } from "../Components/Handle/IHandleData"
-import { useInteractionStore } from "../Stores/InteractionStore"
-import { useNodeIOStore } from "../Stores/NodeIOStore"
+import { useStore } from "../Hooks/useStore";
+import { IGraphState, IHandle } from "../Types";
+
+const selector = (s: IGraphState) => ({
+  handleInteraction: s.handleInteraction,
+});
 
 /**
  * Interaction renderer used to render all user-graph interactions
  * @returns 
  */
 export const InteractionRenderer = () => {
-  const getHandle = useNodeIOStore((state) => state.getHandle)
-  const [edgeInteractionSourceHandle, setEdgeInteractionSourceHandle] = useState<IHandleData | undefined>(undefined)
-  const [edgeInteractionTargetPosition, setEdgeInteractionTargetPosition] = useState<undefined | {x: number, y: number} >(undefined)
-  const edgeInteraction = useInteractionStore((state) => state.edgeInteraction)
+  const {handleInteraction} = useStore(selector)
+  const [handleInteractionSource, setHandleInteractionSource] = useState<IHandle | undefined>(undefined)
+  const [handleInteractionTarget, setHandleInteractionTarget] = useState<IHandle | undefined>(undefined)
 
   useEffect(() => {
-    if(edgeInteraction && edgeInteraction.mousePosition){
-      setEdgeInteractionSourceHandle(getHandle(edgeInteraction.sourceNodeId, edgeInteraction.sourceHandleId))
-      setEdgeInteractionTargetPosition(edgeInteraction.mousePosition)
+    if(handleInteraction){
+      setHandleInteractionSource(handleInteraction.sourceHandle)
+      setHandleInteractionTarget(handleInteraction.targetHandle)
       return
     }
-    setEdgeInteractionTargetPosition(undefined)
-  }, [edgeInteraction, getHandle])
+    setHandleInteractionTarget(undefined)
+  }, [handleInteraction])
 
   return (
     <svg 
@@ -29,9 +31,9 @@ export const InteractionRenderer = () => {
       overflow="visible" 
       style={{position: "absolute", pointerEvents: "none"}}
       >
-      {edgeInteractionTargetPosition && 
+      {handleInteractionTarget && 
         <path 
-          d={`M${edgeInteractionSourceHandle?.position.x} ${edgeInteractionSourceHandle?.position.y} L ${edgeInteractionTargetPosition.x} ${edgeInteractionTargetPosition.y}`} 
+          d={`M${handleInteractionSource?.position.x} ${handleInteractionSource?.position.y} L ${handleInteractionTarget.position. x} ${handleInteractionTarget.position.y}`} 
           style={{stroke: '#bbb'}}
         />}
     </svg>

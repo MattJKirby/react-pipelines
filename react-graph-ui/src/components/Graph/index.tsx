@@ -5,7 +5,6 @@ import NodeRenderer, { NodeTypeProps } from "../../Renderers/NodeRenderer"
 import { EdgeRenderer } from "../../Renderers/EdgeRenderer"
 import { IEdgeData } from "../Edge/IEdgeData"
 import { useEdgeStore } from "../../Stores/EdgeStore"
-import { useInteractionStore } from "../../Stores/InteractionStore"
 import { InteractionRenderer } from "../../Renderers/InteractionRenderer"
 import { calculateScaledMousePosition } from "./utils"
 import { useStore } from "../../Hooks/useStore"
@@ -22,6 +21,9 @@ interface GraphProps {
 const selector = (s: IGraphState) => ({
   graphNodes: s.nodes,
   transform: s.graphTransform,
+  handleInteraction: s.handleInteraction,
+  setHandleInteraction: s.newHandleInteraction,
+  resetHandleInteraction: s.resetHandleInteraction,
   setCustomNodeTypes: s.setCustomNodeTypes,
   addNode: s.addNode,
 });
@@ -36,8 +38,7 @@ export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
   const store = useStoreApi()
   const nodesRef = useRef(useStoreApi().getState().nodes)
   const edgesRef = useRef(useEdgeStore.getState().edgeDataList)
-  const {transform, setCustomNodeTypes, addNode} = useStore(selector)
-  const {edgeInteraction, setEdgeInteraction, resetEdgeInteraction} = useInteractionStore()
+  const {transform, handleInteraction, setHandleInteraction, resetHandleInteraction, setCustomNodeTypes, addNode} = useStore(selector)
   const addEdge = useEdgeStore((state) => state.addEdge)
   
   /**
@@ -86,8 +87,8 @@ export const Graph = ({children, nodes, nodeTypes, edges}: GraphProps) => {
   return (
     <div
       ref={flowRef}
-      onMouseUp={() => resetEdgeInteraction()}
-      onMouseMove={(e: React.MouseEvent) => edgeInteraction && flowRef.current && setEdgeInteraction({...edgeInteraction, mousePosition: calculateScaledMousePosition(e, flowRef.current, transform)})}
+      onMouseUp={() => resetHandleInteraction()}
+      onMouseMove={(e: React.MouseEvent) => handleInteraction && flowRef.current && setHandleInteraction(handleInteraction.sourceHandle, calculateScaledMousePosition(e, flowRef.current, transform))}
       style={{width: '100%', height: '100%', overflow: "hidden", position: "relative"}}
     >
       <ZoomContainer>

@@ -24,7 +24,7 @@ export interface IGraphStoreProps {
   handles: IHandle[];
 
   // Interaction Store
-  nodeDragInteraction: number | undefined;
+  nodeDragInteraction: INode | undefined;
   handleInteraction: IHandleInteraction | undefined
 }
 
@@ -45,13 +45,14 @@ export interface IGraphStoreActions {
 
   // Handle Store Actions
   addHandle: (handle: IHandle) => void;
-  updateHandlePosition: (handleId: string, position: IXYPosition) => void;
+  updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => void;
   getHandle: (nodeId: string, handleId: string) => IHandle | undefined;
 
   // Interaction Store Actions
-  setNodeDragInteraction: (nodeId: number) => void;
+  setNodeDragInteraction: (nodeId: string) => void;
   resetNodeDragInteraction: () => void;
-  setHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => void;
+  newHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => void;
+  setHandleInteraction: (interaction: IHandleInteraction) => void;
   resetHandleInteraction: () => void;
 }
 

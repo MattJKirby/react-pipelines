@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, MouseEvent } from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
-import { useInteractionStore } from "../../Stores/InteractionStore";
-import { useNodeIOStore } from "../../Stores/NodeIOStore";
-import { INodeData } from "../Node/INodeData";
+import { useStore } from "../../Hooks/useStore";
+// import { useInteractionStore } from "../../Stores/InteractionStore";
+import { HandleType, IGraphState, INode } from "../../Types";
 import { calculateHandleCenter } from "./utils";
 
 /**
@@ -11,49 +11,68 @@ import { calculateHandleCenter } from "./utils";
 interface HandleProps {
   children?: React.ReactNode;
   id: string;
+  name?: string;
   type?: string;
   edgeType?: string;
 }
+
+const selector = (s: IGraphState) => ({
+  handleInteraction: s.handleInteraction,
+  addHandle: s.addHandle,
+  getHandle: s.getHandle,
+  updateHandlePosition: s.updateHandlePosition,
+  setHandleInteraction: s.setHandleInteraction,
+  newHandleInteraction: s.newHandleInteraction,
+  resetHandleInteraction: s.resetHandleInteraction,
+});
 
 /**
  * Node handle component
  * @param param0 
  * @returns 
  */
-export const Handle = ({ children, type, id, edgeType }: HandleProps) => {
+export const Handle = ({ children, id, name, type, edgeType }: HandleProps) => {
   const handleRef = useRef<HTMLDivElement>(null)
-  const nodeData = useNodeContext() as INodeData
-  const isTarget = type === 'target'
-  const {registerNodeHandle, updateHandlePosition, getHandle}  = useNodeIOStore()
-  const {newEdgeInteraction, setEdgeInteraction, resetEdgeInteraction, edgeInteraction} = useInteractionStore()
+  const node = useNodeContext() as INode
+  const handleType = type === 'target' ? HandleType.TARGET : HandleType.SOURCE;
+  const handleName = name === undefined ? "handle" : name
+  const {handleInteraction, addHandle, getHandle, updateHandlePosition, setHandleInteraction,  newHandleInteraction, resetHandleInteraction}  = useStore(selector)
+
   
   useEffect(() => {
-    if(getHandle(nodeData.id, id) === undefined && handleRef.current !== null){
-      registerNodeHandle({nodeId: nodeData.id, id: id, isTarget: isTarget, position: calculateHandleCenter(nodeData.position, handleRef.current)})
+    if(getHandle(node.id, id) === undefined && handleRef.current !== null){
+      addHandle({nodeId: node.id, id: id, name: handleName, type: handleType, position: calculateHandleCenter(node.position, handleRef.current)})
     }
-  }, [getHandle, id, isTarget, nodeData, registerNodeHandle])
+  })
   
   useEffect(() => {
     if(handleRef.current !== null){
-      updateHandlePosition(nodeData.id, id, (calculateHandleCenter(nodeData.position, handleRef.current)))
+      updateHandlePosition(node.id, id, (calculateHandleCenter(node.position, handleRef.current)))
     }
-  }, [id, nodeData.id, nodeData.position, updateHandlePosition])
+  }, [id, node.id, node.position, updateHandlePosition])
 
   const handleMouseUp = (e: MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    if(edgeInteraction !== undefined){
-      if(edgeInteraction.sourceHandleIsTarget !== isTarget){
-        setEdgeInteraction({...edgeInteraction, targetNodeId: nodeData.id, targetHandleId: id})
+    if(handleInteraction !== undefined){
+      if(handleInteraction.sourceHandle.type !== type){
+        setHandleInteraction({...handleInteraction, targetHandle: getHandle(node.id, id)})
         return
       } 
-      resetEdgeInteraction()
+      resetHandleInteraction()
+    }
+  }
+
+  const handleMouseDown = () => {
+    const handle = getHandle(node.id, id);
+    if(handle !== undefined){
+      newHandleInteraction(handle, handle.position, edgeType)
     }
   }
 
   return (
       <div className={'flow-ui-noDrag flow-ui-noZoom'} 
-        onMouseDown={() => newEdgeInteraction(nodeData.id, id, isTarget, edgeType)}
+        onMouseDown={() => handleMouseDown()}
         onMouseUp={(e: MouseEvent) => handleMouseUp(e)}
         style={{display: "inline-flex"}}
       >
