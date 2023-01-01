@@ -34,9 +34,9 @@ export interface IGraphStoreActions {
 
   // Node Store Actions
   addNode: (node: INode) => void;
-  removeNode: (id: number) => void;
-  updateNodePosition: (id: number, position: IXYPosition) => void;
-  getNodeById: (id: number) => INode | undefined;
+  removeNode: (id: string) => void;
+  updateNodePosition: (id: string, position: IXYPosition) => void;
+  getNodeById: (id: string) => INode | undefined;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<NodeTypeProps> }) => void;
 
   // Edge Store Actions
@@ -46,7 +46,7 @@ export interface IGraphStoreActions {
   // Handle Store Actions
   addHandle: (handle: IHandle) => void;
   updateHandlePosition: (handleId: string, position: IXYPosition) => void;
-  getHandle: (handleId: string) => IHandle | undefined;
+  getHandle: (nodeId: string, handleId: string) => IHandle | undefined;
 
   // Interaction Store Actions
   setNodeDragInteraction: (nodeId: number) => void;

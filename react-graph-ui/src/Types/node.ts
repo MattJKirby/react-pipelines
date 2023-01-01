@@ -1,7 +1,7 @@
 import { IXYPosition } from "./generic";
 
 export interface INode {
-  id: number;
+  id: string;
   type: string;
   name: string;
   position: IXYPosition

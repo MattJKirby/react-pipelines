@@ -1,7 +1,6 @@
 import React, { ComponentType, useRef } from "react"
 import { useEffect } from "react"
 import ZoomContainer from "../../Containers/ZoomContainer"
-import { INodeData } from "../Node/INodeData"
 import NodeRenderer, { NodeTypeProps } from "../../Renderers/NodeRenderer"
 import { EdgeRenderer } from "../../Renderers/EdgeRenderer"
 import { IEdgeData } from "../Edge/IEdgeData"
@@ -10,12 +9,12 @@ import { useInteractionStore } from "../../Stores/InteractionStore"
 import { InteractionRenderer } from "../../Renderers/InteractionRenderer"
 import { calculateScaledMousePosition } from "./utils"
 import { useStore } from "../../Hooks/useStore"
-import { IGraphState } from "../../Types"
+import { IGraphState, INode } from "../../Types"
 import { useStoreApi } from "../../Hooks/useStoreApi"
 
 interface GraphProps {
   children: React.ReactNode;
-  nodes: INodeData[];
+  nodes: INode[];
   nodeTypes: { [key: string]: ComponentType<NodeTypeProps> };
   edges: IEdgeData[];
 }

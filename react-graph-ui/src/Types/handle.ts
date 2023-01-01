@@ -2,9 +2,9 @@ import { IXYPosition } from "./generic";
 
 export interface IHandle {
   id: string;
+  nodeId: string;
   name: string;
   type: HandleType;
-  nodeId: number;
   position: IXYPosition;
 }
 
