@@ -1,15 +1,14 @@
 import React from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
+import { INode } from "../../Types";
 import { Handle } from "../Handle";
-import { INodeData } from "./INodeData";
-
 
 const TestNode = () => {
-  const node = useNodeContext() as INodeData
+  const node = useNodeContext() as INode
 
   return (
     <div>
-      TestNode
+      {node.name} (Test)
       <Handle id="target" type="target" />
     </div>
   )

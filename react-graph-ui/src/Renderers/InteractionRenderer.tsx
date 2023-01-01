@@ -1,26 +1,16 @@
-import { useEffect, useState } from "react"
-import { IHandleData } from "../Components/Handle/IHandleData"
-import { useInteractionStore } from "../Stores/InteractionStore"
-import { useNodeIOStore } from "../Stores/NodeIOStore"
+import { useStore } from "../Hooks/useStore";
+import { IGraphState } from "../Types";
+
+const selector = (s: IGraphState) => ({
+  handleInteraction: s.handleInteraction,
+});
 
 /**
  * Interaction renderer used to render all user-graph interactions
  * @returns 
  */
 export const InteractionRenderer = () => {
-  const getHandle = useNodeIOStore((state) => state.getHandle)
-  const [edgeInteractionSourceHandle, setEdgeInteractionSourceHandle] = useState<IHandleData | undefined>(undefined)
-  const [edgeInteractionTargetPosition, setEdgeInteractionTargetPosition] = useState<undefined | {x: number, y: number} >(undefined)
-  const edgeInteraction = useInteractionStore((state) => state.edgeInteraction)
-
-  useEffect(() => {
-    if(edgeInteraction && edgeInteraction.mousePosition){
-      setEdgeInteractionSourceHandle(getHandle(edgeInteraction.sourceNodeId, edgeInteraction.sourceHandleId))
-      setEdgeInteractionTargetPosition(edgeInteraction.mousePosition)
-      return
-    }
-    setEdgeInteractionTargetPosition(undefined)
-  }, [edgeInteraction, getHandle])
+  const {handleInteraction} = useStore(selector)
 
   return (
     <svg 
@@ -29,9 +19,9 @@ export const InteractionRenderer = () => {
       overflow="visible" 
       style={{position: "absolute", pointerEvents: "none"}}
       >
-      {edgeInteractionTargetPosition && 
+      {handleInteraction && 
         <path 
-          d={`M${edgeInteractionSourceHandle?.position.x} ${edgeInteractionSourceHandle?.position.y} L ${edgeInteractionTargetPosition.x} ${edgeInteractionTargetPosition.y}`} 
+          d={`M${handleInteraction.sourceHandle.position.x} ${handleInteraction.sourceHandle.position.y} L${handleInteraction.mousePosition. x} ${handleInteraction.mousePosition.y}`} 
           style={{stroke: '#bbb'}}
         />}
     </svg>

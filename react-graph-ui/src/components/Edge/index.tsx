@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react"
 import EdgeDataContext from "../../Contexts/EdgeDataContext"
-import { IHandleData } from "../Handle/IHandleData"
-import { IEdgeData } from "./IEdgeData"
+import { IEdge, IHandle } from "../../Types"
+
 
 interface EdgeProps {
   children: React.ReactNode
-  edge: IEdgeData
-  source: IHandleData
-  target: IHandleData
+  edge: IEdge
+  source: IHandle
+  target: IHandle
 }
 
 export const Edge = ({children, edge, source, target}: EdgeProps) => {
-  const [edgeHandles, setEdgeHandles] = useState<{source: IHandleData, target: IHandleData}>({source, target})
+  const [edgeHandles, setEdgeHandles] = useState<{source: IHandle, target: IHandle}>({source, target})
 
   useEffect(() => {
     if(source && target){

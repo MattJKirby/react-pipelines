@@ -1,5 +1,5 @@
-import { ITransform } from "../../Stores/TransformStore"
-
+import { MouseEvent } from 'react'
+import { ITransform, IXYPosition } from "../../Types";
 
 /**
  * Method for calculating scaled mouse position relative to a given element
@@ -8,7 +8,7 @@ import { ITransform } from "../../Stores/TransformStore"
  * @param transform 
  * @returns 
  */
-export const calculateScaledMousePosition = (event: React.MouseEvent, element: HTMLDivElement, transform: ITransform) => {
+export const calculateScaledMousePosition = (event: MouseEvent, element: HTMLDivElement, transform: ITransform): IXYPosition => {
   const rect = element.getBoundingClientRect()
   return TransformPosition({x: event.clientX - rect.left, y: event.clientY - rect.top}, transform)
 }
@@ -19,7 +19,7 @@ export const calculateScaledMousePosition = (event: React.MouseEvent, element: H
  * @param transform 
  * @returns 
  */
-export const TransformPosition = (position: {x: number, y: number}, transform: ITransform) => {
+export const TransformPosition = (position: IXYPosition, transform: ITransform) => {
   const transformedX = (position.x - transform.translateX) / transform.scale;
   const transformedY = (position.y - transform.translateY) / transform.scale;
 

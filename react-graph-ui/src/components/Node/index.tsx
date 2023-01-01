@@ -1,31 +1,36 @@
 import DragContainer from "../../Containers/DragContainer"
 import React, { useEffect, useState } from "react"
-import { useNodeStore } from "../../Stores/NodeStore"
 import NodeDataContext from "../../Contexts/NodeDataContext"
-import { INodeData } from "./INodeData";
-import { useInteractionStore } from "../../Stores/InteractionStore";
+import { IGraphState, INode, IXYPosition } from "../../Types";
+import { useStore } from "../../Hooks/useStore";
 
 
 export interface NodeContainerProps {
   children: React.ReactNode;
-  node: INodeData;
+  node: INode;
 }
 
+const selector = (s: IGraphState) => ({
+  nodeDragInteraction: s.nodeDragInteraction,
+  updateNodePosition: s.updateNodePosition,
+  setNodeDragInteraction: s.setNodeDragInteraction,
+  resetNodeDragInteraction: s.resetNodeDragInteraction,
+});
+
 const Node = ({children, node}: NodeContainerProps) => {
-  const updateNodePosition = useNodeStore((state) => state.updateNodePosition)
-  const {setDragInteractionNode: setDragNode, resetDragNode} = useInteractionStore()
+  const {updateNodePosition, setNodeDragInteraction, resetNodeDragInteraction} = useStore(selector)
   const [isDragging, setIsDragging] = useState(false)
   const [position, setPosition] = useState(node.position)
   
-  const handlePositionUpdate = (position: {x: number, y: number}) => {
+  const handlePositionUpdate = (position: IXYPosition) => {
     if(position !== node?.position){
       setPosition(position)
       updateNodePosition(node.id,position)
     }
   }
 
-  useEffect(() => isDragging ? setDragNode(node.id) : resetDragNode()
-  ,[isDragging, node.id, resetDragNode, setDragNode])
+  useEffect(() => isDragging ? setNodeDragInteraction(node.id) : resetNodeDragInteraction()
+  ,[isDragging, node.id, resetNodeDragInteraction, setNodeDragInteraction])
   
   return (
     <NodeDataContext.Provider value={node}>

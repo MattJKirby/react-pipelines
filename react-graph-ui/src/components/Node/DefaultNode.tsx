@@ -1,10 +1,10 @@
 import React from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
+import { INode } from "../../Types";
 import { Handle } from "../Handle";
-import { INodeData } from "./INodeData";
 
 const DefaultNode = () => {
-  const node = useNodeContext() as INodeData
+  const node = useNodeContext() as INode
 
   return (
     <div>
