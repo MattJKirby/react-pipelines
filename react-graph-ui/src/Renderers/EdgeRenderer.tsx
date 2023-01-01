@@ -3,31 +3,30 @@ import { Edge } from "../Components/Edge"
 import DefaultEdge from "../Components/Edge/DefaultEdge"
 import { useStore } from "../Hooks/useStore"
 import { useEdgeStore } from "../Stores/EdgeStore"
-import { useInteractionStore } from "../Stores/InteractionStore"
-import { useNodeIOStore } from "../Stores/NodeIOStore"
-import { IGraphState } from "../Types"
+import { HandleType, IGraphState } from "../Types"
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface EdgeTypeProps {
 }
 
 const selector = (s: IGraphState) => ({
-  customEdgeTypes: s.customEdgeTypes
+  customEdgeTypes: s.customEdgeTypes,
+  handleInteraction: s.handleInteraction,
+  getHandle: s.getHandle,
+  resetHandleInteraction: s.resetHandleInteraction
 });
 
 
 export const EdgeRenderer = () => {
-  const {customEdgeTypes} = useStore(selector)
+  const {customEdgeTypes, handleInteraction, getHandle, resetHandleInteraction} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
   const {edgeDataList, getEdge, newEdge} = useEdgeStore()
-  const {edgeInteraction, resetEdgeInteraction} = useInteractionStore()
-  const {getHandle} = useNodeIOStore()
 
   useEffect(() => {
-    if(edgeInteraction !== undefined){
+    if(handleInteraction !== undefined){
 
       let completeInteraction = true
-      Object.values(edgeInteraction).forEach((value) => {
+      Object.values(handleInteraction).forEach((value) => {
         if(value === undefined){
           completeInteraction = false
           return
@@ -35,17 +34,17 @@ export const EdgeRenderer = () => {
       })
    
       if(completeInteraction){
-        const {sourceNodeId, sourceHandleId,targetNodeId, targetHandleId, sourceHandleIsTarget, edgeType} = edgeInteraction
-        const existingEdge = sourceHandleIsTarget ? getEdge(targetNodeId, targetHandleId, sourceNodeId, sourceHandleId) : getEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId)
+        const {sourceHandle, targetHandle, edgeType} = handleInteraction
+        const existingEdge = sourceHandle.type === HandleType.TARGET ? getEdge(targetNodeId, targetHandleId, sourceNodeId, sourceHandleId) : getEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId)
 
         if(existingEdge === undefined){
           newEdge(sourceNodeId, sourceHandleId, targetNodeId, targetHandleId, edgeType)
         }
-        resetEdgeInteraction()
+        resetHandleInteraction()
       }
       
     }
-  }, [edgeInteraction, edgeDataList, newEdge, resetEdgeInteraction, getEdge])
+  }, [])
 
 
   return (

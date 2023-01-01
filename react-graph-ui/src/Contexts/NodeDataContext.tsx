@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react';
-import { INodeData } from '../Components/Node/INodeData';
+import { INode } from '../Types';
 
-export const NodeDataContext = createContext<INodeData | undefined>(undefined);
+export const NodeDataContext = createContext<INode | undefined>(undefined);
 
-export const useNodeContext = (): INodeData | undefined => {
+export const useNodeContext = (): INode | undefined => {
   const nodeData = useContext(NodeDataContext);
   return nodeData;
 };
