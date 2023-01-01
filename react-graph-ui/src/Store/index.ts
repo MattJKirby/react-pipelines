@@ -37,7 +37,7 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
     // Edge Store Actions
     setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),
     addEdge: (edge: IEdge) => { set((state) => ({ edges: [...state.edges, edge] }))},
-    newEdge: (sourceNodeId: number, sourceNodeOutput: string, targetNodeId: number, targetNodeInput: string, type: string) => {
+    newEdge: (sourceNodeId: string, sourceNodeOutput: string, targetNodeId: string, targetNodeInput: string, type: string) => {
       set((state) => ({ edges: [...state.edges, {id:`edge-${sourceNodeId}-${targetNodeId}`, sourceNodeId, sourceNodeOutput, targetNodeId, targetNodeInput, type}]}))
     },
     getEdge: (edgeId: string) => { return get().edges.find(e => e.id === edgeId)},
@@ -47,7 +47,7 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
     updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => {
       set((state) => ({
         handles: state.handles.map(h => {
-          if (h.id === handleId) {
+          if (h.nodeId === nodeId && h.id === handleId) {
             return { ...h, position: position }
           }
           return h
