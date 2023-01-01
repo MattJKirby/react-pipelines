@@ -41,7 +41,9 @@ export interface IGraphStoreActions {
 
   // Edge Store Actions
   addEdge: (edge: IEdge) => void;
+  newEdge: (sourceNodeId: string, sourceNodeOutput: string, targetNodeId: string, targetNodeInput: string, type: string) => void;
   setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
+  getEdge: (edgeId: string) => void;
 
   // Handle Store Actions
   addHandle: (handle: IHandle) => void;
