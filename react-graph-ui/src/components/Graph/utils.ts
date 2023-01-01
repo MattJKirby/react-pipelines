@@ -1,4 +1,4 @@
-import { ITransform } from "../../Types";
+import { ITransform, IXYPosition } from "../../Types";
 
 /**
  * Method for calculating scaled mouse position relative to a given element
@@ -18,7 +18,7 @@ export const calculateScaledMousePosition = (event: React.MouseEvent, element: H
  * @param transform 
  * @returns 
  */
-export const TransformPosition = (position: {x: number, y: number}, transform: ITransform) => {
+export const TransformPosition = (position: IXYPosition, transform: ITransform) => {
   const transformedX = (position.x - transform.translateX) / transform.scale;
   const transformedY = (position.y - transform.translateY) / transform.scale;
 

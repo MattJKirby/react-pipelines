@@ -7,7 +7,7 @@ import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { NodeTypeProps } from "../Renderers/NodeRenderer";
 import { INode } from "../Types/node";
 import { IEdge } from "../Types/edge";
-import { IHandle } from "../Types/handle";
+import { IHandle, IHandleInteraction } from "../Types/handle";
 
 
 export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGraphState> => {
@@ -20,8 +20,8 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
 
     // Node Store Actions
     addNode: (node: INode) => { set((state) => ({ nodes: [...state.nodes, node] }))},
-    removeNode: (id: number) => { set((state) => ({ nodes: state.nodes.filter((node) => node.id !== id)}))},
-    updateNodePosition: (id: number, position: IXYPosition) => {
+    removeNode: (id: string) => { set((state) => ({ nodes: state.nodes.filter((node) => node.id !== id)}))},
+    updateNodePosition: (id: string, position: IXYPosition) => {
       set((state) => ({
         nodes: state.nodes.map(node => {
           if (node.id === id) {
@@ -31,7 +31,7 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
         })
       }))
     },
-    getNodeById: (id: number)=> get().nodes.find(n => n.id === id),
+    getNodeById: (id: string)=> get().nodes.find(n => n.id === id),
     setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<NodeTypeProps> }) => set({customNodeTypes}),
 
     // Edge Store Actions
@@ -44,7 +44,7 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
 
     // Handle Store Actions
     addHandle: (handle: IHandle) => {set((state) => ({ handles: [...state.handles, handle] }))},
-    updateHandlePosition: (handleId: string, position: IXYPosition) => {
+    updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => {
       set((state) => ({
         handles: state.handles.map(h => {
           if (h.id === handleId) {
@@ -54,11 +54,12 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
         })
       }))
     },
-    getHandle: (handleId: string) => get().handles.find(h => h.id === handleId),
+    getHandle: (nodeId: string, handleId: string) => get().handles.find(h => h.nodeId  === nodeId && h.id === handleId),
     
     // Interaction Store Actions
-    setNodeDragInteraction: (nodeId: number) => set({nodeDragInteraction: nodeId}),
+    setNodeDragInteraction: (nodeId: string) => set((state) => ({nodeDragInteraction: state.nodes.find(n => n.id === nodeId)})),
     resetNodeDragInteraction: () => set({nodeDragInteraction: undefined}),
-    setHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => set({handleInteraction: {sourceHandle: handle, mousePosition: mousePosition, edgeType: edgeType === undefined ? "default" : edgeType, targetHandle: undefined}}),
+    newHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => set({handleInteraction: {sourceHandle: handle, mousePosition: mousePosition, edgeType: edgeType === undefined ? "default" : edgeType, targetHandle: undefined}}),
+    setHandleInteraction: (interaction: IHandleInteraction) => set({handleInteraction: interaction}),
     resetHandleInteraction: () => set({handleInteraction: undefined}),
   }))}
