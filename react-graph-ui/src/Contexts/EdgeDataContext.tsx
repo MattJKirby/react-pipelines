@@ -1,10 +1,9 @@
 import { createContext, useContext } from 'react';
-import { IEdgeData } from '../Components/Edge/IEdgeData';
-import { IHandleData } from '../Components/Handle/IHandleData';
+import { IEdge, IHandle } from '../Types';
 
-export const EdgeDataContext = createContext<{edge: IEdgeData, source: IHandleData, target: IHandleData} | undefined>(undefined);
+export const EdgeDataContext = createContext<{edge: IEdge, source: IHandle, target: IHandle} | undefined>(undefined);
 
-export const useEdgeContext = (): {edge: IEdgeData, source: IHandleData, target: IHandleData} | undefined => {
+export const useEdgeContext = (): {edge: IEdge, source: IHandle, target: IHandle} | undefined => {
   return useContext(EdgeDataContext);
 };
 

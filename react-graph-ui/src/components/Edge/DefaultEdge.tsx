@@ -1,10 +1,10 @@
 import React from "react"
 import { useEdgeContext } from "../../Contexts/EdgeDataContext";
-import { IHandleData } from "../Handle/IHandleData";
+import { IHandle } from "../../Types";
 import { CalculateStraightPath } from "./utils";
 
 const DefaultEdge = () => {
-  const edge = useEdgeContext() as {source: IHandleData, target: IHandleData}
+  const edge = useEdgeContext() as {source: IHandle, target: IHandle}
 
   return (
     <>
