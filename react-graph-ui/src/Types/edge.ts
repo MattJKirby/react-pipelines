@@ -1,8 +1,8 @@
 export interface IEdge {
   id: string;
-  sourceNodeId: number;
+  sourceNodeId: string;
   sourceNodeOutput: string;
-  targetNodeId: number;
+  targetNodeId: string;
   targetNodeInput: string;
   type: string;
 }

@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react'
 import { ITransform, IXYPosition } from "../../Types";
 
 /**
@@ -7,7 +8,7 @@ import { ITransform, IXYPosition } from "../../Types";
  * @param transform 
  * @returns 
  */
-export const calculateScaledMousePosition = (event: React.MouseEvent, element: HTMLDivElement, transform: ITransform) => {
+export const calculateScaledMousePosition = (event: MouseEvent, element: HTMLDivElement, transform: ITransform): IXYPosition => {
   const rect = element.getBoundingClientRect()
   return TransformPosition({x: event.clientX - rect.left, y: event.clientY - rect.top}, transform)
 }
