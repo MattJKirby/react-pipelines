@@ -1,4 +1,4 @@
-# React Graph UI
+# React Pipeline UI
 
 ## Summary
 
