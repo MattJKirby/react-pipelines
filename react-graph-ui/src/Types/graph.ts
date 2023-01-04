@@ -7,10 +7,11 @@ import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode } from "./node";
 
-export interface IGraphStoreProps {
+export interface IGraphStore {
   // Graph Store
   graphId: string;
   graphTransform: ITransform;
+  enableDraggableNodes: boolean;
 
   // Node Store
   nodes: INode[];
@@ -34,6 +35,7 @@ export interface IGraphStoreActions {
 
   // Node Store Actions
   addNode: (node: INode) => void;
+  setNodes: (nodes: INode[]) => void;
   removeNode: (id: string) => void;
   updateNodePosition: (id: string, position: IXYPosition) => void;
   getNodeById: (id: string) => INode | undefined;
@@ -41,6 +43,7 @@ export interface IGraphStoreActions {
 
   // Edge Store Actions
   addEdge: (edge: IEdge) => void;
+  setEdges: (edges: IEdge[]) => void;
   newEdge: (sourceNodeId: string, sourceNodeOutput: string, targetNodeId: string, targetNodeInput: string, type: string) => void;
   setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
   getEdge: (edgeId: string) => void;
@@ -58,8 +61,15 @@ export interface IGraphStoreActions {
   resetHandleInteraction: () => void;
 }
 
-export interface IGraphState extends IGraphStoreProps, IGraphStoreActions {}
+export interface IGraphState extends IGraphStore, IGraphStoreActions {}
 
-export type IInitialGraphProps = Subset<IGraphStoreProps, {
+export type IInitialGraphProps = Subset<IGraphStore, {
   graphId: string;
 }>
+
+export interface IGraphProps {
+  nodes?: INode[];
+  nodeTypes?: { [key: string]: ComponentType<NodeTypeProps> };
+  edges?: IEdge[];
+  enableDraggableNodes?: boolean;
+}

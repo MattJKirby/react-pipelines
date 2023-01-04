@@ -20,6 +20,7 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
 
     // Node Store Actions
     addNode: (node: INode) => { set((state) => ({ nodes: [...state.nodes, node] }))},
+    setNodes: (nodes: INode[]) => set({ nodes: nodes }),
     removeNode: (id: string) => { set((state) => ({ nodes: state.nodes.filter((node) => node.id !== id)}))},
     updateNodePosition: (id: string, position: IXYPosition) => {
       set((state) => ({
@@ -37,6 +38,7 @@ export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGr
     // Edge Store Actions
     setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),
     addEdge: (edge: IEdge) => { set((state) => ({ edges: [...state.edges, edge] }))},
+    setEdges: (edges: IEdge[]) => set({edges: edges}),
     newEdge: (sourceNodeId: string, sourceNodeOutput: string, targetNodeId: string, targetNodeInput: string, type: string) => {
       set((state) => ({ edges: [...state.edges, {id:`edge-${sourceNodeId}-${targetNodeId}`, sourceNodeId, sourceNodeOutput, targetNodeId, targetNodeInput, type}]}))
     },
