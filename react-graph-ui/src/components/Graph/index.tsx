@@ -14,10 +14,7 @@ const selector = (s: IGraphState) => ({
   transform: s.graphTransform,
   handleInteraction: s.handleInteraction,
   setHandleInteraction: s.setHandleInteraction,
-  resetHandleInteraction: s.resetHandleInteraction,
-  setCustomNodeTypes: s.setCustomNodeTypes,
-  addNode: s.addNode,
-  addEdge: s.addEdge,
+  resetHandleInteraction: s.resetHandleInteraction
 });
 
 /**
@@ -25,7 +22,8 @@ const selector = (s: IGraphState) => ({
  * @param param0 
  * @returns 
  */
-export const Graph: FC<PropsWithChildren<IGraphProps>> = ({children,
+export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
+  children,
   nodes,
   edges,
   nodeTypes,

@@ -33,7 +33,6 @@ const selector = (s: IGraphState) => ({
   setEdges: s.setEdges,
 });
 
-
 /**
  * StoreUpdaterComponent used to update the store when the graph prop values change.
  */
