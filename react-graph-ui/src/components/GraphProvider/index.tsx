@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { StoreApi } from "zustand";
 import GraphStoreContext from "../../Contexts/GraphStoreContext";
-import useGraphInstance from "../../Hooks/useGraphInstance";
 import { createGraphStore } from "../../Store";
 import { IGraphState } from "../../Types";
 
@@ -15,10 +14,9 @@ type GraphProviderProps = React.PropsWithChildren
  */
 const GraphProvider = ({ children }: GraphProviderProps) => {
   const storeRef = useRef<StoreApi<IGraphState> | null>(null);
-  const graphInstance = useGraphInstance();
 
   if (!storeRef.current) {
-    storeRef.current = createGraphStore({graphId: `${graphInstance}`});
+    storeRef.current = createGraphStore();
   }
 
   return (
