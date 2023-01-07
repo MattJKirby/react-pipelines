@@ -10,7 +10,7 @@ import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 
 
-export const createGraphStore = (initialProps: IInitialGraphProps): StoreApi<IGraphState> => {
+export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IGraphState> => {
   return createStore<IGraphState>((set,get) => ({
     ...initialGraphState,
     ...initialProps,
