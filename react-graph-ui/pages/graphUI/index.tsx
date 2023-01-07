@@ -41,11 +41,9 @@ const GraphUI = () => {
 
      <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
       <button onClick={newNode}>Add Node</button> 
-      <GraphProvider>
         <Graph nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
           <GraphCanvas gap={40} size={1} />
         </Graph>
-      </GraphProvider>
     </div> 
 
   </div>
