@@ -45,7 +45,7 @@ const StoreUpdater = (props: IGraphProps) => {
 
   useDedicatedStoreUpdater<INode[]>(props.nodes, store.setNodes);
   useDedicatedStoreUpdater<IEdge[]>(props.edges, store.setEdges);
-  useDedicatedStoreUpdater<{[key: string]: ComponentType<NodeTypeProps>}>(props.nodeTypes, store.setCustomNodeTypes)
+  useDedicatedStoreUpdater<{[key: string]: ComponentType<NodeTypeProps>}>(props.nodeTypes, store.setCustomNodeTypes);
 
   return null;
 }
