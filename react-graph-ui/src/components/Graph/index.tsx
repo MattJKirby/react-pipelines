@@ -11,23 +11,26 @@ import GraphView from "./graphView"
  */
 export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
   children,
+  id,
   nodes,
   edges,
   nodeTypes,
   enableDraggableNodes,
 }) => {
+  const graphId = id || '1';
 
   return (
     <GraphWrapper>
-      <GraphView>
-        <StoreUpdater
+      <StoreUpdater
+          id={graphId}
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
           enableDraggableNodes={enableDraggableNodes}
-        />
+      />
+      <GraphView>
         {children}
-        </GraphView>
+      </GraphView>
     </GraphWrapper>
   )
 }

@@ -68,6 +68,7 @@ export type IInitialGraphProps = Subset<IGraphStore, {
 }>
 
 export interface IGraphProps {
+  id?: string;
   nodes?: INode[];
   nodeTypes?: { [key: string]: ComponentType<NodeTypeProps> };
   edges?: IEdge[];

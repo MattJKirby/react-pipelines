@@ -4,6 +4,7 @@ import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
 import TestNode from "../../src/Components/Node/TestNode"
 
+
 const initialNodeList = [
   {id: '0', type: 'default', name: 'node0', position: {x: 50, y: 50}}, 
   {id: '1', type: 'TestNode', name: 'Node1', position: {x: 100, y: 50}},
@@ -41,10 +42,10 @@ const GraphUI = () => {
 
      <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
       <button onClick={newNode}>Add Node</button> 
-        <Graph nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
+        <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
           <GraphCanvas gap={40} size={1} />
         </Graph>
-    </div> 
+      </div>
 
   </div>
     
