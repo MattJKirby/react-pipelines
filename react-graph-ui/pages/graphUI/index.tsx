@@ -42,7 +42,7 @@ const GraphUI = () => {
 
      <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
       <button onClick={newNode}>Add Node</button> 
-        <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
+        <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges} enableDraggableNodes={false}>
           <GraphCanvas gap={40} size={1} />
         </Graph>
       </div>

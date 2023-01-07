@@ -12,25 +12,30 @@ export interface NodeContainerProps {
 
 const selector = (s: IGraphState) => ({
   nodeDragInteraction: s.nodeDragInteraction,
+  enableDraggableNodes: s.enableDraggableNodes,
   updateNodePosition: s.updateNodePosition,
   setNodeDragInteraction: s.setNodeDragInteraction,
   resetNodeDragInteraction: s.resetNodeDragInteraction,
 });
 
 const Node = ({children, node}: NodeContainerProps) => {
-  const {updateNodePosition, setNodeDragInteraction, resetNodeDragInteraction} = useStore(selector)
+  const state = useStore(selector)
   const [isDragging, setIsDragging] = useState(false)
   const [position, setPosition] = useState(node.position)
   
   const handlePositionUpdate = (position: IXYPosition) => {
-    if(position !== node?.position){
+    if(state.enableDraggableNodes && position !== node?.position){
       setPosition(position)
-      updateNodePosition(node.id,position)
+      state.updateNodePosition(node.id,position)
     }
   }
 
-  useEffect(() => isDragging ? setNodeDragInteraction(node.id) : resetNodeDragInteraction()
-  ,[isDragging, node.id, resetNodeDragInteraction, setNodeDragInteraction])
+  useEffect(() => {
+   if(state.nodeDragInteraction !== undefined){
+    isDragging ? state.setNodeDragInteraction(node.id) : state.resetNodeDragInteraction();
+   }
+  }
+  ,[isDragging, node.id, state])
   
   return (
     <NodeDataContext.Provider value={node}>
