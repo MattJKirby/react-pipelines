@@ -40,7 +40,7 @@ const StoreUpdater = (props: IGraphProps) => {
   const storeApi = useStoreApi();
   const store = useStore(selector);
 
-
+  useDirectStoreUpdater<string>('graphId', props.id, storeApi.setState);
   useDirectStoreUpdater<boolean>('enableDraggableNodes', props.enableDraggableNodes, storeApi.setState);
 
   useDedicatedStoreUpdater<INode[]>(props.nodes, store.setNodes);
