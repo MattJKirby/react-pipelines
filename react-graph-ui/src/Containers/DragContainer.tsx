@@ -22,7 +22,6 @@ export const DragContainer = ({children, initPosition, onPositionUpdate, onDrag}
   useEffect(() => {
     const drag = d3.drag().on('drag', (event) => {setPosition({x: position.x + event.x / transform.scale, y: position.y + event.y / transform.scale})
     }).subject(() => {
-      onDrag(true);
       const selection = select(flowDraggable.current as Element)
       return {x: selection.attr('x'), y: selection.attr('y')}
     }).filter((e) => dragFilter(e)).on('end', () => onDrag(false))
