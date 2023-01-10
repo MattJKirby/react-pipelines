@@ -4,8 +4,7 @@ import { IGraphState, IInitialGraphProps, ITransform, IXYPosition } from "../Typ
 import { initialGraphState } from "./initialState";
 import { ComponentType } from "react";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeTypeProps } from "../Renderers/NodeRenderer";
-import { INode } from "../Types/node";
+import { INode, INodeProps } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 
@@ -33,7 +32,7 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       }))
     },
     getNodeById: (id: string)=> get().nodes.find(n => n.id === id),
-    setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<NodeTypeProps> }) => set({customNodeTypes}),
+    setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<INodeProps> }) => set({customNodeTypes}),
 
     // Edge Store Actions
     setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),

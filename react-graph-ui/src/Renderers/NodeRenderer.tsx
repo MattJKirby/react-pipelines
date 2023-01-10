@@ -2,13 +2,9 @@ import React from "react"
 import { ComponentType } from "react"
 import Node from "../Components/Node"
 import DefaultNode from "../Components/Node/DefaultNode"
-import { IGraphState } from "../Types"
+import { IGraphState, INodeProps } from "../Types"
 import { useStore } from "../Hooks/useStore"
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface NodeTypeProps {
-
-}
 
 const selector = (s: IGraphState) => ({
   nodes: s.nodes,
@@ -17,16 +13,16 @@ const selector = (s: IGraphState) => ({
 
 export const NodeRenderer = () => {
   const {customNodeTypes, nodes} = useStore(selector)
-  const nodeTypes: { [key: string]: ComponentType<NodeTypeProps> } = {...{default: DefaultNode}, ...customNodeTypes}
+  const nodeTypes: { [key: string]: ComponentType<INodeProps> } = {...{default: DefaultNode}, ...customNodeTypes}
 
   return (
     <div style={{position: 'relative', display: 'flex'}}>
         {nodes.map(node => {
-          const NodeType = nodeTypes[node.type] as ComponentType<NodeTypeProps> || nodeTypes['default']
+          const NodeType = nodeTypes[node.type] as ComponentType<INodeProps> || nodeTypes['default']
           
           return (
             <Node key={node.id} node={node}>
-                <NodeType />
+                <NodeType data={node.data} />
             </Node>
           )
         })}

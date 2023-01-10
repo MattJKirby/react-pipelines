@@ -2,8 +2,7 @@ import { ComponentType, useEffect } from "react";
 import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
 import { useStoreApi } from "../../Hooks/useStoreApi";
-import { NodeTypeProps } from "../../Renderers/NodeRenderer";
-import { IEdge, IGraphProps, IGraphState, IGraphStore, INode } from "../../Types";
+import { IEdge, IGraphProps, IGraphState, IGraphStore, INode, INodeProps } from "../../Types";
 
 /**
  * StoreUpdater hook for graph store keys that don't have a dedicated setter.
@@ -45,7 +44,7 @@ const StoreUpdater = (props: IGraphProps) => {
 
   useDedicatedStoreUpdater<INode[]>(props.nodes, store.setNodes);
   useDedicatedStoreUpdater<IEdge[]>(props.edges, store.setEdges);
-  useDedicatedStoreUpdater<{[key: string]: ComponentType<NodeTypeProps>}>(props.nodeTypes, store.setCustomNodeTypes);
+  useDedicatedStoreUpdater<{[key: string]: ComponentType<INodeProps>}>(props.nodeTypes, store.setCustomNodeTypes);
 
   return null;
 }

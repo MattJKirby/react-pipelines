@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IXYPosition } from "./generic";
 
-export interface INode {
+export interface INode<T = any> {
   id: string;
   type: string;
-  name: string;
-  position: IXYPosition
+  position: IXYPosition;
+  data: T;
+}
+
+export interface INodeProps<T = any> {
+  data: T;
 }

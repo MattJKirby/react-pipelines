@@ -1,11 +1,10 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeTypeProps } from "../Renderers/NodeRenderer";
 import { IEdge } from "./edge";
 import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
-import { INode } from "./node";
+import { INode, INodeProps } from "./node";
 
 export interface IGraphStore {
   // Graph Store
@@ -15,7 +14,7 @@ export interface IGraphStore {
 
   // Node Store
   nodes: INode[];
-  customNodeTypes: { [key: string]: ComponentType<NodeTypeProps> };
+  customNodeTypes: { [key: string]: ComponentType<INodeProps> };
 
   // Edge Store
   edges: IEdge[];
@@ -39,7 +38,7 @@ export interface IGraphStoreActions {
   removeNode: (id: string) => void;
   updateNodePosition: (id: string, position: IXYPosition) => void;
   getNodeById: (id: string) => INode | undefined;
-  setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<NodeTypeProps> }) => void;
+  setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
 
   // Edge Store Actions
   addEdge: (edge: IEdge) => void;
@@ -70,7 +69,7 @@ export type IInitialGraphProps = Subset<IGraphStore, {
 export interface IGraphProps {
   id?: string;
   nodes?: INode[];
-  nodeTypes?: { [key: string]: ComponentType<NodeTypeProps> };
+  nodeTypes?: { [key: string]: ComponentType<INodeProps> };
   edges?: IEdge[];
   enableDraggableNodes?: boolean;
 }
