@@ -6,9 +6,9 @@ import TestNode from "../../src/Components/Node/TestNode"
 
 
 const initialNodeList = [
-  {id: '0', type: 'default', name: 'node0', position: {x: 50, y: 50}}, 
-  {id: '1', type: 'TestNode', name: 'Node1', position: {x: 100, y: 50}},
-  {id: '2', type: 'default', name: 'node2', position: {x: 50, y: 100}}, 
+  {id: '0', type: 'default', position: {x: 50, y: 50}, data: {label: "node1"}}, 
+  {id: '1', type: 'TestNode', position: {x: 100, y: 50}, data: {test: "node3"}},
+  {id: '2', type: 'default', position: {x: 50, y: 100}, data: {label: "node2"}}, 
 ]
 
   const initialEdgeList = [
@@ -25,14 +25,8 @@ const GraphUI = () => {
   const [edges, setEdges] = useState(initialEdgeList)
   const nodeTypes = useMemo(() => ({ TestNode: TestNode }), []);
 
-  const newNode = () => {
-    const newNode = { id: `${nodes.length}`, type: 'default', name: 'asdf', position: {x: 300, y: 40}}
-    setNodes([...nodes, newNode])
-  }
-
   return ( <div>
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
-      <button onClick={newNode}>Add Node</button> 
       <GraphProvider>
         <Graph nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
           <GraphCanvas gap={40} size={1} />
@@ -41,7 +35,6 @@ const GraphUI = () => {
     </div>
 
      <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
-      <button onClick={newNode}>Add Node</button> 
         <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges} enableDraggableNodes={false}>
           <GraphCanvas gap={40} size={1} />
         </Graph>
