@@ -1,19 +1,18 @@
-import React from "react"
-import { useNodeContext } from "../../Contexts/NodeDataContext";
-import { INode } from "../../Types";
+import React, { memo } from "react"
+import { INodeProps } from "../../Types";
+
 import { Handle } from "../Handle";
 
-const DefaultNode = () => {
-  const node = useNodeContext() as INode
+const DefaultNode = ({data}: INodeProps) => {
 
   return (
-    <div>
-      {node.name}
+    <>
+      {data?.label}
       <Handle id="source"/>
-    </div>
+    </>
   )
 }
 
 DefaultNode.displayName = 'DefaultNode';
 
-export default DefaultNode
+export default memo(DefaultNode)
