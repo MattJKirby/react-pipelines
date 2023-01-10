@@ -1,5 +1,5 @@
 import DragContainer from "../../Containers/DragContainer"
-import React, { useEffect, useState } from "react"
+import React, { memo, useEffect, useState } from "react"
 import NodeDataContext from "../../Contexts/NodeDataContext"
 import { IGraphState, INode, IXYPosition } from "../../Types";
 import { useStore } from "../../Hooks/useStore";
@@ -48,4 +48,4 @@ const Node = ({children, node}: NodeContainerProps) => {
   )
 }
 
-export default Node
+export default memo(Node)
