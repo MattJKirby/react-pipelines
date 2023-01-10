@@ -11,7 +11,6 @@ export const useStore = <StateSlice = ExtractState>(
   equalityFn?: (a: StateSlice, b: StateSlice) => boolean
 ): StateSlice => {
   const store = useContext(GraphStoreContext)
-  
 
   if(store === null){
     throw new Error("Missing GraphContext.Provider in tree")
