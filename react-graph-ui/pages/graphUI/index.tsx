@@ -8,7 +8,7 @@ import TestNode from "../../src/Components/Node/TestNode"
 const initialNodeList = [
   {id: '0', type: 'default', position: {x: 50, y: 50}, data: {label: "node1"}}, 
   {id: '1', type: 'TestNode', position: {x: 100, y: 50}, data: {test: "node3"}},
-  {id: '2', type: 'default', position: {x: 50, y: 100}, data: {label: "node2"}}, 
+  {id: '2', type: 'default', position: {x: 50, y: 100}, data: {label: "asdf"}}
 ]
 
   const initialEdgeList = [
@@ -25,8 +25,13 @@ const GraphUI = () => {
   const [edges, setEdges] = useState(initialEdgeList)
   const nodeTypes = useMemo(() => ({ TestNode: TestNode }), []);
 
+  const addNode = () => {
+    setNodes([...nodes, {id: `${nodes.length}`, type: 'TestNode', position: {x: 300, y: 200}, data: {test: "asdf"}}])
+  }
+
   return ( <div>
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
+      <button onClick={addNode}>Add Node</button>
       <GraphProvider>
         <Graph nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
           <GraphCanvas gap={40} size={1} />
