@@ -74,10 +74,9 @@ export const Handle = ({ children, id, name, type, edgeType }: HandleProps) => {
       <div className={'flow-ui-noDrag flow-ui-noZoom'} 
         onMouseDown={() => handleMouseDown()}
         onMouseUp={(e: MouseEvent) => handleMouseUp(e)}
-        style={{display: "inline-flex"}}
       >
       {children}
-      {children === undefined && <div ref={handleRef} style={{height: "10px", width: "10px", borderRadius: "50%", display: "inline-block", backgroundColor: "#bbb"}}></div>}
+      {children === undefined && <div ref={handleRef} style={{height: "10px", width: "10px", borderRadius: "50%", backgroundColor: "#bbb"}}></div>}
     </div>
   )
 }
