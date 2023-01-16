@@ -39,7 +39,7 @@ const GraphCanvas = ({
     if(style === 'dots'){
       return createGridDotsPath(size * transform.scale, color ? color : '#ccc');
     } else {
-      return createGridLinesPath(scaledGap, color ? color : '#ccc')
+      return createGridLinesPath(scaledGap, color ? color : '#ccc', transform.scale)
     }
   }
 

@@ -15,6 +15,6 @@ export const createGridDotsPath = (size: number, fill: string): React.ReactEleme
  * @param stroke 
  * @returns 
  */
-export const createGridLinesPath = (size: number, stroke: string): React.ReactElement => {
-  return <path d={`M ${size} 0 L 0 0 0 ${size}`} fill="none" stroke={stroke} strokeWidth="1"/>
+export const createGridLinesPath = (size: number, stroke: string, scale: number): React.ReactElement => {
+  return <path d={`M ${size} 0 L 0 0 0 ${size}`} fill="none" stroke={stroke} strokeWidth="1" opacity={scale}/>
 }
