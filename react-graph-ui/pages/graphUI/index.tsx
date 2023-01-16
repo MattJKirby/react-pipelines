@@ -3,11 +3,12 @@ import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
 import TestNode from "../../src/Components/Node/TestNode"
+import { useNodesStore } from "../../src/Hooks/useStoreItemState"
 
 
 const initialNodeList = [
   {id: '0', type: 'default', position: {x: 50, y: 50}, data: {label: "node1"}}, 
-  {id: '1', type: 'TestNode', position: {x: 100, y: 50}, data: {test: "node3"}},
+  {id: '1', type: 'TestNode', position: {x: 100, y: 50}, data: {label: "asdf", test: "node3"}},
   {id: '2', type: 'default', position: {x: 50, y: 100}, data: {label: "asdf"}}
 ]
 
@@ -21,9 +22,11 @@ const initialNodeList = [
  * @returns 
  */
 const GraphUI = () => {
-  const [nodes, setNodes] = useState(initialNodeList)
+  // const [nodes, setNodes] = useState(initialNodeList)
   const [edges, setEdges] = useState(initialEdgeList)
   const nodeTypes = useMemo(() => ({ TestNode: TestNode }), []);
+
+  const [nodes, setNodes] = useNodesStore(initialNodeList)
 
   const addNode = () => {
     setNodes([...nodes, {id: `${nodes.length}`, type: 'TestNode', position: {x: 300, y: 200}, data: {test: "asdf"}}])
@@ -41,7 +44,7 @@ const GraphUI = () => {
 
      <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
         <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges} enableDraggableNodes={false}>
-          <GraphCanvas gap={40} size={1} />
+          <GraphCanvas gap={40} size={1} style='grid'/>
         </Graph>
       </div>
 
