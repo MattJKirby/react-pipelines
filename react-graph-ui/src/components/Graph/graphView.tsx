@@ -33,9 +33,9 @@ const GraphView: FC<PropsWithChildren> = ({children}) => {
       style={{width: "100%", height: "100%", overflow: "hidden", position: "relative"}}
       >
         <ZoomContainer>
-          <NodeRenderer />
-          <EdgeRenderer />
           <InteractionRenderer />
+          <EdgeRenderer />
+          <NodeRenderer />    
         </ZoomContainer>
         {children}
     </div>
