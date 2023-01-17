@@ -8,10 +8,15 @@ export interface IHandle {
   position: IXYPosition;
 }
 
-export enum HandleType {
-  SOURCE = "source",
-  TARGET = "target"
+export interface HandleProps {
+  children?: React.ReactNode;
+  id: string;
+  name?: string;
+  type?: HandleType;
+  edgeType?: string;
 }
+
+type HandleType = 'source' | 'target';
 
 export interface IHandleInteraction {
   sourceHandle: IHandle;
