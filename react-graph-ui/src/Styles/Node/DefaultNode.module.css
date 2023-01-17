@@ -1,0 +1,24 @@
+.RP_DefaultNode__Container {
+  background-color: #fff;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border-color: rgba(148,163,184,.2);
+  border-style: solid;
+  border-width: 1px;
+  min-width: 200px;
+  border-radius: 8px;
+  overflow: none;
+}
+
+.RP_DefaultNode__Content {
+  display: flex;
+  align-items: center;
+}
+
+.RP_DefaultNode__LabelHeader {
+  padding: 8px;
+  font-size: small;
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid rgba(148,163,184,.2);
+  z-index: -1;
+}
