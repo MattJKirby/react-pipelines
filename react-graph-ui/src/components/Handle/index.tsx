@@ -24,18 +24,17 @@ export const Handle = ({
   children, 
   id, 
   name, 
-  type,
+  type = 'source',
   edgeType }: HandleProps) => {
     const handleRef = useRef<HTMLDivElement>(null)
     const node = useNodeContext() as INode
-    const handleType = type === 'target' ? type : 'source';
     const handleName = name === undefined ? "handle" : name
     const {handleInteraction, addHandle, getHandle, updateHandlePosition, setHandleInteraction,  newHandleInteraction, resetHandleInteraction}  = useStore(selector)
 
     
     useEffect(() => {
       if(getHandle(node.id, id) === undefined && handleRef.current !== null){
-        addHandle({nodeId: node.id, id: id, name: handleName, type: handleType, position: calculateHandleCenter(node.position, handleRef.current)})
+        addHandle({nodeId: node.id, id: id, name: handleName, type: type, position: calculateHandleCenter(node.position, handleRef.current)})
       }
     })
     
@@ -58,7 +57,6 @@ export const Handle = ({
     }
 
     const handleMouseDown = () => {
-      console.log("MOUSEDOWN")
       const handle = getHandle(node.id, id);
       if(handle !== undefined){
         newHandleInteraction(handle, handle.position, edgeType)
@@ -66,18 +64,15 @@ export const Handle = ({
     }
 
     return (
-        <div className={'flow-ui-noDrag flow-ui-noZoom'} 
+        <div className={`flow-ui-noDrag flow-ui-noZoom ${styles.RP_DefaultHandle__Wrapper} ${type === 'source' ? styles.RP_Handle_Source : null}`} 
           onMouseDown={() => handleMouseDown()}
           onMouseUp={(e: MouseEvent) => handleMouseUp(e)}
-          style={{width: '100%'}}
         >
         {children}
         {children === undefined && 
-        <div className={`${styles.RP_DefaultHandle__Wrapper} ${handleType === 'source' ? styles.RP_Handle_Source : styles.RP_Handle_Target}`}>
-          <div 
-            ref={handleRef} 
-            className={styles.RP_DefaultHandle__Container}>
-          </div>
+        <div
+          ref={handleRef} 
+          className={styles.RP_DefaultHandle__Container}>
         </div>}
       </div>
     )
