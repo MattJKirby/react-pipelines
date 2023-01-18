@@ -13,7 +13,10 @@ const DefaultNode = ({data}: INodeProps) => {
         </div>
 
         <div className={`${styles.RP_DefaultNode__Content}`}>
-          <Handle id="source"/>
+          <p className={`${styles.RP_DefaultNode__OutputName}`}>Output 1</p>
+          <div className={`${styles.RP_DefaultNode__Output}`}>
+            <Handle id="source"/>
+          </div>
         </div>
       </div>
     </>
