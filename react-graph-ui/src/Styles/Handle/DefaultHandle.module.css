@@ -1,22 +1,19 @@
 .RP_DefaultHandle__Wrapper {
-  width: '100%';
+  width: 100%;
   display: flex;
+  justify-content: start;
 }
 
 .RP_DefaultHandle__Container {
-  width: 20px;
-  height: 20px;
+  position: relative;
+  left: 8px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background-color: rgb(166,184,190);
-  border: 4px solid #fff;
-}
-
-.RP_Handle_Target {
-  justify-content: start;
-  right: 50px;
+  border: 2px solid #fff;
 }
 
 .RP_Handle_Source {
   justify-content: end;
-  left: 5px;
 }
