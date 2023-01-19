@@ -17,7 +17,7 @@ export const InteractionRenderer = () => {
       width={'100%'} 
       height={'100%'} 
       overflow="visible" 
-      style={{position: "absolute", pointerEvents: "none"}}
+      style={{position: "absolute", pointerEvents: "none", zIndex: 1}}
       >
       {handleInteraction && 
         <path 
