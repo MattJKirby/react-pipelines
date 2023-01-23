@@ -10,5 +10,6 @@ export const initialGraphState: IGraphStore = {
   customEdgeTypes: {},
   handles: [],
   nodeDragInteraction: undefined,
-  handleInteraction: undefined
+  handleInteraction: undefined,
+  selectedNode: undefined,
 }

@@ -33,6 +33,7 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     },
     getNodeById: (id: string)=> get().nodes.find(n => n.id === id),
     setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<INodeProps> }) => set({customNodeTypes}),
+    setSelectedNode: (selectedNode: string | undefined) =>  set({selectedNode}),
 
     // Edge Store Actions
     setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),

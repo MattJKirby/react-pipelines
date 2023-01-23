@@ -15,6 +15,7 @@ export interface IGraphStore {
   // Node Store
   nodes: INode[];
   customNodeTypes: { [key: string]: ComponentType<INodeProps> };
+  selectedNode: string | undefined;
 
   // Edge Store
   edges: IEdge[];
@@ -39,6 +40,7 @@ export interface IGraphStoreActions {
   updateNodePosition: (id: string, position: IXYPosition) => void;
   getNodeById: (id: string) => INode | undefined;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
+  setSelectedNode: (selectedNode: string | undefined) => void;
 
   // Edge Store Actions
   addEdge: (edge: IEdge) => void;
