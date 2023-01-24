@@ -11,5 +11,5 @@ export const initialGraphState: IGraphStore = {
   handles: [],
   nodeDragInteraction: undefined,
   handleInteraction: undefined,
-  selectedNode: undefined,
+  selectedNodes: [],
 }
