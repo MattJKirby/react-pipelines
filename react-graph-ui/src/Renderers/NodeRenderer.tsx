@@ -12,7 +12,7 @@ const selector = (s: IGraphState) => ({
 });
 
 export const NodeRenderer = () => {
-  const {customNodeTypes, nodes} = useStore(selector)
+  const {customNodeTypes, nodes} = useStore(selector);
   const nodeTypes: { [key: string]: ComponentType<INodeProps> } = {...{default: DefaultNode}, ...customNodeTypes}
 
   return (
@@ -22,7 +22,11 @@ export const NodeRenderer = () => {
           
           return (
             <Node key={node.id} node={node}>
-                <NodeType data={node.data} />
+                <NodeType 
+                  id={node.id}
+                  selected={node.selected}
+                  dragging={node.dragging}
+                  data={node.data} />
             </Node>
           )
         })}
