@@ -12,7 +12,8 @@ const selector = (s: IGraphState) => ({
   transform: s.graphTransform,
   handleInteraction: s.handleInteraction,
   setHandleInteraction: s.setHandleInteraction,
-  resetHandleInteraction: s.resetHandleInteraction
+  resetHandleInteraction: s.resetHandleInteraction,
+  removeSelectedNodes: s.removeSelectedNodes
 });
 
 const GraphView: FC<PropsWithChildren> = ({children}) => {
@@ -30,6 +31,7 @@ const GraphView: FC<PropsWithChildren> = ({children}) => {
       ref={flowRef}
       onMouseUp={() => store.resetHandleInteraction()}
       onMouseMove={(e: MouseEvent) => handleMouseMove(e)}
+      onMouseDownCapture={() => store.removeSelectedNodes([],true)}
       style={{width: "100%", height: "100%", overflow: "hidden", position: "relative"}}
       >
         <ZoomContainer>
