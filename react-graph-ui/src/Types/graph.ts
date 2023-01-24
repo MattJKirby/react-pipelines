@@ -37,7 +37,7 @@ export interface IGraphStoreActions {
   addNode: (node: INode) => void;
   setNodes: (nodes: INode[]) => void;
   removeNode: (id: string) => void;
-  updateNodePosition: (id: string, position: IXYPosition) => void;
+  updateNodePosition: (nodeIds: string[], position: IXYPosition, dragging: boolean) => void;
   getNodeById: (id: string) => INode | undefined;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
   addSelectedNode: (selectedNodeId: string) => void;
