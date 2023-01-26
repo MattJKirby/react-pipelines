@@ -1,10 +1,11 @@
 import DragContainer from "../../Containers/DragContainer"
-import React, { memo, useEffect, useState } from "react"
+import React, { memo, useEffect, useRef, useState } from "react"
 import NodeDataContext from "../../Contexts/NodeDataContext"
 import { IGraphState, INode, IXYPosition } from "../../Types";
 import { useStore } from "../../Hooks/useStore";
 import { nodeClickHandler } from "./utils";
 import { useStoreApi } from "../../Hooks/useStoreApi";
+import useDrag from "../../Hooks/useDrag";
 
 export interface NodeContainerProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ const selector = (s: IGraphState) => ({
 const Node = ({children, node}: NodeContainerProps) => {
   const state = useStore(selector);
   const store = useStoreApi();
+  const nodeRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState(node.position);
 
@@ -40,17 +42,20 @@ const Node = ({children, node}: NodeContainerProps) => {
    }
   }
   ,[isDragging, node.id, state]);
+
+  useDrag({nodeId: node.id, nodeRef: nodeRef, position: node.position})
   
   return (
     <NodeDataContext.Provider value={node}>
-      <DragContainer initPosition={node.position} onPositionUpdate={handlePositionUpdate} onDrag={setIsDragging}>
-        <div 
-          style={{left: `${position.x}px`, top: `${position.y}px`, position: 'fixed', userSelect: "none"}}
+      {/* <DragContainer initPosition={node.position} onPositionUpdate={handlePositionUpdate} onDrag={setIsDragging}> */}
+        <div
+          ref={nodeRef}
+          style={{left: `${node.position.x}px`, top: `${node.position.y}px`, position: 'fixed', userSelect: "none"}}
           onMouseDownCapture={() => nodeClickHandler({id: node.id, store: store})}
           >
           {children}
         </div>
-      </DragContainer>
+      {/* </DragContainer> */}
     </NodeDataContext.Provider>
   )
 }
