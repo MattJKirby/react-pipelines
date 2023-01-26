@@ -18,12 +18,16 @@ export const NodeRenderer = () => {
   return (
     <div style={{position: 'relative', display: 'flex'}}>
         {nodes.map(node => {
-          const NodeType = nodeTypes[node.type] as ComponentType<INodeProps> || nodeTypes['default']
+          const NodeType = nodeTypes[node.type] as ComponentType<INodeProps> || nodeTypes['default'];
           
           return (
-            <Node key={node.id} node={node}>
+            <Node 
+              key={node.id} 
+              node={node}
+              >
                 <NodeType 
                   id={node.id}
+                  position={node.position}
                   selected={node.selected}
                   dragging={node.dragging}
                   data={node.data} />
