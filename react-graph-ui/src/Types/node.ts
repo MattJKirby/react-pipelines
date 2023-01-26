@@ -12,6 +12,7 @@ export interface INode<T = any> {
 
 export interface INodeProps<T = any> {
   id: string;
+  position: IXYPosition;
   selected: boolean;
   dragging: boolean;
   data: T;
