@@ -3,13 +3,17 @@ import { INodeProps } from "../../Types";
 import { Handle } from "../Handle";
 import styles from '../../Styles/Node/DefaultNode.module.css'
 
-const DefaultNode = ({id, data, selected}: INodeProps) => {
+const DefaultNode = ({
+  id, 
+  data, 
+  selected
+}: INodeProps) => {
 
   return (
     <>
       <div className={`${styles.RP_DefaultNode__Container} ${selected ? styles['RP_DefaultNode__Container--Selected'] : null}`}>
         <div className={`${styles.RP_DefaultNode__Content} ${styles.RP_DefaultNode__LabelHeader}`}>
-          {data?.label}
+          Node Id: {id} Label: {data?.label}
         </div>
 
         <div className={`${styles.RP_DefaultNode__Content}`}>
