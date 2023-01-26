@@ -21,11 +21,11 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     addNode: (node: INode) => { set((state) => ({ nodes: [...state.nodes, node] }))},
     setNodes: (nodes: INode[]) => set({ nodes: nodes }),
     removeNode: (id: string) => { set((state) => ({ nodes: state.nodes.filter((node) => node.id !== id)}))},
-    updateNodePosition: (id: string, position: IXYPosition) => {
+    updateNodePosition: (nodeIds: string[], position: IXYPosition, dragging: boolean) => {
       set((state) => ({
         nodes: state.nodes.map(node => {
-          if (node.id === id) {
-            return { ...node, position: position }
+          if (nodeIds.includes(node.id)) {
+            return { ...node, position: position, dragging: dragging }
           }
           return node;
         })
