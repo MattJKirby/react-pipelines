@@ -17,6 +17,7 @@ interface IUseDragProps {
 }
 
 const selector = (s: IGraphState) => ({
+  graphTransform: s.graphTransform,
   updateNodePosition: s.updateNodePosition,
 });
 
@@ -33,12 +34,11 @@ const useDrag = ({
     const lastPos = useRef<{ x: number | null; y: number | null }>({ x: null, y: null });
 
     const getProjectedPosition = useCallback((event: useDragEvent, position: IXYPosition) => {
-      const { graphTransform } = store.getState();
-      const x = position.x + event.x / graphTransform.scale;
-      const y = position.y + event.y / graphTransform.scale;
+      const x = position.x + event.x / state.graphTransform.scale;
+      const y = position.y + event.y / state.graphTransform.scale;
 
       return {x: x, y: y};
-    }, [store]);
+    }, [state.graphTransform.scale]);
 
     useEffect(() => {
       if(nodeRef?.current){
