@@ -1,70 +1,87 @@
-import { drag, select } from "d3";
+import { select } from 'd3-selection';
+import { drag } from 'd3-drag';
 import type { D3DragEvent, SubjectPosition } from 'd3';
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { useStoreApi } from "./useStoreApi";
+import { useStore } from './useStore';
+import { IGraphState, IXYPosition } from '../Types';
 
 type useDragEvent = D3DragEvent<HTMLDivElement, null, SubjectPosition>;
 
 interface IUseDragProps {
   nodeRef: RefObject<Element>;
-  disabled: boolean;
+  disabled?: boolean;
   nodeId: string;
-  selectNodesOnDrag: boolean;
+  position: IXYPosition;
+  selectNodesOnDrag?: boolean;
 }
 
-const 
+const selector = (s: IGraphState) => ({
+  updateNodePosition: s.updateNodePosition,
+});
 
 const useDrag = ({
   nodeRef, 
   disabled = false, 
   nodeId,
+  position,
   selectNodesOnDrag = false,
 }: IUseDragProps) => {
     const store = useStoreApi();
+    const state = useStore(selector);
     const [dragging, setDragging] = useState<boolean>(false);
     const lastPos = useRef<{ x: number | null; y: number | null }>({ x: null, y: null });
 
-    const getProjectedPointerPos = useCallback(({ sourceEvent }: useDragEvent) => {
+    const getProjectedPosition = useCallback((event: useDragEvent, position: IXYPosition) => {
       const { graphTransform } = store.getState();
-      const x = sourceEvent.touches ? sourceEvent.touches[0].clientX : sourceEvent.clientX;
-      const y = sourceEvent.touches ? sourceEvent.touches[0].clientY : sourceEvent.clientY;
+      const x = position.x + event.x / graphTransform.scale;
+      const y = position.y + event.y / graphTransform.scale;
 
-      const pointerPos = {
-        x: (x - graphTransform.translateX) / graphTransform.scale,
-        y: (y - graphTransform.translateY) / graphTransform.scale,
-      };
-
-      return pointerPos;
+      return {x: x, y: y};
     }, [store]);
 
     useEffect(() => {
-      if(nodeRef.current){
+      if(nodeRef?.current){
         const selection = select(nodeRef.current);
 
         if(disabled){
           selection.on('drag', null);
         } else {
           const dragHandler = drag()
+
           .on('start', (event: useDragEvent) => {
-            setDragging(true)
-            const { getNodeById, updateNodePosition } = store.getState();
-            const node = getNodeById(nodeId);
-
-            lastPos.current = getProjectedPointerPos(event)
-
-            if(node != undefined){
-              updateNodePosition([node.id], node?.position, true)
-            }
+            setDragging(true);
+            state.updateNodePosition([nodeId], position, true)
           })
           .on('drag', (event: useDragEvent) => {
-            setDragging(true)
-            const pointerPos = getProjectedPointerPos(event)
-
+            const newPos = getProjectedPosition(event, position)
+            lastPos.current = newPos
+            state.updateNodePosition([nodeId], newPos, dragging)
           })
+          .on('end', (event: useDragEvent) => {
+            setDragging(false);
+            if(lastPos.current.x && lastPos.current.y){
+              state.updateNodePosition([nodeId], {x: lastPos.current.x, y: lastPos.current.y} , false)
+            }
+          })
+          .subject(() => {
+            return {x: selection.attr('x'), y: selection.attr('y')}
+          })
+        
+        // .filter((e) => dragFilter(e)).on('end', () => onDrag(false));
+          
+
+          selection.call(dragHandler);
+
+
+          return () => {
+            selection.on('drag', null);
+          }
         }
       }
-    })
+    }, [disabled, dragging, getProjectedPosition, nodeId, nodeRef, position, state, store]);
 
+  return dragging;
 }
 
 export default useDrag
