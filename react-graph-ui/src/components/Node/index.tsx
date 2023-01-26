@@ -19,7 +19,7 @@ const Node = ({children, node}: NodeContainerProps) => {
     <NodeDataContext.Provider value={node}>
       <div
         ref={nodeRef}
-        style={{transform: `translate(${node.position.x}px, ${node.position.y}px)`, position: 'fixed', userSelect: "none", border: dragging ? '1px solid red' : 'none'}}
+        style={{transform: `translate(${node.position.x}px, ${node.position.y}px)`, position: 'fixed', userSelect: "none"}}
         onMouseDownCapture={() => nodeClickHandler({id: node.id, store: store})}
         >
         {children}
