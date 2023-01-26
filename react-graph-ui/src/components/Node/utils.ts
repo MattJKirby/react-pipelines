@@ -1,16 +1,14 @@
-import { StoreApi } from "zustand"
-import { IGraphState } from "../../Types"
+import { INodeClickHandlerProps } from "../../Types";
 
-interface INodeClickHandlerProps {
-  id: string,
-  unselect?: boolean
-  store: {
-    getState: StoreApi<IGraphState>['getState'],
-    setState: StoreApi<IGraphState>['setState'],
-  }
-}
-
-export const nodeClickHandler = ({id, store, unselect = false}: INodeClickHandlerProps) => {
+/**
+ * Node onClick handler
+ * @param param0 
+ */
+export const nodeClickHandler = ({
+  id, 
+  store,
+  unselect = false
+}: INodeClickHandlerProps) => {
   const { addSelectedNode, removeSelectedNodes,getNodeById } = store.getState()
   const node = getNodeById(id);
 
