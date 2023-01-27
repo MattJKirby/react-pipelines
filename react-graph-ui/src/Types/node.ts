@@ -7,6 +7,8 @@ import { IGraphState } from "./graph";
 export interface INode<T = any> {
   id: string;
   type: string;
+  width?: number | null;
+  height?: number | null;
   position: IXYPosition;
   selected: boolean;
   enableSelect: boolean;
@@ -43,3 +45,5 @@ export interface IUseDragProps {
   position: IXYPosition;
   selectOnDrag?: boolean;
 }
+
+export type NodeInternals = Map<string, INode>;

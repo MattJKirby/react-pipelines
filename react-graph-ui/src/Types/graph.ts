@@ -4,7 +4,7 @@ import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { IEdge } from "./edge";
 import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
-import { INode, INodeProps } from "./node";
+import { INode, INodeProps, NodeInternals } from "./node";
 
 export interface IGraphStore {
   // Graph Store
@@ -15,7 +15,7 @@ export interface IGraphStore {
   selectNodesOnDrag: boolean;
 
   // Node Store
-  nodes: INode[];
+  nodeInternals: NodeInternals;
   customNodeTypes: { [key: string]: ComponentType<INodeProps> };
   selectedNodes: string[];
 
@@ -36,11 +36,11 @@ export interface IGraphStoreActions {
   setGraphTransform: (graphTransform: ITransform) => void;
 
   // Node Store Actions
+  getNodes: () => INode[];
   addNode: (node: INode) => void;
   setNodes: (nodes: INode[]) => void;
   removeNode: (id: string) => void;
   updateNodePosition: (nodeIds: string[], position: IXYPosition, dragging: boolean) => void;
-  getNodeById: (id: string) => INode | undefined;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
   addSelectedNode: (selectedNodeId: string) => void;
   removeSelectedNodes: (selectedNodeIds: string[], all?: boolean) => void;
