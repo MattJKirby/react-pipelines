@@ -8,7 +8,6 @@ import { IGraphState } from "../../Types";
 import { calculateScaledMousePosition } from "./utils";
 
 const selector = (s: IGraphState) => ({
-  graphNodes: s.nodes,
   transform: s.graphTransform,
   handleInteraction: s.handleInteraction,
   setHandleInteraction: s.setHandleInteraction,
