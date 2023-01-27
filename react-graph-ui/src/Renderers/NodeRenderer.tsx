@@ -6,7 +6,7 @@ import { IGraphState, INodeProps } from "../Types"
 import { useStore } from "../Hooks/useStore"
 
 const selector = (s: IGraphState) => ({
-  nodes: s.nodes,
+  nodes: s.getNodes(),
   customNodeTypes: s.customNodeTypes,
   enableNodeDrag: s.enableDraggableNodes,
   enableNodeSelect: s.enableSelectableNodes,
