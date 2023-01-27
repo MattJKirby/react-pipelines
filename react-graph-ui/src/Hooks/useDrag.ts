@@ -18,7 +18,7 @@ const useDrag = ({
  
     const { graphTransform, updateNodePosition } = store.getState();
     const [dragging, setDragging] = useState<boolean>(false);
-    const lastPos = useRef<{ x: number; y: number }>({ x: position.x, y: position.y });
+    const lastPos = useRef<{ x: number | null; y: number | null; }>({ x: null, y: null });
     const selection = select(nodeRef.current as Element)
 
     const dragFilter = (e: any) => e.target.closest('.flow-ui-noDrag') === null;
@@ -27,13 +27,14 @@ const useDrag = ({
       const x = position.x + event.x / graphTransform.scale;
       const y = position.y + event.y / graphTransform.scale;
 
-      return {x: x, y: y};
+      return {x, y};
     }, [graphTransform.scale]);
 
     const dragHandler = drag()
       .on('start', (event: useDragEvent) => {
         setDragging(true);
-        updateNodePosition([nodeId], position, true)
+        nodeSelectHandler({id: nodeId, store});
+        lastPos.current = {x: parseInt(selection.attr('x')), y: parseInt(selection.attr('y'))};
 
         if(selectNodesOnDrag){
           nodeSelectHandler({id: nodeId, store: store})
@@ -43,8 +44,8 @@ const useDrag = ({
         const newPos = getProjectedPosition(event, position)
 
         if(newPos !== lastPos.current){
-          lastPos.current = newPos
-          updateNodePosition([nodeId], newPos, dragging)
+          lastPos.current = newPos;
+          updateNodePosition([nodeId], newPos, true)
         }
         
       })
@@ -73,7 +74,12 @@ const useDrag = ({
       }
     }, [disabled, dragHandler, nodeRef, selection]);
 
-    return dragging;
+    if(lastPos.current.x && lastPos.current.y){
+      return lastPos.current;
+    } else {
+      return position;
+    }
+    
     
 }
 
