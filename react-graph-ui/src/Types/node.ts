@@ -9,7 +9,9 @@ export interface INode<T = any> {
   type: string;
   position: IXYPosition;
   selected: boolean;
+  enableSelect: boolean;
   dragging: boolean;
+  enableDrag: boolean;
   data: T;
 }
 
@@ -26,10 +28,11 @@ interface INodeStore {
   setState: StoreApi<IGraphState>['setState'],
 }
 
-export interface INodeClickHandlerProps {
-  id: string,
-  unselect?: boolean
-  store: INodeStore
+export interface INodeSelectHandlerProps {
+  id: string;
+  unselect?: boolean;
+  store: INodeStore;
+  disabled?: boolean;
 }
 
 export interface IUseDragProps {
@@ -38,5 +41,5 @@ export interface IUseDragProps {
   disabled?: boolean;
   nodeId: string;
   position: IXYPosition;
-  selectNodesOnDrag?: boolean;
+  selectOnDrag?: boolean;
 }

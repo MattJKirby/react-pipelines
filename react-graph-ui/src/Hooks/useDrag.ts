@@ -3,6 +3,7 @@ import { drag } from 'd3-drag';
 import type { D3DragEvent, SubjectPosition } from 'd3';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IUseDragProps, IXYPosition } from '../Types';
+import { nodeSelectHandler } from '../Components/Node/utils';
 
 type useDragEvent = D3DragEvent<HTMLDivElement, null, SubjectPosition>;
 
@@ -12,7 +13,7 @@ const useDrag = ({
   disabled = false, 
   nodeId,
   position,
-  selectNodesOnDrag = false,
+  selectOnDrag: selectNodesOnDrag = true,
 }: IUseDragProps) => {
  
     const { graphTransform, updateNodePosition } = store.getState();
@@ -33,10 +34,13 @@ const useDrag = ({
       .on('start', (event: useDragEvent) => {
         setDragging(true);
         updateNodePosition([nodeId], position, true)
+
+        if(selectNodesOnDrag){
+          nodeSelectHandler({id: nodeId, store: store})
+        }
       })
       .on('drag', (event: useDragEvent) => {
         const newPos = getProjectedPosition(event, position)
-        console.log("asdf")
 
         if(newPos !== lastPos.current){
           lastPos.current = newPos
