@@ -11,6 +11,8 @@ export interface IGraphStore {
   graphId: string;
   graphTransform: ITransform;
   enableDraggableNodes: boolean;
+  enableSelectableNodes: boolean;
+  selectNodesOnDrag: boolean;
 
   // Node Store
   nodes: INode[];
@@ -75,4 +77,6 @@ export interface IGraphProps {
   nodeTypes?: { [key: string]: ComponentType<INodeProps> };
   edges?: IEdge[];
   enableDraggableNodes?: boolean;
+  enableSelectableNodes?: boolean;
+  selectNodesOnDrag?: boolean;
 }
