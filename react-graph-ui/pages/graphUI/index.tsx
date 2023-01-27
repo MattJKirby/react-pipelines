@@ -43,7 +43,7 @@ const GraphUI = () => {
     </div>
 
      <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
-        <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges} enableDraggableNodes={false}>
+        <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges} enableDraggableNodes={false} enableSelectableNodes={false}>
           <GraphCanvas gap={40} size={1} style='grid'/>
         </Graph>
       </div>
