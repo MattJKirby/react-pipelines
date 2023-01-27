@@ -10,8 +10,8 @@ export const nodeSelectHandler = ({
   unselect = false,
   disabled = false,
 }: INodeSelectHandlerProps) => {
-  const { addSelectedNode, removeSelectedNodes,getNodeById } = store.getState()
-  const node = getNodeById(id);
+  const { addSelectedNode, removeSelectedNodes, nodeInternals } = store.getState()
+  const node = nodeInternals.get(id);
 
   if(!node?.selected && !disabled){
     removeSelectedNodes([], true)
