@@ -1,18 +1,19 @@
-import { INodeClickHandlerProps } from "../../Types";
+import { INodeSelectHandlerProps } from "../../Types";
 
 /**
  * Node onClick handler
  * @param param0 
  */
-export const nodeClickHandler = ({
+export const nodeSelectHandler = ({
   id, 
   store,
-  unselect = false
-}: INodeClickHandlerProps) => {
+  unselect = false,
+  disabled = false,
+}: INodeSelectHandlerProps) => {
   const { addSelectedNode, removeSelectedNodes,getNodeById } = store.getState()
   const node = getNodeById(id);
 
-  if(!node?.selected){
+  if(!node?.selected && !disabled){
     removeSelectedNodes([], true)
     addSelectedNode(id);
   } else if (unselect){
