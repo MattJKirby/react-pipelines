@@ -7,6 +7,7 @@ import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { INode, INodeProps } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
+import { createNodeInternals } from "./utils";
 
 
 export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IGraphState> => {
@@ -18,40 +19,40 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     setGraphTransform: (graphTransform: ITransform) => set({graphTransform}),
 
     // Node Store Actions
-    addNode: (node: INode) => { set((state) => ({ nodes: [...state.nodes, node] }))},
-    setNodes: (nodes: INode[]) => set({ nodes: nodes }),
-    removeNode: (id: string) => { set((state) => ({ nodes: state.nodes.filter((node) => node.id !== id)}))},
-    updateNodePosition: (nodeIds: string[], position: IXYPosition, dragging: boolean) => {
-      set((state) => ({
-        nodes: state.nodes.map(node => {
-          if (nodeIds.includes(node.id)) {
-            return { ...node, position: position, dragging: dragging }
-          }
-          return node;
-        })
-      }))
+    getNodes: () => {
+      return Array.from(get().nodeInternals.values());
     },
-    getNodeById: (id: string)=> get().nodes.find(n => n.id === id),
+    addNode: (node: INode) => {
+      const { nodeInternals, getNodes } = get();
+      set({ nodeInternals: createNodeInternals([...getNodes(), node], nodeInternals) });
+    },
+    setNodes: (nodes: INode[]) => {
+      const { nodeInternals } = get();
+      set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
+    },
+    removeNode: (id: string) => {
+      const { nodeInternals, getNodes } = get();
+      set({ nodeInternals: createNodeInternals(getNodes().filter((node) => node.id !== id), nodeInternals)});
+    },
+    updateNodePosition: (nodeIds: string[], position: IXYPosition, dragging: boolean) => {
+      const { nodeInternals, getNodes } = get();
+      const nodes = getNodes().map(node => nodeIds.includes(node.id) ? {...node, position: position, dragging: dragging} : node)
+      set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
+    },
     setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<INodeProps> }) => set({customNodeTypes}),
-    addSelectedNode: (selectedNodeId: string) =>  {
+    addSelectedNode: (selectedNodeId: string) => {
+      const { nodeInternals, getNodes } = get();
+      const nodes = getNodes().map(node => node.id === selectedNodeId ? {...node, selected: true} : node);
       set((state) => ({
-        nodes: state.nodes.map(node => {
-          if(node.id === selectedNodeId) {
-            return {...node, selected: true}
-          }
-          return node;
-        }),
+        nodeInternals: createNodeInternals(nodes, nodeInternals),
         selectedNodes: [...state.selectedNodes, selectedNodeId]
       }))
     },
     removeSelectedNodes: (selectedNodeIds: string[], all = false) =>  {
+      const { nodeInternals, getNodes } = get();
+      const nodes = getNodes().map(node => selectedNodeIds.includes(node.id) || all ? {...node, selected: false} : node);
       set((state) => ({
-        nodes: state.nodes.map(node => {
-          if(selectedNodeIds.includes(node.id) || all) {
-            return {...node, selected: false}
-          }
-          return node;
-        }),
+        nodeInternals: createNodeInternals(nodes, nodeInternals),
         selectedNodes: state.selectedNodes.filter(n => !selectedNodeIds.includes(n))
       }))
     },
@@ -80,7 +81,7 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     getHandle: (nodeId: string, handleId: string) => get().handles.find(h => h.nodeId  === nodeId && h.id === handleId),
     
     // Interaction Store Actions
-    setNodeDragInteraction: (nodeId: string) => set((state) => ({nodeDragInteraction: state.nodes.find(n => n.id === nodeId)})),
+    setNodeDragInteraction: (nodeId: string) => set((state) => ({nodeDragInteraction: state.nodeInternals.get(nodeId)})),
     resetNodeDragInteraction: () => set({nodeDragInteraction: undefined}),
     newHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => set({handleInteraction: {sourceHandle: handle, mousePosition: mousePosition, edgeType: edgeType === undefined ? "default" : edgeType, targetHandle: undefined}}),
     setHandleInteraction: (interaction: IHandleInteraction) => set({handleInteraction: interaction}),
