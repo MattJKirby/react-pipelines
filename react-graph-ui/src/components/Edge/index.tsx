@@ -1,27 +1,19 @@
-import { useEffect, useState } from "react"
+import { memo } from "react"
 import EdgeDataContext from "../../Contexts/EdgeDataContext"
-import { IEdge, IHandle } from "../../Types"
+import { IEdgeProps } from "../../Types"
 
-
-interface EdgeProps {
-  children: React.ReactNode
-  edge: IEdge
-  source: IHandle
-  target: IHandle
-}
-
-export const Edge = ({children, edge, source, target}: EdgeProps) => {
-  const [edgeHandles, setEdgeHandles] = useState<{source: IHandle, target: IHandle}>({source, target})
-
-  useEffect(() => {
-    if(source && target){
-      setEdgeHandles({source, target})
-    }
-  }, [source, target, setEdgeHandles, edge.id])
+const Edge = ({
+  children, 
+  edge, 
+  source, 
+  target
+}: IEdgeProps) => {
 
   return (
-   <EdgeDataContext.Provider value={{edge, ...edgeHandles}}>
+   <EdgeDataContext.Provider value={{edge, ...{source, target}}}>
     {children}
    </EdgeDataContext.Provider>
   )
 }
+
+export default memo(Edge);
