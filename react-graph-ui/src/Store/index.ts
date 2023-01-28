@@ -8,6 +8,7 @@ import { INode, INodeProps } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 import { createNodeInternals } from "./utils";
+import { internalsSymbol } from "../Utils";
 
 
 export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IGraphState> => {
@@ -67,18 +68,36 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     getEdge: (edgeId: string) => { return get().edges.find(e => e.id === edgeId)},
 
     // Handle Store Actions
-    addHandle: (handle: IHandle) => {set((state) => ({ handles: [...state.handles, handle] }))},
-    updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => {
-      set((state) => ({
-        handles: state.handles.map(h => {
-          if (h.nodeId === nodeId && h.id === handleId) {
-            return { ...h, position: position }
-          }
-          return h
-        })
-      }))
+    addHandle: (nodeId: string, newHandle: IHandle) => {
+      const { nodeInternals, getNodes } = get();
+      const handles = nodeInternals.get(nodeId)?.[internalsSymbol]?.handles;
+
+      if(handles !== undefined){
+        handles[newHandle.type] = (handles[newHandle.type]).set(newHandle.id, newHandle);
+        const nodes = getNodes().map(node => node.id === nodeId? {...node, [internalsSymbol]: {...node[internalsSymbol], handles: handles}} : node);
+        set({ nodeInternals: createNodeInternals(nodes, nodeInternals)})
+      }
     },
-    getHandle: (nodeId: string, handleId: string) => get().handles.find(h => h.nodeId  === nodeId && h.id === handleId),
+    updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => {
+      const { nodeInternals, getNodes, getHandle } = get();
+      const handle = getHandle(nodeId, handleId);
+      const handles = nodeInternals.get(nodeId)?.[internalsSymbol]?.handles;
+
+      if(handle && handles){
+        const updatedHandle = {...handle, position: position};
+        handles[updatedHandle.type].set(handleId, updatedHandle);
+        const nodes = getNodes().map(node => node.id === nodeId ? {...node, handles: handles} : node);
+        set({nodeInternals: createNodeInternals(nodes, nodeInternals)});
+      }
+    },
+    getHandle: (nodeId: string, handleId: string) => {
+      const { nodeInternals } = get();
+      const handles = nodeInternals.get(nodeId)?.[internalsSymbol]?.handles;
+
+      if(handles !== undefined){
+        return new Map([...handles.source.entries(), ...handles.target.entries()]).get(handleId);
+      }
+    },
     
     // Interaction Store Actions
     setNodeDragInteraction: (nodeId: string) => set((state) => ({nodeDragInteraction: state.nodeInternals.get(nodeId)})),
