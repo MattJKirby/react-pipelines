@@ -25,24 +25,25 @@ export const Handle = ({
   id, 
   name, 
   type = 'source',
-  edgeType }: HandleProps) => {
+  edgeType
+}: HandleProps) => {
     const handleRef = useRef<HTMLDivElement>(null)
     const node = useNodeContext() as INode
     const handleName = name === undefined ? "handle" : name
-    const {handleInteraction, addHandle, getHandle, updateHandlePosition, setHandleInteraction,  newHandleInteraction, resetHandleInteraction}  = useStore(selector)
-
-    
+    const { handleInteraction, getHandle, addHandle, updateHandlePosition, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector)
+ 
     useEffect(() => {
-      if(getHandle(node.id, id) === undefined && handleRef.current !== null){
-        addHandle({nodeId: node.id, id: id, name: handleName, type: type, position: calculateHandleCenter(node.position, handleRef.current)})
+      if(handleRef.current !== null && getHandle(node.id, id) === undefined){
+        addHandle(node.id, {nodeId: node.id, id: id, name: handleName, type: type, position: calculateHandleCenter(node.position, handleRef.current)})
       }
     })
     
     useEffect(() => {
       if(handleRef.current !== null){
-        updateHandlePosition(node.id, id, (calculateHandleCenter(node.position, handleRef.current)))
+        const handlePosition = calculateHandleCenter(node.position, handleRef.current);
+        updateHandlePosition(node.id, id, handlePosition);
       }
-    }, [id, node.id, node.position, updateHandlePosition])
+    }, [id, node.id, node.position, getHandle, updateHandlePosition])
 
     const handleMouseUp = (e: MouseEvent) => {
       e.stopPropagation();
