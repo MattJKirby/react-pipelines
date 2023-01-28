@@ -1,6 +1,6 @@
 import React, { ComponentType, useEffect } from "react"
+import Edge from "../Components/Edge";
 import DefaultEdge from "../Components/Edge/DefaultEdge"
-import { Edge } from "../Components/Edge"
 import { useStore } from "../Hooks/useStore"
 import { IGraphState, IHandle } from "../Types"
 
@@ -14,7 +14,7 @@ const selector = (s: IGraphState) => ({
   customEdgeTypes: s.customEdgeTypes,
   edges: s.edges,
   handleInteraction: s.handleInteraction,
-  handles: s.handles,
+  getHandle: s.getHandle,
   newEdge: s.newEdge,
   getEdge: s.getEdge,
   resetHandleInteraction: s.resetHandleInteraction
@@ -22,7 +22,7 @@ const selector = (s: IGraphState) => ({
 
 
 export const EdgeRenderer = () => {
-  const {customEdgeTypes, edges, handleInteraction, newEdge, getEdge, resetHandleInteraction, handles} = useStore(selector)
+  const { customEdgeTypes, edges, handleInteraction, getHandle, newEdge, getEdge, resetHandleInteraction} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
 
   useEffect(() => {
@@ -38,22 +38,28 @@ export const EdgeRenderer = () => {
       }
       
     }
-  }, [getEdge, handleInteraction, newEdge, resetHandleInteraction])
+  },[getEdge, handleInteraction, newEdge, resetHandleInteraction])
 
 
   return (
     <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
       {edges.map((edge, index) => {
         const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default']
-        const s = handles.find(h => h.nodeId === edge.sourceNodeId && h.id === edge.sourceNodeOutput)
-        const t = handles.find(h => h.nodeId === edge.targetNodeId && h.id === edge.targetNodeInput)
 
-      if(s && t){
+        const source = getHandle(edge.sourceNodeId, edge.sourceNodeOutput);
+        const target = getHandle(edge.targetNodeId, edge.targetNodeInput);
+
+      if(source && target){
         return (
-          <Edge key={index} edge={edge} source={s} target={t}>
+          <Edge 
+            key={index} 
+            edge={edge} 
+            source={source} 
+            target={target}
+          >
             <EdgeType
-              sourceHandle={s}
-              targetHandle={t}
+              sourceHandle={source}
+              targetHandle={target}
             />
           </Edge>
         )
