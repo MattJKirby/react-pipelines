@@ -53,7 +53,7 @@ export interface IGraphStoreActions {
   getEdge: (edgeId: string) => void;
 
   // Handle Store Actions
-  addHandle: (handle: IHandle) => void;
+  addHandle: (nodeId: string, newHandle: IHandle) => void;
   updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => void;
   getHandle: (nodeId: string, handleId: string) => IHandle | undefined;
 

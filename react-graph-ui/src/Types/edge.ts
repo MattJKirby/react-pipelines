@@ -1,3 +1,5 @@
+import { IHandle } from "./handle";
+
 export interface IEdge {
   id: string;
   sourceNodeId: string;
@@ -5,4 +7,11 @@ export interface IEdge {
   targetNodeId: string;
   targetNodeInput: string;
   type: string;
+}
+
+export interface IEdgeProps {
+  children: React.ReactNode
+  edge: IEdge
+  source: IHandle
+  target: IHandle
 }
