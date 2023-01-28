@@ -14,4 +14,4 @@ export const initialGraphState: IGraphStore = {
   nodeDragInteraction: undefined,
   handleInteraction: undefined,
   selectedNodes: [],
-}
+};
