@@ -9,5 +9,5 @@ import { IXYPosition } from "../../Types"
 export const calculateHandleCenter = (nodePosition: IXYPosition, handleRef: HTMLDivElement) => {
   const x = nodePosition.x + handleRef.offsetLeft + (handleRef.offsetWidth / 2)
   const y = nodePosition.y + handleRef.offsetTop + (handleRef.offsetHeight / 2)
-  return {x: x, y: y}
+  return {x, y}
 }
