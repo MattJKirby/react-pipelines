@@ -15,7 +15,6 @@ const applyChanges = (changes: any[], elements: any[]): any[] => {
     const updateItem = { ...item };
 
     for (const currentChange of currentChanges) {
-      console.log(currentChange)
       if (currentChange) {
         switch (currentChange.type) {
           case 'position': {
