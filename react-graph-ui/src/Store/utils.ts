@@ -1,7 +1,7 @@
-import { IHandle, INode, NodeInternals } from "../Types";
+import { IHandle, INode, INodeHandles, NodeInternals } from "../Types";
 import { internalsSymbol } from "../Utils";
 
-export function createNodeInternals(nodes: INode[], nodeInternals: NodeInternals): NodeInternals {
+export const createNodeInternals = (nodes: INode[], nodeInternals: NodeInternals): NodeInternals => {
   const newNodeInternals = new Map<string, INode>();
   
   nodes.forEach(node => {
@@ -18,9 +18,9 @@ export function createNodeInternals(nodes: INode[], nodeInternals: NodeInternals
     newNodeInternals.set(node.id, internals);
   })
 
-  return newNodeInternals
+  return newNodeInternals;
 };
 
- function createHandles(){
+ const createHandles = (): INodeHandles => {
   return { source: new Map<string, IHandle>(), target: new Map<string, IHandle>() }
- } 
+ };
