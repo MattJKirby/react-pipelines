@@ -9,6 +9,8 @@ import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 import { createNodeInternals } from "./utils";
 import { internalsSymbol } from "../Utils";
+import { ChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData } from "../Types/changes";
+import { createChange, applyNodeChanges } from "../Changes";
 
 
 export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IGraphState> => {
@@ -23,9 +25,9 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     getNodes: () => {
       return Array.from(get().nodeInternals.values());
     },
-    addNode: (node: INode) => {
-      const { nodeInternals, getNodes } = get();
-      set({ nodeInternals: createNodeInternals([...getNodes(), node], nodeInternals) });
+    addNode: (changes: NodeAddChangeData[]) => {
+      const { triggerNodeChanges } = get();
+      triggerNodeChanges(createChange<NodeAddChange>(changes, 'add'));
     },
     setNodes: (nodes: INode[]) => {
       const { nodeInternals } = get();
@@ -35,27 +37,23 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       const { nodeInternals, getNodes } = get();
       set({ nodeInternals: createNodeInternals(getNodes().filter((node) => node.id !== id), nodeInternals)});
     },
-    updateNodePosition: (nodeIds: string[], position: IXYPosition, dragging: boolean) => {
-      const { nodeInternals, getNodes } = get();
-      const nodes = getNodes().map(node => nodeIds.includes(node.id) ? {...node, position: position, dragging: dragging} : node)
-      set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
+    updateNodePosition: (changes: NodePositionChangeData[]) => {
+      const { triggerNodeChanges } = get();
+      triggerNodeChanges(createChange<NodePositionChange>(changes, 'position'));
     },
     setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<INodeProps> }) => set({customNodeTypes}),
-    addSelectedNode: (selectedNodeId: string) => {
-      const { nodeInternals, getNodes } = get();
-      const nodes = getNodes().map(node => node.id === selectedNodeId ? {...node, selected: true} : node);
-      set((state) => ({
-        nodeInternals: createNodeInternals(nodes, nodeInternals),
-        selectedNodes: [...state.selectedNodes, selectedNodeId]
-      }))
+    addSelectedNodes: (changes: NodeSelectionChangeData[]) => {
+      const { triggerNodeChanges } = get();
+      triggerNodeChanges(createChange<NodeSelectionChange>(changes, 'select'));
     },
-    removeSelectedNodes: (selectedNodeIds: string[], all = false) =>  {
+    removeSelectedNodes: (changes: NodeSelectionChangeData[], all = false) =>  {
+      const { triggerNodeChanges } = get();
+      triggerNodeChanges(createChange<NodeSelectionChange>(changes, 'select'));
+    },
+    triggerNodeChanges: (nodeChanges: ChangeTypes[]) => {
       const { nodeInternals, getNodes } = get();
-      const nodes = getNodes().map(node => selectedNodeIds.includes(node.id) || all ? {...node, selected: false} : node);
-      set((state) => ({
-        nodeInternals: createNodeInternals(nodes, nodeInternals),
-        selectedNodes: state.selectedNodes.filter(n => !selectedNodeIds.includes(n))
-      }))
+      const nodes = applyNodeChanges(nodeChanges, getNodes());
+      set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
     },
 
     // Edge Store Actions
