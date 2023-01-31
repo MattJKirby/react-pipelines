@@ -42,9 +42,9 @@ export const EdgeRenderer = () => {
 
 
   return (
-    <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
+    <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}} >
       {edges.map((edge, index) => {
-        const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default']
+        const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default'];
 
         const source = getHandle(edge.sourceNodeId, edge.sourceNodeOutput);
         const target = getHandle(edge.targetNodeId, edge.targetNodeInput);

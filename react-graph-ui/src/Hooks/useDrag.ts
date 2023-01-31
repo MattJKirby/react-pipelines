@@ -1,7 +1,7 @@
 import { select } from 'd3-selection';
 import { drag } from 'd3-drag';
 import type { D3DragEvent, SubjectPosition } from 'd3';
-import { useCallback, useEffect, useRef, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { IUseDragProps, IXYPosition } from '../Types';
 import { nodeSelectHandler } from '../Components/Node/utils';
 
@@ -50,11 +50,9 @@ const useDrag = ({
         }
         
       })
-      .on('end', (event: useDragEvent) => {
+      .on('end', () => {
         setDragging(false);
-        const newPos = getProjectedPosition(event, position)
         if(lastPos.current.x !== null && lastPos.current.y !== null){
-     
           updateNodePosition([{id: nodeId, position: {x: lastPos.current.x, y: lastPos.current.y}, dragging: false}]);
         }
       })
