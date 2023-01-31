@@ -45,14 +45,14 @@ const useDrag = ({
 
         if(newPos !== lastPos.current){
           lastPos.current = newPos;
-          updateNodePosition([nodeId], newPos, true)
+          updateNodePosition([{id: nodeId, position: newPos, dragging: true}])
         }
         
       })
       .on('end', (event: useDragEvent) => {
         setDragging(false);
-        if(lastPos.current.x && lastPos.current.y){
-          updateNodePosition([nodeId], {x: lastPos.current.x, y: lastPos.current.y} , false)
+        if(lastPos.current.x !== null && lastPos.current.y !== null){
+          updateNodePosition([{id: nodeId, position: {x: lastPos.current.x, y: lastPos.current.y}, dragging: false}]);
         }
       })
       .subject(() => {
@@ -74,13 +74,7 @@ const useDrag = ({
       }
     }, [disabled, dragHandler, nodeRef, selection]);
 
-    if(lastPos.current.x && lastPos.current.y){
-      return lastPos.current;
-    } else {
-      return position;
-    }
-    
-    
-}
+  return dragging;
+};
 
-export default useDrag
+export default useDrag;
