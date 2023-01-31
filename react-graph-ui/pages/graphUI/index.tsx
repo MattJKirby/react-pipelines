@@ -1,12 +1,13 @@
-import React, { useMemo, useState } from "react"
+import React, { useCallback, useMemo } from "react"
 import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
 import TestNode from "../../src/Components/Node/TestNode"
-import { useNodesStore } from "../../src/Hooks/useStoreItemState"
+import { useEdgeStore, useNodesStore } from "../../src/Hooks/useStoreItemState"
+import { INode } from "../../src/Types"
 
 
-const initialNodeList = [
+const initialNodeList: INode<any>[] = [
   {id: '0', type: 'default', position: {x: 50, y: 50}, data: {label: "node1"}}, 
   {id: '1', type: 'TestNode', position: {x: 100, y: 50}, data: {label: "asdf", test: "node3"}},
   {id: '2', type: 'default', position: {x: 50, y: 100}, data: {label: "asdf"}}
@@ -22,15 +23,14 @@ const initialNodeList = [
  * @returns 
  */
 const GraphUI = () => {
-  // const [nodes, setNodes] = useState(initialNodeList)
-  const [edges, setEdges] = useState(initialEdgeList)
   const nodeTypes = useMemo(() => ({ TestNode: TestNode }), []);
 
   const [nodes, setNodes] = useNodesStore(initialNodeList)
+  const [edges, setEdges] = useEdgeStore(initialEdgeList)
 
-  const addNode = () => {
+  const addNode = useCallback(() => {
     setNodes([...nodes, {id: `${nodes.length}`, type: 'TestNode', position: {x: 300, y: 200}, data: {test: "asdf"}}])
-  }
+  }, [nodes]);
 
   return ( <div>
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
