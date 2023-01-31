@@ -42,12 +42,13 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       triggerNodeChanges(createChange<NodePositionChange>(changes, 'position'));
     },
     setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<INodeProps> }) => set({customNodeTypes}),
-    addSelectedNodes: (changes: NodeSelectionChangeData[]) => {
+    updateSelectedNodes: (changes: NodeSelectionChangeData[]) => {
       const { triggerNodeChanges } = get();
       triggerNodeChanges(createChange<NodeSelectionChange>(changes, 'select'));
     },
-    removeSelectedNodes: (changes: NodeSelectionChangeData[], all = false) =>  {
-      const { triggerNodeChanges } = get();
+    resetSelectedNodes: () =>  {
+      const { triggerNodeChanges, getNodes } = get();
+      const changes = getNodes().map(node => ({id: node.id, selected: false}))
       triggerNodeChanges(createChange<NodeSelectionChange>(changes, 'select'));
     },
     triggerNodeChanges: (nodeChanges: ChangeTypes[]) => {

@@ -43,8 +43,8 @@ export interface IGraphStoreActions {
   removeNode: (id: string) => void;
   updateNodePosition: (changes: NodePositionChangeData[]) => void;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
-  addSelectedNodes: (changes: NodeSelectionChangeData[]) => void;
-  removeSelectedNodes: (changes: NodeSelectionChangeData[], all?: boolean) => void;
+  updateSelectedNodes: (changes: NodeSelectionChangeData[]) => void;
+  resetSelectedNodes: () => void;
   triggerNodeChanges: (nodeChanges: ChangeTypes[]) => void;
 
   // Edge Store Actions
