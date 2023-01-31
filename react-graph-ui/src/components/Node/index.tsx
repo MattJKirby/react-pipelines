@@ -25,7 +25,7 @@ const Node = ({
     }}>
       <div
         ref={nodeRef}
-        style={{transform: `translate(${dragging.x}px, ${dragging.y}px)`, position: 'fixed', userSelect: "none"}}
+        style={{transform: `translate(${position.x}px, ${position.y}px)`, position: 'fixed', userSelect: "none"}}
         onClickCapture={() => nodeSelectHandler({id: id, store: store, disabled: !enableSelect})}
         >
         {children}
