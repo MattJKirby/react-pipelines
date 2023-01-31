@@ -10,13 +10,13 @@ export const nodeSelectHandler = ({
   unselect = false,
   disabled = false,
 }: INodeSelectHandlerProps) => {
-  const { addSelectedNode, removeSelectedNodes, nodeInternals } = store.getState()
+  const { addSelectedNodes, removeSelectedNodes, nodeInternals } = store.getState()
   const node = nodeInternals.get(id);
 
   if(!node?.selected && !disabled){
-    removeSelectedNodes([], true)
-    addSelectedNode(id);
+    removeSelectedNodes(Array.from(nodeInternals.keys()).map(n => ({id: n, selected: false})));
+    addSelectedNodes([{id, selected: true}]);
   } else if (unselect){
-    removeSelectedNodes([id]);
+    removeSelectedNodes([{id, selected: false}]);
   }
 }
