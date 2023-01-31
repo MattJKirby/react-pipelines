@@ -34,7 +34,8 @@ const useDrag = ({
       .on('start', (event: useDragEvent) => {
         setDragging(true);
         nodeSelectHandler({id: nodeId, store});
-        lastPos.current = {x: parseInt(selection.attr('x')), y: parseInt(selection.attr('y'))};
+        const newPos = getProjectedPosition(event, position)
+        lastPos.current = newPos;
 
         if(selectNodesOnDrag){
           nodeSelectHandler({id: nodeId, store: store})
@@ -51,7 +52,9 @@ const useDrag = ({
       })
       .on('end', (event: useDragEvent) => {
         setDragging(false);
+        const newPos = getProjectedPosition(event, position)
         if(lastPos.current.x !== null && lastPos.current.y !== null){
+     
           updateNodePosition([{id: nodeId, position: {x: lastPos.current.x, y: lastPos.current.y}, dragging: false}]);
         }
       })
