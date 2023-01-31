@@ -12,10 +12,10 @@ export interface INode<T = any> {
   width?: number | null;
   height?: number | null;
   position: IXYPosition;
-  selected: boolean;
-  enableSelect: boolean;
-  dragging: boolean;
-  enableDrag: boolean;
+  selected?: boolean;
+  enableSelect?: boolean;
+  dragging?: boolean;
+  enableDrag?: boolean;
   data: T;
 
   // Only used internally

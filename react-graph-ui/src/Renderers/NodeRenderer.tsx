@@ -23,6 +23,7 @@ export const NodeRenderer = () => {
           const NodeType = nodeTypes[node.type] as ComponentType<INodeProps> || nodeTypes['default'];
           const enableSelect = node.enableSelect === undefined ? true : node.enableSelect;
           const enableDrag = node.enableDrag === undefined ? true : node.enableDrag;
+
           
           return (
             <Node 
@@ -30,7 +31,7 @@ export const NodeRenderer = () => {
               id={node.id}
               type={node.type}
               position={node.position}
-              selected={node.selected}
+              selected={node.selected || false}
               enableSelect={store.enableNodeSelect && enableSelect}
               enableDrag={store.enableNodeDrag && enableDrag}
               selectOnDrag={store.selectNodeOnDrag}
@@ -38,8 +39,8 @@ export const NodeRenderer = () => {
                 <NodeType 
                   id={node.id}
                   position={node.position}
-                  selected={node.selected}
-                  dragging={node.dragging}
+                  selected={node.selected || false}
+                  dragging={node.dragging || false}
                   data={node.data} 
                 />
             </Node>
