@@ -13,10 +13,12 @@ export const nodeSelectHandler = ({
   const { addSelectedNodes, removeSelectedNodes, nodeInternals } = store.getState()
   const node = nodeInternals.get(id);
 
-  if(!node?.selected && !disabled){
-    removeSelectedNodes(Array.from(nodeInternals.keys()).map(n => ({id: n, selected: false})));
-    addSelectedNodes([{id, selected: true}]);
-  } else if (unselect){
-    removeSelectedNodes([{id, selected: false}]);
+  if(!disabled){
+    if(!node?.selected){
+      removeSelectedNodes(Array.from(nodeInternals.keys()).map(n => ({id: n, selected: false})));
+      addSelectedNodes([{id, selected: true}]);
+    } else if (unselect){
+      removeSelectedNodes([{id, selected: false}]);
+    }
   }
 }
