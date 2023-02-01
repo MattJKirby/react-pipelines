@@ -2,7 +2,7 @@ import { ComponentType, useEffect } from "react";
 import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
 import { useStoreApi } from "../../Hooks/useStoreApi";
-import { IEdge, IGraphProps, IGraphState, IGraphStore, INode, INodeProps } from "../../Types";
+import { IEdge, IGraphProps, IGraphState, IGraphStore, INode, INodeProps, OnNodesChange } from "../../Types";
 
 /**
  * StoreUpdater hook for graph store keys that don't have a dedicated setter.
@@ -43,6 +43,7 @@ const StoreUpdater = (props: IGraphProps) => {
   useDirectStoreUpdater<boolean>('enableDraggableNodes', props.enableDraggableNodes, storeApi.setState);
   useDirectStoreUpdater<boolean>('enableSelectableNodes', props.enableSelectableNodes, storeApi.setState);
   useDirectStoreUpdater<boolean>('selectNodesOnDrag', props.selectNodesOnDrag, storeApi.setState);
+  useDirectStoreUpdater<OnNodesChange>('onNodesChange', props.onNodesChange, storeApi.setState);
 
   useDedicatedStoreUpdater<INode[]>(props.nodes, store.setNodes);
   useDedicatedStoreUpdater<IEdge[]>(props.edges, store.setEdges);

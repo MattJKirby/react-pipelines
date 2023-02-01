@@ -1,4 +1,4 @@
-import React, { memo, MouseEvent, useRef } from "react"
+import React, { memo, useRef } from "react"
 import NodeDataContext from "../../Contexts/NodeDataContext"
 import { NodeContainerProps } from "../../Types";
 import { nodeSelectHandler } from "./utils";

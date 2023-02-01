@@ -1,30 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { SetStateAction, Dispatch } from 'react';
+import { SetStateAction, Dispatch, useCallback } from 'react';
 import { useState } from "react"
+import { applyNodeChanges } from '../Changes';
 import { IEdge, INode } from "../Types"
+import { ChangeTypes } from '../Types/changes';
 
-type ApplyChanges<ItemType> = (items: ItemType[]) => ItemType[];
+type ApplyChanges<ChangeType, ItemType> = (changed: ChangeType[], items: ItemType[]) => ItemType[];
+type OnChange<ChangeType> = (changes: ChangeType[]) => void;
 
+function createUseStoreItemsState(applyChanges: ApplyChanges<ChangeTypes, INode>): <NodeData = any>(initialItems: INode<NodeData>[]) => [INode<NodeData>[], Dispatch<SetStateAction<INode<NodeData>[]>>, OnChange<ChangeTypes>]
+// function createUseStoreItemsState(applyChanges: ApplyChanges<IEdge>): (initialItems: IEdge[]) => [IEdge[], Dispatch<SetStateAction<IEdge[]>>, OnChange<ChangeTypes>]
 
-function createUseStoreItemsState(applyChanges: ApplyChanges<INode>): <NodeData = any>(initialItems: INode<NodeData>[]) => [INode<NodeData>[], Dispatch<SetStateAction<INode<NodeData>[]>>]
-function createUseStoreItemsState(applyChanges: ApplyChanges<IEdge>): (initialItems: IEdge[]) => [IEdge[], Dispatch<SetStateAction<IEdge[]>>]
-
-function createUseStoreItemsState(applyChanges: ApplyChanges<any>): (initialItems: any[]) => [any[], Dispatch<SetStateAction<any[]>>] {
+function createUseStoreItemsState(applyChanges: ApplyChanges<any, any>): (initialItems: any[]) => [any[], Dispatch<SetStateAction<any[]>>, OnChange<any>] {
   return (initialItems: any[]) => {
     const [items, setItems] = useState(initialItems);
 
-    applyChanges(items)
+    const onItemsChange = useCallback((changes: any[]) => {
+      setItems((items: any) => applyChanges(changes, items))
+    }, [])
 
-    return [items, setItems];
+    return [items, setItems, onItemsChange];
   };
 };
 
-function applyNodeChanges<NodeData = any>(nodes: INode<NodeData>[]): INode<NodeData>[] {
-  return nodes;
-}
-function applyEdgeChanges(edges: IEdge[]): IEdge[] {
-  return edges;
-}
 
 export const useNodesStore = createUseStoreItemsState(applyNodeChanges);
-export const useEdgeStore = createUseStoreItemsState(applyEdgeChanges);
+// export const useEdgeStore = createUseStoreItemsState(applyEdgeChanges);
