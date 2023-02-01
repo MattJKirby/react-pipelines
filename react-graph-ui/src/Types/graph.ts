@@ -29,7 +29,10 @@ export interface IGraphStore {
 
   // Interaction Store
   nodeDragInteraction: INode | undefined;
-  handleInteraction: IHandleInteraction | undefined
+  handleInteraction: IHandleInteraction | undefined;
+
+  // Changes store
+  onNodesChange: OnNodesChange | undefined;
 }
 
 export interface IGraphStoreActions {
@@ -81,4 +84,7 @@ export interface IGraphProps {
   enableDraggableNodes?: boolean;
   enableSelectableNodes?: boolean;
   selectNodesOnDrag?: boolean;
+  onNodesChange?: OnNodesChange;
 }
+
+export type OnNodesChange = (changes: ChangeTypes[]) => void;

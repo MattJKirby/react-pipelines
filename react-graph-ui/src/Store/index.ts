@@ -48,13 +48,17 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     },
     resetSelectedNodes: () =>  {
       const { triggerNodeChanges, getNodes } = get();
-      const changes = getNodes().map(node => ({id: node.id, selected: false}))
+      const changes = getNodes().map(node => ({id: node.id, selected: false}));
       triggerNodeChanges(createChange<NodeSelectionChange>(changes, 'select'));
     },
     triggerNodeChanges: (nodeChanges: ChangeTypes[]) => {
-      const { nodeInternals, getNodes } = get();
-      const nodes = applyNodeChanges(nodeChanges, getNodes());
-      set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
+      const { nodeInternals, getNodes, onNodesChange } = get();
+      if(nodeChanges.length){
+        const nodes = applyNodeChanges(nodeChanges, getNodes());
+        set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
+
+        onNodesChange?.(nodeChanges);
+      }
     },
 
     // Edge Store Actions
