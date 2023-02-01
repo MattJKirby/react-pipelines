@@ -9,6 +9,7 @@ const applyChanges = (changes: any[], elements: any[]): any[] => {
     const currentChanges = changes.filter((c) => c.id === item.id);
 
     if (currentChanges.length === 0) {
+      res.push(item);
       return res;
     }
 
@@ -32,7 +33,7 @@ const applyChanges = (changes: any[], elements: any[]): any[] => {
 
     res.push(updateItem);
     return res;
-  }, elements);
+  }, []);
 }
 
 export const applyNodeChanges = <NodeData>(changes: ChangeTypes[], nodes: INode<NodeData>[]): INode<NodeData>[] => {
