@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
 import TestNode from "../../src/Components/Node/TestNode"
-import { useEdgeStore, useNodesStore } from "../../src/Hooks/useStoreItemState"
+import { useNodesStore } from "../../src/Hooks/useStoreItemState"
 import { INode } from "../../src/Types"
 
 
@@ -25,8 +25,8 @@ const initialNodeList: INode<any>[] = [
 const GraphUI = () => {
   const nodeTypes = useMemo(() => ({ TestNode: TestNode }), []);
 
-  const [nodes, setNodes] = useNodesStore(initialNodeList)
-  const [edges, setEdges] = useEdgeStore(initialEdgeList)
+  const [nodes, setNodes, onNodesChange] = useNodesStore(initialNodeList);
+  // const [edges, setEdges] = useEdgeStore(initialEdgeList)
 
   const addNode = useCallback(() => {
     setNodes([...nodes, {id: `${nodes.length}`, type: 'TestNode', position: {x: 300, y: 200}, data: {test: "asdf"}}])
@@ -36,14 +36,26 @@ const GraphUI = () => {
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
       <button onClick={addNode}>Add Node</button>
       <GraphProvider>
-        <Graph nodes={nodes} nodeTypes={nodeTypes} edges={edges}>
+        <Graph 
+          nodes={nodes} 
+          nodeTypes={nodeTypes} 
+          // edges={edges}
+          onNodesChange={onNodesChange}
+        >
           <GraphCanvas gap={40} size={1} />
         </Graph>
       </GraphProvider>
     </div>
 
      <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
-        <Graph id="abc" nodes={nodes} nodeTypes={nodeTypes} edges={edges} enableDraggableNodes={false} enableSelectableNodes={false}>
+        <Graph 
+          id="abc" 
+          nodes={nodes} 
+          nodeTypes={nodeTypes} 
+          // edges={edges} 
+          enableDraggableNodes={false} 
+          enableSelectableNodes={false}
+          >
           <GraphCanvas gap={40} size={1} style='grid'/>
         </Graph>
       </div>
