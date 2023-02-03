@@ -9,7 +9,7 @@ import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 import { createNodeInternals } from "./utils";
 import { internalsSymbol } from "../Utils";
-import { ChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData } from "../Types/changes";
+import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData } from "../Types/changes";
 import { createChange, applyNodeChanges } from "../Changes";
 
 
@@ -51,7 +51,7 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       const changes = getNodes().map(node => ({id: node.id, selected: false}));
       triggerNodeChanges(createChange<NodeSelectionChange>(changes, 'select'));
     },
-    triggerNodeChanges: (nodeChanges: ChangeTypes[]) => {
+    triggerNodeChanges: (nodeChanges: NodeChangeTypes[]) => {
       const { nodeInternals, getNodes, onNodesChange } = get();
       if(nodeChanges.length){
         const nodes = applyNodeChanges(nodeChanges, getNodes());

@@ -7,7 +7,7 @@ export type NodeChange<Type, ChangeData> = {
   changeData: ChangeData;
 }
 
-export type ChangeTypes =
+export type NodeChangeTypes =
   | NodePositionChange 
   | NodeSelectionChange
   | NodeAddChange;
