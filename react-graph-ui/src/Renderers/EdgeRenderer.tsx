@@ -12,38 +12,38 @@ export interface EdgeTypeProps {
 
 const selector = (s: IGraphState) => ({
   customEdgeTypes: s.customEdgeTypes,
-  edges: s.edges,
+  edges: s.edgeInternals,
   handleInteraction: s.handleInteraction,
+  addEdge: s.addEdge,
   getHandle: s.getHandle,
-  newEdge: s.newEdge,
-  getEdge: s.getEdge,
   resetHandleInteraction: s.resetHandleInteraction
 });
 
 
 export const EdgeRenderer = () => {
-  const { customEdgeTypes, edges, handleInteraction, getHandle, newEdge, getEdge, resetHandleInteraction} = useStore(selector)
+  const { customEdgeTypes, edges, handleInteraction, addEdge, getHandle, resetHandleInteraction} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
 
   useEffect(() => {
     if(handleInteraction !== undefined){
       const {sourceHandle: source, targetHandle: target, edgeType} = handleInteraction
       if(source !== undefined && target !== undefined){
-        const existingEdge = getEdge(`edge-${source.id}-${target?.id}`)
+        const edgeId = `edge-${source.id}-${target?.id}`
+        const existingEdge = edges.get(edgeId)
 
         if(existingEdge === undefined){
-          newEdge(source.nodeId, source.id, target.nodeId, target.id, edgeType)
+          addEdge([{item: {id: edgeId, sourceNodeId: source.nodeId, sourceNodeOutput: source.id, targetNodeId: target.nodeId, targetNodeInput: target.id, type: edgeType}}])
         }
         resetHandleInteraction()
       }
       
     }
-  },[getEdge, handleInteraction, newEdge, resetHandleInteraction])
+  },[edges,handleInteraction, addEdge, resetHandleInteraction])
 
 
   return (
     <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}} >
-      {edges.map((edge, index) => {
+      {[...edges.values()].map((edge, index) => {
         const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default'];
 
         const source = getHandle(edge.sourceNodeId, edge.sourceNodeOutput);
