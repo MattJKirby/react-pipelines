@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { IEdge } from "./edge";
 import { IXYPosition } from "./generic"
 import { INode } from "./node";
 
@@ -28,7 +29,16 @@ export type NodeSelectionChangeData = {
 }
 
 export type NodeAddChangeData<NodeData = any> = {
-  node: INode<NodeData>;
+  item: INode<NodeData>;
+}
+
+export type EdgeChangeTypes = 
+  | EdgeAddChange;
+
+export type EdgeAddChange = NodeChange<'add', EdgeAddChangeData>
+
+export type EdgeAddChangeData = {
+  item: IEdge;
 }
 
 

@@ -15,3 +15,5 @@ export interface IEdgeProps {
   source: IHandle
   target: IHandle
 }
+
+export type EdgeInternals = Map<string, IEdge>;
