@@ -1,4 +1,4 @@
-import { IGraphStore, INode } from "../Types";
+import { IEdge, IGraphStore, INode } from "../Types";
 
 export const initialGraphState: IGraphStore = {
   graphId: "1",
@@ -7,7 +7,7 @@ export const initialGraphState: IGraphStore = {
   enableSelectableNodes: true,
   selectNodesOnDrag: true,
   nodeInternals: new Map<string, INode>(),
-  edges: [],
+  edgeInternals: new Map<string, IEdge>(),
   customNodeTypes: {},
   customEdgeTypes: {},
   handles: [],
@@ -15,4 +15,5 @@ export const initialGraphState: IGraphStore = {
   handleInteraction: undefined,
   selectedNodes: [],
   onNodesChange: undefined,
+  onEdgesChange: undefined,
 };
