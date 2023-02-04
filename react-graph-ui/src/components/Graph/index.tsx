@@ -19,6 +19,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
   enableSelectableNodes,
   selectNodesOnDrag,
   onNodesChange,
+  onEdgesChange,
 }) => {
   const graphId = id || '1';
 
@@ -33,6 +34,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
           enableSelectableNodes={enableSelectableNodes}
           selectNodesOnDrag={selectNodesOnDrag}
           onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
       />
       <GraphView>
         {children}
