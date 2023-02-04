@@ -1,4 +1,4 @@
-import { IHandle, INode, INodeHandles, NodeInternals } from "../Types";
+import { EdgeInternals, IEdge, IHandle, INode, INodeHandles, NodeInternals } from "../Types";
 import { internalsSymbol } from "../Utils";
 
 export const createNodeInternals = (nodes: INode[], nodeInternals: NodeInternals): NodeInternals => {
@@ -24,3 +24,20 @@ export const createNodeInternals = (nodes: INode[], nodeInternals: NodeInternals
  const createHandles = (): INodeHandles => {
   return { source: new Map<string, IHandle>(), target: new Map<string, IHandle>() }
  };
+
+ export const createEdgeInternals = (edges: IEdge[], edgeInternals: EdgeInternals): EdgeInternals => {
+  const newEdgeInternals = new Map<string, IEdge>();
+
+  edges.forEach(edge => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const existingInternals = edgeInternals.get(edge.id);
+
+    const internals: IEdge = {
+      ...edge
+    };
+
+    newEdgeInternals.set(edge.id, internals)
+  });
+  
+  return newEdgeInternals;
+ }
