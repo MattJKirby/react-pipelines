@@ -3,7 +3,7 @@ import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
 import TestNode from "../../src/Components/Node/TestNode"
-import { useNodesStore } from "../../src/Hooks/useStoreItemState"
+import { useEdgeStore, useNodesStore } from "../../src/Hooks/useStoreItemState"
 import { INode } from "../../src/Types"
 
 
@@ -26,11 +26,11 @@ const GraphUI = () => {
   const nodeTypes = useMemo(() => ({ TestNode: TestNode }), []);
 
   const [nodes, setNodes, onNodesChange] = useNodesStore(initialNodeList);
-  // const [edges, setEdges] = useEdgeStore(initialEdgeList)
+  const [edges, setEdges, onEdgesChange] = useEdgeStore(initialEdgeList)
 
   const addNode = useCallback(() => {
     setNodes([...nodes, {id: `${nodes.length}`, type: 'TestNode', position: {x: 300, y: 200}, data: {test: "asdf"}}])
-  }, [nodes]);
+  }, [nodes, setNodes]);
 
   return ( <div>
     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
@@ -39,8 +39,9 @@ const GraphUI = () => {
         <Graph 
           nodes={nodes} 
           nodeTypes={nodeTypes} 
-          // edges={edges}
+          edges={edges}
           onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
         >
           <GraphCanvas gap={40} size={1} />
         </Graph>
@@ -52,7 +53,7 @@ const GraphUI = () => {
           id="abc" 
           nodes={nodes} 
           nodeTypes={nodeTypes} 
-          // edges={edges} 
+          edges={edges} 
           enableDraggableNodes={false} 
           enableSelectableNodes={false}
           >
