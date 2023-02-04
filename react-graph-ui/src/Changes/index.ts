@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IEdge, INode } from "../Types";
-import { NodeChangeTypes } from "../Types/changes";
+import { EdgeChangeTypes, NodeChangeTypes } from "../Types/changes";
 
 const applyChanges = (changes: any[], elements: any[]): any[] => {
   const initElements: any[] = changes.filter((c) => c.type === 'add').map((c) => c.item);
@@ -33,17 +33,17 @@ const applyChanges = (changes: any[], elements: any[]): any[] => {
 
     res.push(updateItem);
     return res;
-  }, []);
+  }, initElements);
 }
 
 export const applyNodeChanges = <NodeData>(changes: NodeChangeTypes[], nodes: INode<NodeData>[]): INode<NodeData>[] => {
   return applyChanges(changes, nodes) as INode<NodeData>[];
 };
 
-export const applyEdgeChanges = (changes: any[], edges: IEdge[]): IEdge[] => {
+export const applyEdgeChanges = (changes: EdgeChangeTypes[], edges: IEdge[]): IEdge[] => {
   return applyChanges(changes, edges) as IEdge [];
 };
 
-export const createChange = <Type extends NodeChangeTypes>(changeData: Type['changeData'][], changeType: Type['type']): Type[] => {
+export const createChange = <Type extends NodeChangeTypes | EdgeChangeTypes>(changeData: Type['changeData'][], changeType: Type['type']): Type[] => {
   return changeData.map(c => ({...c, type: changeType} as unknown as Type));
 };
