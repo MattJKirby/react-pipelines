@@ -7,10 +7,10 @@ import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { INode, INodeProps } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
-import { createNodeInternals } from "./utils";
+import { createEdgeInternals, createNodeInternals } from "./utils";
 import { internalsSymbol } from "../Utils";
-import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData } from "../Types/changes";
-import { createChange, applyNodeChanges } from "../Changes";
+import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes } from "../Types/changes";
+import { createChange, applyNodeChanges, applyEdgeChanges } from "../Changes";
 
 
 export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IGraphState> => {
@@ -62,13 +62,33 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     },
 
     // Edge Store Actions
+    getEdges: () => {
+      return Array.from(get().edgeInternals.values());
+    },
+    setEdges: (edges: IEdge[]) => {
+      const { edgeInternals } = get();
+      set({edgeInternals: createEdgeInternals(edges, edgeInternals)});
+    },
+    addEdge: (changes: EdgeAddChange[]) => {
+      const { triggerEdgeChanges } = get();
+      triggerEdgeChanges(createChange<EdgeAddChange>(changes, 'add'));
+    },
+    
     setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),
-    addEdge: (edge: IEdge) => { set((state) => ({ edges: [...state.edges, edge] }))},
-    setEdges: (edges: IEdge[]) => set({edges: edges}),
+    
     newEdge: (sourceNodeId: string, sourceNodeOutput: string, targetNodeId: string, targetNodeInput: string, type: string) => {
       set((state) => ({ edges: [...state.edges, {id:`edge-${sourceNodeId}-${targetNodeId}`, sourceNodeId, sourceNodeOutput, targetNodeId, targetNodeInput, type}]}))
     },
-    getEdge: (edgeId: string) => { return get().edges.find(e => e.id === edgeId)},
+    triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => {
+      const { edgeInternals, getEdges, onEdgesChange } = get();
+
+      if(edgeChanges.length){
+        const edges = applyEdgeChanges(edgeChanges, getEdges());
+        set({edgeInternals: createEdgeInternals(edges, edgeInternals)});
+
+        onEdgesChange?.(edgeChanges);
+      };
+    },
 
     // Handle Store Actions
     addHandle: (nodeId: string, newHandle: IHandle) => {

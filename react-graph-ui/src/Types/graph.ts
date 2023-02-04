@@ -1,8 +1,8 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData } from "./changes";
-import { IEdge } from "./edge";
+import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData } from "./changes";
+import { EdgeInternals, IEdge } from "./edge";
 import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode, INodeProps, NodeInternals } from "./node";
@@ -21,7 +21,7 @@ export interface IGraphStore {
   selectedNodes: string[];
 
   // Edge Store
-  edges: IEdge[];
+  edgeInternals: EdgeInternals;
   customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> };
 
   // Handle Store
@@ -33,6 +33,7 @@ export interface IGraphStore {
 
   // Changes store
   onNodesChange: OnNodesChange | undefined;
+  onEdgesChange: OnEdgesChange | undefined;
 }
 
 export interface IGraphStoreActions {
@@ -51,11 +52,11 @@ export interface IGraphStoreActions {
   triggerNodeChanges: (nodeChanges: NodeChangeTypes[]) => void;
 
   // Edge Store Actions
-  addEdge: (edge: IEdge) => void;
+  getEdges: () => IEdge[];
   setEdges: (edges: IEdge[]) => void;
-  newEdge: (sourceNodeId: string, sourceNodeOutput: string, targetNodeId: string, targetNodeInput: string, type: string) => void;
+  addEdge: (changes: EdgeAddChangeData[]) => void;
   setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
-  getEdge: (edgeId: string) => void;
+  triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => void;
 
   // Handle Store Actions
   addHandle: (nodeId: string, newHandle: IHandle) => void;
@@ -85,6 +86,9 @@ export interface IGraphProps {
   enableSelectableNodes?: boolean;
   selectNodesOnDrag?: boolean;
   onNodesChange?: OnNodesChange;
+  onEdgesChange?: OnEdgesChange;
 }
 
 export type OnNodesChange = (changes: NodeChangeTypes[]) => void;
+
+export type OnEdgesChange = (changes: EdgeChangeTypes[]) => void;
