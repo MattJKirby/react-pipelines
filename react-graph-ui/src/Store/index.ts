@@ -9,7 +9,7 @@ import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 import { createEdgeInternals, createNodeInternals } from "./utils";
 import { internalsSymbol } from "../Utils";
-import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes } from "../Types/changes";
+import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData } from "../Types/changes";
 import { createChange, applyNodeChanges, applyEdgeChanges } from "../Changes";
 
 
@@ -69,16 +69,11 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       const { edgeInternals } = get();
       set({edgeInternals: createEdgeInternals(edges, edgeInternals)});
     },
-    addEdge: (changes: EdgeAddChange[]) => {
+    addEdge: (changes: EdgeAddChangeData[]) => {
       const { triggerEdgeChanges } = get();
       triggerEdgeChanges(createChange<EdgeAddChange>(changes, 'add'));
     },
-    
     setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),
-    
-    newEdge: (sourceNodeId: string, sourceNodeOutput: string, targetNodeId: string, targetNodeInput: string, type: string) => {
-      set((state) => ({ edges: [...state.edges, {id:`edge-${sourceNodeId}-${targetNodeId}`, sourceNodeId, sourceNodeOutput, targetNodeId, targetNodeInput, type}]}))
-    },
     triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => {
       const { edgeInternals, getEdges, onEdgesChange } = get();
 
