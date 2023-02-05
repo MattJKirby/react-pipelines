@@ -8,21 +8,23 @@ import { EdgeChangeTypes, NodeChangeTypes } from '../Types/changes';
 type ApplyChanges<ChangeType, ItemType> = (changed: ChangeType[], items: ItemType[]) => ItemType[];
 type OnChange<ChangeType> = (changes: ChangeType[]) => void;
 
-function createUseStoreItemsState(applyChanges: ApplyChanges<NodeChangeTypes, INode>): <NodeData = any>(initialItems: INode<NodeData>[]) => [INode<NodeData>[], Dispatch<SetStateAction<INode<NodeData>[]>>, OnChange<NodeChangeTypes>]
-function createUseStoreItemsState(applyChanges: ApplyChanges<EdgeChangeTypes, IEdge>): (initialItems: IEdge[]) => [IEdge[], Dispatch<SetStateAction<IEdge[]>>, OnChange<EdgeChangeTypes>]
+function createUseStoreItemsState<ChangeType extends NodeChangeTypes>(applyChanges: ApplyChanges<NodeChangeTypes, INode>): <NodeData = any>(initialItems: INode<NodeData>[]) => [INode<NodeData>[], Dispatch<SetStateAction<INode<NodeData>[]>>, OnChange<NodeChangeTypes>, ChangeType[]]
+function createUseStoreItemsState<ChangeType extends EdgeChangeTypes>(applyChanges: ApplyChanges<EdgeChangeTypes, IEdge>): (initialItems: IEdge[]) => [IEdge[], Dispatch<SetStateAction<IEdge[]>>, OnChange<EdgeChangeTypes>, ChangeType[]]
 
-function createUseStoreItemsState(applyChanges: ApplyChanges<any, any>): (initialItems: any[]) => [any[], Dispatch<SetStateAction<any[]>>, OnChange<any>] {
+function createUseStoreItemsState<ChangeType>(applyChanges: ApplyChanges<any, any>): (initialItems: any[]) => [any[], Dispatch<SetStateAction<any[]>>, OnChange<any>, ChangeType[]] {
   return (initialItems: any[]) => {
     const [items, setItems] = useState(initialItems);
+    const [changes, setChanges] = useState<ChangeType[]>([]);
 
-    const onItemsChange = useCallback((changes: any[]) => {
+    const onItemsChange = useCallback((changes: ChangeType[]) => {
       setItems((items: any) => applyChanges(changes, items))
+      setChanges(changes)
     }, [])
 
-    return [items, setItems, onItemsChange];
+    return [items, setItems, onItemsChange, changes];
   };
 };
 
 
-export const useNodesStore = createUseStoreItemsState(applyNodeChanges);
-export const useEdgeStore = createUseStoreItemsState(applyEdgeChanges);
+export const useNodesStore = createUseStoreItemsState<NodeChangeTypes>(applyNodeChanges);
+export const useEdgeStore = createUseStoreItemsState<EdgeChangeTypes>(applyEdgeChanges);

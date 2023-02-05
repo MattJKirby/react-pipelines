@@ -25,8 +25,8 @@ const initialNodeList: INode<any>[] = [
 const GraphUI = () => {
   const nodeTypes = useMemo(() => ({ TestNode: TestNode }), []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesStore(initialNodeList);
-  const [edges, setEdges, onEdgesChange] = useEdgeStore(initialEdgeList)
+  const [nodes, setNodes, onNodesChange, nodeChanges] = useNodesStore(initialNodeList);
+  const [edges, setEdges, onEdgesChange, edgeChanges] = useEdgeStore(initialEdgeList)
 
   const addNode = useCallback(() => {
     setNodes([...nodes, {id: `${nodes.length}`, type: 'TestNode', position: {x: 300, y: 200}, data: {test: "asdf"}}])
