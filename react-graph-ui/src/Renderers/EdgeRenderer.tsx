@@ -28,8 +28,8 @@ export const EdgeRenderer = () => {
     if(handleInteraction !== undefined){
       const {sourceHandle: source, targetHandle: target, edgeType} = handleInteraction
       if(source !== undefined && target !== undefined){
-        const edgeId = `edge-${source.id}-${target?.id}`
-        const existingEdge = edges.get(edgeId)
+        const edgeId = `edge-${source.nodeId}_${source.id}-${target.nodeId}_${target?.id}`
+        const existingEdge = edges.get(edgeId);
 
         if(existingEdge === undefined){
           addEdge([{item: {id: edgeId, sourceNodeId: source.nodeId, sourceNodeOutput: source.id, targetNodeId: target.nodeId, targetNodeInput: target.id, type: edgeType}}])
