@@ -5,6 +5,7 @@ export const initialGraphState: IGraphStore = {
   graphTransform: { scale: 1, translateX: 0, translateY: 0 },
   enableDraggableNodes: true,
   enableSelectableNodes: true,
+  enableSelectableEdges: true,
   selectNodesOnDrag: true,
   nodeInternals: new Map<string, INode>(),
   edgeInternals: new Map<string, IEdge>(),
