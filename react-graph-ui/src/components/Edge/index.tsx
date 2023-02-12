@@ -1,18 +1,31 @@
-import { memo } from "react"
-import EdgeDataContext from "../../Contexts/EdgeDataContext"
-import { IEdgeProps } from "../../Types"
+import { FC, memo, PropsWithChildren } from "react"
+import { useStoreApi } from "../../Hooks/useStoreApi"
+import { IEdgeContainerProps } from "../../Types"
+import { edgeSelectHandler } from "./utils"
 
-const Edge = ({
-  children, 
-  edge, 
+
+const Edge: FC<PropsWithChildren<IEdgeContainerProps>> = ({
+  children,
+  id,
   source, 
-  target
-}: IEdgeProps) => {
+  target,
+  enableSelect,
+  path,
+  interactionWidth
+}) => {
+  const store = useStoreApi();
+  const pathDimensions = {width: Math.abs(target.position.x - source.position.x), height: Math.abs(target.position.y - source.position.y)}
 
   return (
-   <EdgeDataContext.Provider value={{edge, ...{source, target}}}>
-    {children}
-   </EdgeDataContext.Provider>
+    <g
+      style={{width: pathDimensions.width, height: pathDimensions.height}}
+      width={pathDimensions.width}
+      height={pathDimensions.height}
+      onClickCapture={() => edgeSelectHandler({id, store, disabled: !enableSelect})}
+    >
+      <path d={path} style={{stroke: 'transparent'}} strokeWidth={interactionWidth}/>
+      {children}
+    </g>
   )
 }
 
