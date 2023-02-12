@@ -32,7 +32,8 @@ export interface INodeProps<T = any> {
   data: T;
 }
 
-interface INodeStore {
+// TODO: rename this to IStoreAPI
+export interface INodeStore {
   getState: StoreApi<IGraphState>['getState'],
   setState: StoreApi<IGraphState>['setState'],
 }
