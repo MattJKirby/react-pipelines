@@ -1,4 +1,5 @@
 import { IHandle } from "./handle";
+import { INodeStore } from "./node";
 
 export interface IEdge {
   id: string;
@@ -8,15 +9,31 @@ export interface IEdge {
   targetNodeInput: string;
   type: string;
   selected?: boolean;
+  pathType?: PathType;
+  interactionWidth?: number;
 }
 
-export interface IEdgeProps {
+export interface IEdgeContainerProps {
   children: React.ReactNode;
-  edge: IEdge;
+  id: string;
   source: IHandle;
   target: IHandle;
   selected: boolean;
   enableSelect: boolean;
+  path: string
+  interactionWidth: number;
 }
 
 export type EdgeInternals = Map<string, IEdge>;
+
+export type PathType = 
+| 'straight'
+
+export type PathTypeMap = Map<PathType, (source: IHandle, target: IHandle) => string>
+
+// TODO: Make Generic for nodes and edge types
+export type SelectHandlerProps = {
+  id: string,
+  store: INodeStore,
+  disabled: boolean,
+}
