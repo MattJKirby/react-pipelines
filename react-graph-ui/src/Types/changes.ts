@@ -33,12 +33,17 @@ export type NodeAddChangeData<NodeData = any> = {
 }
 
 export type EdgeChangeTypes = 
-  | EdgeAddChange;
+  | EdgeAddChange
+  | EdgeSelectionChange;
 
 export type EdgeAddChange = NodeChange<'add', EdgeAddChangeData>
+export type EdgeSelectionChange = NodeChange<'select', EdgeSelectionChangeData>
 
 export type EdgeAddChangeData = {
   item: IEdge;
 }
 
-
+export type EdgeSelectionChangeData = {
+  id: string;
+  selected: boolean;
+}
