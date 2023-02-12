@@ -1,6 +1,7 @@
-import React, { ComponentType, useEffect } from "react"
+import React, { ComponentType, memo, useEffect } from "react"
 import Edge from "../Components/Edge";
 import DefaultEdge from "../Components/Edge/DefaultEdge"
+import { edgePathTypeMap } from "../Components/Edge/utils";
 import { useStore } from "../Hooks/useStore"
 import { IGraphState, IHandle } from "../Types"
 
@@ -9,6 +10,7 @@ export interface EdgeTypeProps {
   sourceHandle: IHandle;
   targetHandle: IHandle;
   selected: boolean;
+  path?: string;
 }
 
 const selector = (s: IGraphState) => ({
@@ -50,23 +52,28 @@ export const EdgeRenderer = () => {
 
         const source = getHandle(edge.sourceNodeId, edge.sourceNodeOutput);
         const target = getHandle(edge.targetNodeId, edge.targetNodeInput);
-
-        const selected = enableSelectableEdges && (edge.selected || false);
-
+       
       if(source && target){
-        return (
+        const selected = enableSelectableEdges && (edge.selected || false);
+        const path = edgePathTypeMap.get(edge.pathType || 'straight')?.(source, target);
+        const interactionWidth = edge.interactionWidth || 40;
+
+        return path && (
           <Edge 
-            key={index} 
-            edge={edge} 
+            key={index}
+            id={edge.id}
             source={source} 
             target={target}
             selected={selected}
             enableSelect={enableSelectableEdges}
+            path={path}
+            interactionWidth={interactionWidth}
           >
             <EdgeType
               sourceHandle={source}
               targetHandle={target}
               selected={selected}
+              path={path}
             />
           </Edge>
         )
@@ -76,4 +83,4 @@ export const EdgeRenderer = () => {
   )
 }
 
-export default EdgeRenderer
+export default memo(EdgeRenderer)
