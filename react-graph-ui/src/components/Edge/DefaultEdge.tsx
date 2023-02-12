@@ -1,16 +1,14 @@
 import React from "react"
 import { EdgeTypeProps } from "../../Renderers/EdgeRenderer";
-import { CalculateStraightPath } from "./utils";
 
 const DefaultEdge = ({
-  sourceHandle, 
-  targetHandle,
-  selected
+  selected,
+  path
 }: EdgeTypeProps) => {
 
   return (
     <>
-      <path d={CalculateStraightPath(sourceHandle, targetHandle)} style={{stroke: selected ? 'red' : '#bbb'}}/>
+      <path d={path} style={{stroke: selected ? 'red' : '#bbb'}}/>
     </>
   )
 }
