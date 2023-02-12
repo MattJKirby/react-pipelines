@@ -1,5 +1,22 @@
-import { IHandle } from "../../Types"
+import { PathTypeMap, SelectHandlerProps } from "../../Types"
+import { CalculateStraightPath } from "./pathTypes";
 
-export const CalculateStraightPath = (source: IHandle, target: IHandle) => {
-  return `M${source.position.x} ${source.position.y} L ${target.position.x} ${target.position.y}`
+export const edgeSelectHandler = ({
+  id,
+  store,
+  disabled
+}: SelectHandlerProps) => {
+  const { updateSelectedEdges, resetSelectedEdges, edgeInternals } = store.getState();
+  const edge = edgeInternals.get(id);
+
+  if(!disabled){
+    if(!edge?.selected){
+      resetSelectedEdges();
+      updateSelectedEdges([{id, selected: true}])
+    }
+  }
 }
+
+export const edgePathTypeMap: PathTypeMap = new Map([
+  ['straight', CalculateStraightPath]
+])
