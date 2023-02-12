@@ -43,6 +43,7 @@ const StoreUpdater = (props: IGraphProps) => {
   useDirectStoreUpdater<boolean>('enableDraggableNodes', props.enableDraggableNodes, storeApi.setState);
   useDirectStoreUpdater<boolean>('enableSelectableNodes', props.enableSelectableNodes, storeApi.setState);
   useDirectStoreUpdater<boolean>('selectNodesOnDrag', props.selectNodesOnDrag, storeApi.setState);
+  useDirectStoreUpdater<boolean>('enableSelectableEdges', props.enableSelectableEdges, storeApi.setState);
   useDirectStoreUpdater<OnNodesChange>('onNodesChange', props.onNodesChange, storeApi.setState);
   useDirectStoreUpdater<OnEdgesChange>('onEdgesChange', props.onEdgesChange, storeApi.setState)
 

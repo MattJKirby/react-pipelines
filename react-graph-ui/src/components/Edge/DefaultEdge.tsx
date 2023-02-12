@@ -4,12 +4,13 @@ import { CalculateStraightPath } from "./utils";
 
 const DefaultEdge = ({
   sourceHandle, 
-  targetHandle
+  targetHandle,
+  selected
 }: EdgeTypeProps) => {
 
   return (
     <>
-      <path d={CalculateStraightPath(sourceHandle, targetHandle)} style={{stroke: '#bbb'}}/>
+      <path d={CalculateStraightPath(sourceHandle, targetHandle)} style={{stroke: selected ? 'red' : '#bbb'}}/>
     </>
   )
 }
