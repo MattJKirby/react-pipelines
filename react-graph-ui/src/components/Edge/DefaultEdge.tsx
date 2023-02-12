@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { EdgeTypeProps } from "../../Renderers/EdgeRenderer";
 
 const DefaultEdge = ({
@@ -15,4 +15,4 @@ const DefaultEdge = ({
 
 DefaultEdge.displayName = 'TestNode';
 
-export default DefaultEdge
+export default memo(DefaultEdge)
