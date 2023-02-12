@@ -1,7 +1,7 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData } from "./changes";
+import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
 import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
@@ -14,6 +14,7 @@ export interface IGraphStore {
   enableDraggableNodes: boolean;
   enableSelectableNodes: boolean;
   selectNodesOnDrag: boolean;
+  enableSelectableEdges: boolean;
 
   // Node Store
   nodeInternals: NodeInternals;
@@ -57,6 +58,8 @@ export interface IGraphStoreActions {
   addEdge: (changes: EdgeAddChangeData[]) => void;
   setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
   triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => void;
+  updateSelectedEdges: (edgeChanges: EdgeSelectionChangeData[]) => void;
+  resetSelectedEdges: () => void;
 
   // Handle Store Actions
   addHandle: (nodeId: string, newHandle: IHandle) => void;
@@ -85,6 +88,7 @@ export interface IGraphProps {
   enableDraggableNodes?: boolean;
   enableSelectableNodes?: boolean;
   selectNodesOnDrag?: boolean;
+  enableSelectableEdges?: boolean;
   onNodesChange?: OnNodesChange;
   onEdgesChange?: OnEdgesChange;
 }
