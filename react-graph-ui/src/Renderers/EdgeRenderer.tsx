@@ -8,12 +8,14 @@ import { IGraphState, IHandle } from "../Types"
 export interface EdgeTypeProps {
   sourceHandle: IHandle;
   targetHandle: IHandle;
+  selected: boolean;
 }
 
 const selector = (s: IGraphState) => ({
   customEdgeTypes: s.customEdgeTypes,
   edges: s.edgeInternals,
   handleInteraction: s.handleInteraction,
+  enableSelectableEdges: s.enableSelectableEdges,
   addEdge: s.addEdge,
   getHandle: s.getHandle,
   resetHandleInteraction: s.resetHandleInteraction
@@ -21,7 +23,7 @@ const selector = (s: IGraphState) => ({
 
 
 export const EdgeRenderer = () => {
-  const { customEdgeTypes, edges, handleInteraction, addEdge, getHandle, resetHandleInteraction} = useStore(selector)
+  const { customEdgeTypes, edges, handleInteraction, enableSelectableEdges, addEdge, getHandle, resetHandleInteraction} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
 
   useEffect(() => {
@@ -49,6 +51,8 @@ export const EdgeRenderer = () => {
         const source = getHandle(edge.sourceNodeId, edge.sourceNodeOutput);
         const target = getHandle(edge.targetNodeId, edge.targetNodeInput);
 
+        const selected = enableSelectableEdges && (edge.selected || false);
+
       if(source && target){
         return (
           <Edge 
@@ -56,10 +60,13 @@ export const EdgeRenderer = () => {
             edge={edge} 
             source={source} 
             target={target}
+            selected={selected}
+            enableSelect={enableSelectableEdges}
           >
             <EdgeType
               sourceHandle={source}
               targetHandle={target}
+              selected={selected}
             />
           </Edge>
         )
