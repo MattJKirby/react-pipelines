@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { ComponentType } from "react"
 import Node from "../Components/Node"
 import DefaultNode from "../Components/Node/DefaultNode"
@@ -52,4 +52,4 @@ export const NodeRenderer = () => {
   )
 }
 
-export default NodeRenderer
+export default memo(NodeRenderer)
