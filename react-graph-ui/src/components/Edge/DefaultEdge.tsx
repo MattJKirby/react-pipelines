@@ -8,7 +8,7 @@ const DefaultEdge = ({
 
   return (
     <>
-      <path d={path} style={{stroke: selected ? 'red' : '#bbb'}}/>
+      <path d={path} style={{stroke: selected ? '#000' : '#bbb'}}/>
     </>
   )
 }
