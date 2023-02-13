@@ -8,13 +8,13 @@ import { INode } from "../../src/Types"
 
 
 const initialNodeList: INode<any>[] = [
-  {id: '0', type: 'default', position: {x: 50, y: 50}, data: {label: "node1"}}, 
+  {id: '0', type: 'default', position: {x: 50, y: 50}, data: {label: "node1"}, enableSelect: false}, 
   {id: '1', type: 'TestNode', position: {x: 100, y: 50}, data: {label: "asdf", test: "node3"}},
   {id: '2', type: 'default', position: {x: 50, y: 100}, data: {label: "asdf"}}
 ]
 
   const initialEdgeList = [
-    {id: "edge-0-1", sourceNodeId: '0', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default'},
+    {id: "edge-0-1", sourceNodeId: '0', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default', enableSelect: false},
     {id: "edge-2-1", sourceNodeId: '2', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default'}
   ]
 
@@ -29,7 +29,7 @@ const GraphUI = () => {
   const [edges, setEdges, onEdgesChange, edgeChanges] = useEdgeStore(initialEdgeList)
 
   const addNode = useCallback(() => {
-    setNodes([...nodes, {id: `${nodes.length}`, type: 'TestNode', position: {x: 300, y: 200}, data: {test: "asdf"}}])
+    setNodes([...nodes, {id: `${nodes.length}`, type: 'default', position: {x: 300, y: 200}, data: {test: "asdf"}}])
   }, [nodes, setNodes]);
 
   return ( <div>

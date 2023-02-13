@@ -9,6 +9,7 @@ export interface IEdge {
   targetNodeInput: string;
   type: string;
   selected?: boolean;
+  enableSelect?: boolean;
   pathType?: PathType;
   interactionWidth?: number;
 }

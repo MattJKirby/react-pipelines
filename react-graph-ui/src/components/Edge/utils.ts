@@ -5,7 +5,7 @@ export const edgeSelectHandler = ({
   id,
   store,
   disabled = false,
-  unselect = false
+  unselect = true
 }: SelectHandlerProps) => {
   const { updateSelectedEdges, resetSelectedEdges, edgeInternals } = store.getState();
   const edge = edgeInternals.get(id);

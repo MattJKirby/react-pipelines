@@ -54,9 +54,10 @@ export const EdgeRenderer = () => {
         const target = getHandle(edge.targetNodeId, edge.targetNodeInput);
        
       if(source && target){
+        const enableSelect = edge.enableSelect === undefined ? true : edge.enableSelect;
         const selected = enableSelectableEdges && (edge.selected || false);
         const path = edgePathTypeMap.get(edge.pathType || 'straight')?.(source, target);
-        const interactionWidth = edge.interactionWidth || 40;
+        const interactionWidth = edge.interactionWidth || 20;
 
         return path && (
           <Edge 
@@ -65,7 +66,7 @@ export const EdgeRenderer = () => {
             source={source} 
             target={target}
             selected={selected}
-            enableSelect={enableSelectableEdges}
+            enableSelect={enableSelectableEdges && enableSelect}
             path={path}
             interactionWidth={interactionWidth}
           >
