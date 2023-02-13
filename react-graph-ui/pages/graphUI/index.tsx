@@ -56,6 +56,7 @@ const GraphUI = () => {
           edges={edges} 
           enableDraggableNodes={false} 
           enableSelectableNodes={false}
+          enableSelectableEdges={false}
           >
           <GraphCanvas gap={40} size={1} style='grid'/>
         </Graph>
