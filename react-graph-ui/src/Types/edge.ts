@@ -35,5 +35,6 @@ export type PathTypeMap = Map<PathType, (source: IHandle, target: IHandle) => st
 export type SelectHandlerProps = {
   id: string,
   store: INodeStore,
-  disabled: boolean,
+  disabled?: boolean,
+  unselect?: boolean
 }
