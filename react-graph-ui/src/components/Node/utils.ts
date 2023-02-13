@@ -8,7 +8,7 @@ export const nodeSelectHandler = ({
   id, 
   store,
   unselect = false,
-  disabled = false,
+  disabled = true,
 }: INodeSelectHandlerProps) => {
   const { updateSelectedNodes, resetSelectedNodes, nodeInternals } = store.getState()
   const node = nodeInternals.get(id);
