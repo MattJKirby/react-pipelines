@@ -16,6 +16,7 @@ export interface EdgeTypeProps {
 const selector = (s: IGraphState) => ({
   customEdgeTypes: s.customEdgeTypes,
   edges: s.edgeInternals,
+  nodes: s.nodeInternals,
   handleInteraction: s.handleInteraction,
   enableSelectableEdges: s.enableSelectableEdges,
   addEdge: s.addEdge,
@@ -25,7 +26,7 @@ const selector = (s: IGraphState) => ({
 
 
 export const EdgeRenderer = () => {
-  const { customEdgeTypes, edges, handleInteraction, enableSelectableEdges, addEdge, getHandle, resetHandleInteraction} = useStore(selector)
+  const { customEdgeTypes, edges, handleInteraction, enableSelectableEdges, addEdge, getHandle, resetHandleInteraction, nodes} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export const EdgeRenderer = () => {
 
 
   return (
-    <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}} >
+    <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
       {[...edges.values()].map((edge, index) => {
         const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default'];
 
@@ -58,6 +59,7 @@ export const EdgeRenderer = () => {
         const selected = enableSelectableEdges && (edge.selected || false);
         const path = edgePathTypeMap.get(edge.pathType || 'straight')?.(source, target);
         const interactionWidth = edge.interactionWidth || 20;
+        const dragging = (nodes.get(edge.sourceNodeId)?.dragging || nodes.get(edge.targetNodeId)?.dragging) || false;
 
         return path && (
           <Edge 
@@ -69,6 +71,7 @@ export const EdgeRenderer = () => {
             enableSelect={enableSelectableEdges && enableSelect}
             path={path}
             interactionWidth={interactionWidth}
+            dragging={dragging}
           >
             <EdgeType
               sourceHandle={source}

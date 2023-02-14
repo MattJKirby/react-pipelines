@@ -23,6 +23,7 @@ export interface IEdgeContainerProps {
   enableSelect: boolean;
   path: string
   interactionWidth: number;
+  dragging: boolean;
 }
 
 export type EdgeInternals = Map<string, IEdge>;
