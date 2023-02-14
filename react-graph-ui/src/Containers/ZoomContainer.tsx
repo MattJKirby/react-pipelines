@@ -33,7 +33,7 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
 
   return (
     <div ref={zoomContainer} style={{ width: '100%', height: '100%', zIndex: -1, backgroundColor: 'transparent'}}>
-      <div ref={zoom} style={{ height: "100%", left: 0, top: 0, width: "100%", transform: `translate(${transform.translateX}px, ${transform.translateY}px) scale(${transform.scale})`, transformOrigin: '0 0'}}>
+      <div ref={zoom} style={{ height: "100%", left: 0, top: 0, width: "100%", transform: `translate(${transform.translateX}px, ${transform.translateY}px) scale(${transform.scale})`, transformOrigin: '0 0', position: 'relative'}}>
         {children}
       </div>
     </div>
