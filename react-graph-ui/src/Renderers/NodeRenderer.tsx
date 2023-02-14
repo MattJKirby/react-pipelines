@@ -25,6 +25,7 @@ export const NodeRenderer = () => {
           const enableDrag = node.enableDrag === undefined ? true : node.enableDrag;
           const selected = store.enableNodeSelect && (node.selected || false);
           const dragging = store.enableNodeDrag && (node.dragging || false);
+          const zIndex = (node.z || 'auto')
 
           
           return (
@@ -37,6 +38,7 @@ export const NodeRenderer = () => {
               enableSelect={store.enableNodeSelect && enableSelect}
               enableDrag={store.enableNodeDrag && enableDrag}
               selectOnDrag={store.enableNodeSelect && store.selectNodeOnDrag}
+              z={zIndex}
               >
                 <NodeType 
                   id={node.id}

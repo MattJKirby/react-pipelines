@@ -11,7 +11,8 @@ const Node = ({
   position,
   enableSelect,
   enableDrag,
-  selectOnDrag
+  selectOnDrag,
+  z
   
 }: NodeContainerProps) => {
   const store = useStoreApi();
@@ -25,7 +26,7 @@ const Node = ({
     }}>
       <div
         ref={nodeRef}
-        style={{transform: `translate(${position.x}px, ${position.y}px)`, position: 'fixed', userSelect: "none"}}
+        style={{transform: `translate(${position.x}px, ${position.y}px)`, position: 'fixed', userSelect: "none", zIndex: !dragging ? z : 9999}}
         onClickCapture={() => nodeSelectHandler({id: id, store: store, disabled: !enableSelect})}
         >
         {children}

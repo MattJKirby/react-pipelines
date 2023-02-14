@@ -17,6 +17,7 @@ export interface INode<T = any> {
   dragging?: boolean;
   enableDrag?: boolean;
   data: T;
+  z?: number;
 
   // Only used internally
   [internalsSymbol]?: {
@@ -65,6 +66,7 @@ export interface NodeContainerProps {
   enableSelect: boolean;
   enableDrag: boolean;
   selectOnDrag: boolean;
+  z: number | 'auto';
 }
 
 export interface INodeHandles {
