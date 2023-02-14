@@ -18,14 +18,14 @@ export const NodeRenderer = () => {
   const nodeTypes: { [key: string]: ComponentType<INodeProps> } = {...{default: DefaultNode}, ...store.customNodeTypes}
 
   return (
-    <div style={{position: 'relative', display: 'flex'}}>
+    <div style={{display: 'flex', position: 'relative'}}>
         {store.nodes.map(node => {
           const NodeType = nodeTypes[node.type] as ComponentType<INodeProps> || nodeTypes['default'];
           const enableSelect = node.enableSelect === undefined ? true : node.enableSelect;
           const enableDrag = node.enableDrag === undefined ? true : node.enableDrag;
           const selected = store.enableNodeSelect && (node.selected || false);
           const dragging = store.enableNodeDrag && (node.dragging || false);
-          const zIndex = (node.z || 'auto')
+          const zIndex = (node.z || 'initial')
 
           
           return (

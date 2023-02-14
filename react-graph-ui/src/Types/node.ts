@@ -66,7 +66,7 @@ export interface NodeContainerProps {
   enableSelect: boolean;
   enableDrag: boolean;
   selectOnDrag: boolean;
-  z: number | 'auto';
+  z: number | 'initial';
 }
 
 export interface INodeHandles {
