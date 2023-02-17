@@ -62,10 +62,26 @@ const GraphUI = () => {
         </Graph>
       </div>
 
+      <div style={{position: "relative"}}>
+        <div id="container2" style={{position: 'absolute'}}>
+          <div id="child2" style={{zIndex: 2, position: 'absolute'}}>Child 2</div>
+        </div>
+
+        <div id="container1" style={{position: 'absolute'}}>
+          <div id="child1" style={{zIndex: 1, position: 'absolute', color: 'red'}}>Child 1</div>
+        </div>
+      </div>
+
+
+
+
+
   </div>
-    
     
   )
 
 }
-export default GraphUI
+export default GraphUI;
+
+
+
