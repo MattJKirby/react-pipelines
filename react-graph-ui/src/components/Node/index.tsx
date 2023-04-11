@@ -17,7 +17,7 @@ const Node = ({
 }: NodeContainerProps) => {
   const store = useStoreApi();
   const nodeRef = useRef<HTMLDivElement>(null);
-  const dragging = useDrag({store: store, nodeId: id, nodeRef: nodeRef, position: position, disabled: !enableDrag, selectOnDrag: selectOnDrag});
+  const dragging = useDrag({store: store, nodeId: id, nodeRef: nodeRef, position: position, disabled: !enableDrag, selectOnDrag: selectOnDrag && enableSelect});
 
   return (
     <NodeDataContext.Provider value={{
