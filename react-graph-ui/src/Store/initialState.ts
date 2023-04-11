@@ -7,6 +7,7 @@ export const initialGraphState: IGraphStore = {
   enableSelectableNodes: true,
   enableSelectableEdges: true,
   selectNodesOnDrag: true,
+  multiSelectionActive: false,
   nodeInternals: new Map<string, INode>(),
   edgeInternals: new Map<string, IEdge>(),
   customNodeTypes: {},
