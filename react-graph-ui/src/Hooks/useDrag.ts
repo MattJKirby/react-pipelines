@@ -15,7 +15,6 @@ const useDrag = ({
   position,
   selectOnDrag = true,
 }: IUseDragProps) => {
- 
     const { graphTransform, updateNodePosition } = store.getState();
     const [dragging, setDragging] = useState<boolean>(false);
     const lastPos = useRef<{ x: number | null; y: number | null; }>({ x: null, y: null });
