@@ -1,7 +1,7 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData } from "./changes";
+import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
 import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
@@ -13,6 +13,7 @@ export interface IGraphStore {
   graphTransform: ITransform;
   enableDraggableNodes: boolean;
   enableSelectableNodes: boolean;
+  multiSelectionActive: boolean;
   selectNodesOnDrag: boolean;
   enableSelectableEdges: boolean;
 
@@ -45,7 +46,7 @@ export interface IGraphStoreActions {
   getNodes: () => INode[];
   addNode: (changes: NodeAddChangeData[]) => void;
   setNodes: (nodes: INode[]) => void;
-  removeNode: (id: string) => void;
+  removeNode: (changes: RemoveNodeChangeData[]) => void;
   updateNodePosition: (changes: NodePositionChangeData[]) => void;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
   updateSelectedNodes: (changes: NodeSelectionChangeData[]) => void;
