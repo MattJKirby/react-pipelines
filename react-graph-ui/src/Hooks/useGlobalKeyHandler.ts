@@ -3,9 +3,9 @@ import useKeyPress from "./useKeyPress";
 import { useStoreApi } from "./useStoreApi";
 
 type GlobalKeyHandlerProps = {
-  unselectKeyCode: string;
-  deleteKeyCode: string;
-  multiSelectKey: string;
+  deselectKeyCode?: string;
+  deleteKeyCode?: string;
+  multiSelectionKeyCode?: string;
 }
 
 /**
@@ -13,14 +13,14 @@ type GlobalKeyHandlerProps = {
  * @param param0 
  */
 export const UseGlobalKeyHandler = ({
-  unselectKeyCode,
-  deleteKeyCode,
-  multiSelectKey
+  deselectKeyCode = 'Escape',
+  deleteKeyCode = 'Backspace',
+  multiSelectionKeyCode = 'Shift'
 }: GlobalKeyHandlerProps) => {
   const store = useStoreApi();
-  const unselectKeyPressed = useKeyPress(unselectKeyCode);
+  const deselectKeyPressed = useKeyPress(deselectKeyCode);
   const deleteKeyPressed = useKeyPress(deleteKeyCode);
-  const multiSelectKeyPressed = useKeyPress(multiSelectKey);
+  const multiSelectKeyPressed = useKeyPress(multiSelectionKeyCode);
 
   useEffect(() => {
     if(deleteKeyPressed){
@@ -32,12 +32,12 @@ export const UseGlobalKeyHandler = ({
   }, [deleteKeyPressed, store])
 
   useEffect(() => {
-    if(unselectKeyPressed){
+    if(deselectKeyPressed){
       const { resetSelectedNodes, resetSelectedEdges  } = store.getState();
       resetSelectedNodes();
       resetSelectedEdges();
     }
-  }, [store, unselectKeyPressed]);
+  }, [store, deselectKeyPressed]);
 
   useEffect(() => {
     store.setState({multiSelectionActive: multiSelectKeyPressed})
