@@ -1,10 +1,11 @@
 import { FC, PropsWithChildren, useRef, MouseEvent } from "react";
 import ZoomContainer from "../../Containers/ZoomContainer";
+import UseGlobalKeyHandler from "../../Hooks/useGlobalKeyHandler";
 import { useStore } from "../../Hooks/useStore";
 import EdgeRenderer from "../../Renderers/EdgeRenderer";
 import { InteractionRenderer } from "../../Renderers/InteractionRenderer";
 import NodeRenderer from "../../Renderers/NodeRenderer";
-import { IGraphState } from "../../Types";
+import { GraphViewProps, IGraphState } from "../../Types";
 import { calculateScaledMousePosition } from "./utils";
 
 const selector = (s: IGraphState) => ({
@@ -16,9 +17,15 @@ const selector = (s: IGraphState) => ({
   resetSelectedEdges: s.resetSelectedEdges
 });
 
-const GraphView: FC<PropsWithChildren> = ({children}) => {
-  const flowRef = useRef<HTMLDivElement>(null)
-  const store = useStore(selector)
+const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
+  deleteKeyCode,
+  deselectKeyCode,
+  multiSelectionKeyCode,
+  children
+}) => {
+  const flowRef = useRef<HTMLDivElement>(null);
+  const store = useStore(selector);
+  UseGlobalKeyHandler({deselectKeyCode, deleteKeyCode, multiSelectionKeyCode});
   
   const handleMouseMove = (e: MouseEvent) => {
     if(store.handleInteraction !== undefined && flowRef.current !== null){

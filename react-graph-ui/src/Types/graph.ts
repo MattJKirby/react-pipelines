@@ -94,11 +94,13 @@ export interface IStoreUpdaterProps {
   onEdgesChange?: OnEdgesChange;
 }
 
-export interface IGraphProps extends IStoreUpdaterProps {
-  deselectKeyCode?: string;
+export interface GraphViewProps {
   deleteKeyCode?: string;
+  deselectKeyCode?: string;
   multiSelectionKeyCode?: string;
 }
+
+export interface IGraphProps extends IStoreUpdaterProps, GraphViewProps {}
 
 export type OnNodesChange = (changes: NodeChangeTypes[]) => void;
 
