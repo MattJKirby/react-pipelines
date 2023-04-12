@@ -20,5 +20,10 @@ export const nodeSelectHandler = ({
     } else if (unselect){
       updateSelectedNodes([{id, selected: false}]);
     }
+
+    if(node?.selected && !multiSelectionActive){
+      resetSelectedNodes()
+      updateSelectedNodes([{id, selected: true}]);
+    }
   }
 }
