@@ -44,7 +44,7 @@ const GraphCanvas = ({
   }
 
   return (
-    <svg width={'100%'} height={'100%'} style={{ backgroundColor: backgroundColor ? backgroundColor : '#FFF', pointerEvents: 'none', position: 'absolute', top: 0, zIndex: -1 }}>
+    <svg className='RP_Canvas' width={'100%'} height={'100%'} style={{ backgroundColor: backgroundColor ? backgroundColor : '#FFF', pointerEvents: 'none', position: 'absolute', top: 0, zIndex: -1 }}>
       <pattern
         id={`pattern-${graphId}`}
         x={xOffset}
