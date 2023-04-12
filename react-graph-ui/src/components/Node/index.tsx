@@ -1,4 +1,4 @@
-import React, { memo, useRef } from "react"
+import React, { memo, MouseEvent, useRef } from "react"
 import NodeDataContext from "../../Contexts/NodeDataContext"
 import { NodeContainerProps } from "../../Types";
 import { nodeSelectHandler } from "./utils";
@@ -25,6 +25,7 @@ const Node = ({
       position: position
     }}>
       <div
+        className="RP_Node__Container"
         ref={nodeRef}
         style={{transform: `translate(${position.x}px, ${position.y}px)`, position: 'fixed', userSelect: "none", zIndex: !dragging ? z : 9999}}
         onClickCapture={() => nodeSelectHandler({id: id, store: store, disabled: !enableSelect})}
