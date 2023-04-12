@@ -11,6 +11,7 @@ import { calculateScaledMousePosition } from "./utils";
 const selector = (s: IGraphState) => ({
   transform: s.graphTransform,
   handleInteraction: s.handleInteraction,
+  multiSelectionActive: s.multiSelectionActive,
   setHandleInteraction: s.setHandleInteraction,
   resetHandleInteraction: s.resetHandleInteraction,
   resetSelectedNodes: s.resetSelectedNodes,
@@ -33,17 +34,20 @@ const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
     }
   }
 
-  const handleMouseDown = () => {
-    store.resetSelectedNodes();
-    store.resetSelectedEdges();
+  const handleMouseDown = (e: MouseEvent & {target: HTMLElement}) => {    
+    if(e.target.classList.length < 2 && !store.multiSelectionActive){
+      store.resetSelectedNodes();
+      store.resetSelectedEdges();
+    }
   }
 
   return (
     <div
+      className="RP_GraphView"
       ref={flowRef}
       onMouseUp={() => store.resetHandleInteraction()}
       onMouseMove={(e: MouseEvent) => handleMouseMove(e)}
-      onMouseDownCapture={handleMouseDown}
+      onMouseDownCapture={(e) => handleMouseDown(e)}
       style={{width: "100%", height: "100%", overflow: "hidden", position: "relative"}}
       >
         <ZoomContainer>
