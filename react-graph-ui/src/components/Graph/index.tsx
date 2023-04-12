@@ -19,6 +19,9 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
   enableSelectableNodes,
   selectNodesOnDrag,
   enableSelectableEdges,
+  deleteKeyCode,
+  deselectKeyCode,
+  multiSelectionKeyCode,
   onNodesChange,
   onEdgesChange,
 }) => {
@@ -38,7 +41,11 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
       />
-      <GraphView>
+      <GraphView
+        deleteKeyCode={deleteKeyCode}
+        deselectKeyCode={deselectKeyCode}
+        multiSelectionKeyCode={multiSelectionKeyCode}
+      >
         {children}
       </GraphView>
     </GraphWrapper>
