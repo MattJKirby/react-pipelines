@@ -40,10 +40,12 @@ export type RemoveNodeChangeData = {
 
 export type EdgeChangeTypes = 
   | EdgeAddChange
-  | EdgeSelectionChange;
+  | EdgeSelectionChange
+  | RemoveEdgeChange;
 
 export type EdgeAddChange = NodeChange<'add', EdgeAddChangeData>
 export type EdgeSelectionChange = NodeChange<'select', EdgeSelectionChangeData>
+export type RemoveEdgeChange = NodeChange<'remove', RemoveEdgeChangeData>
 
 export type EdgeAddChangeData = {
   item: IEdge;
@@ -52,4 +54,8 @@ export type EdgeAddChangeData = {
 export type EdgeSelectionChangeData = {
   id: string;
   selected: boolean;
+}
+
+export type RemoveEdgeChangeData = {
+  id: string;
 }
