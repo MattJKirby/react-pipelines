@@ -34,8 +34,12 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
     },
     removeNode: (changes: RemoveNodeChangeData[]) => {
-      const { triggerNodeChanges } = get();
-      triggerNodeChanges(createChange<RemoveNodeChange>(changes,'remove'))
+      const { triggerNodeChanges, getEdges, triggerEdgeChanges } = get();
+      const nodes: string[] = [...new Set(changes.map((change) => change.id))];
+      const connectedEdges = getEdges().filter(e => nodes.includes(e.sourceNodeId) || nodes.includes(e.targetNodeId));
+    
+      triggerEdgeChanges(createChange<RemoveEdgeChange>(connectedEdges.map(e => {return {id: e.id}}), 'remove'));
+      triggerNodeChanges(createChange<RemoveNodeChange>(changes,'remove'));
     },
     updateNodePosition: (changes: NodePositionChangeData[]) => {
       const { triggerNodeChanges } = get();
