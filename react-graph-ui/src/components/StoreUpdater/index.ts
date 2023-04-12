@@ -2,7 +2,7 @@ import { ComponentType, useEffect } from "react";
 import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
 import { useStoreApi } from "../../Hooks/useStoreApi";
-import { IEdge, IGraphProps, IGraphState, IGraphStore, INode, INodeProps, OnEdgesChange, OnNodesChange } from "../../Types";
+import { IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange } from "../../Types";
 
 /**
  * StoreUpdater hook for graph store keys that don't have a dedicated setter.
@@ -35,7 +35,7 @@ const selector = (s: IGraphState) => ({
 /**
  * StoreUpdaterComponent used to update the store when the graph prop values change.
  */
-const StoreUpdater = (props: IGraphProps) => {
+const StoreUpdater = (props: IStoreUpdaterProps) => {
   const storeApi = useStoreApi();
   const store = useStore(selector);
 
