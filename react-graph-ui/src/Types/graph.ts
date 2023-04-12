@@ -1,7 +1,7 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData } from "./changes";
+import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
 import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
@@ -57,6 +57,7 @@ export interface IGraphStoreActions {
   getEdges: () => IEdge[];
   setEdges: (edges: IEdge[]) => void;
   addEdge: (changes: EdgeAddChangeData[]) => void;
+  removeEdge: (changes: RemoveEdgeChangeData[]) => void;
   setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
   triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => void;
   updateSelectedEdges: (edgeChanges: EdgeSelectionChangeData[]) => void;
