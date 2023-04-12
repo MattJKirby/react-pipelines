@@ -24,10 +24,12 @@ export const UseGlobalKeyHandler = ({
 
   useEffect(() => {
     if(deleteKeyPressed){
-      const { getNodes, removeNode } = store.getState();
+      const { getNodes, getEdges, removeNode, removeEdge } = store.getState();
       const selectedNodes = getNodes().filter(n => n.selected);
+      const selectedEdge = getEdges().filter(e => e.selected);
 
-      selectedNodes.forEach(n => removeNode([{id: n.id}]))
+      selectedNodes.forEach(n => removeNode([{id: n.id}]));
+      selectedEdge.forEach(e => removeEdge([{id: e.id}]));
     }
   }, [deleteKeyPressed, store])
 
