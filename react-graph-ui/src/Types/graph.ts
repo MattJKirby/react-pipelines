@@ -81,7 +81,7 @@ export type IInitialGraphProps = Subset<IGraphStore, {
   graphId: string;
 }>
 
-export interface IGraphProps {
+export interface IStoreUpdaterProps {
   id?: string;
   nodes?: INode[];
   nodeTypes?: { [key: string]: ComponentType<INodeProps> };
@@ -92,6 +92,12 @@ export interface IGraphProps {
   enableSelectableEdges?: boolean;
   onNodesChange?: OnNodesChange;
   onEdgesChange?: OnEdgesChange;
+}
+
+export interface IGraphProps extends IStoreUpdaterProps {
+  deselectKeyCode?: string;
+  deleteKeyCode?: string;
+  multiSelectionKeyCode?: string;
 }
 
 export type OnNodesChange = (changes: NodeChangeTypes[]) => void;
