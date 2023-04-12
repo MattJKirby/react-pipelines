@@ -31,7 +31,9 @@ const applyChanges = (changes: any[], elements: any[]): any[] => {
       }
     }
 
-    res.push(updateItem);
+    if(currentChanges.filter(c => c.type === 'remove').length === 0){
+      res.push(updateItem);
+    }
     return res;
   }, initElements);
 }

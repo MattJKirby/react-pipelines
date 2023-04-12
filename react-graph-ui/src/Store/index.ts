@@ -9,7 +9,7 @@ import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 import { createEdgeInternals, createNodeInternals } from "./utils";
 import { internalsSymbol } from "../Utils";
-import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, EdgeSelectionChange } from "../Types/changes";
+import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, EdgeSelectionChange, RemoveNodeChangeData, RemoveNodeChange, RemoveEdgeChangeData, RemoveEdgeChange } from "../Types/changes";
 import { createChange, applyNodeChanges, applyEdgeChanges } from "../Changes";
 
 
@@ -33,9 +33,9 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       const { nodeInternals } = get();
       set({ nodeInternals: createNodeInternals(nodes, nodeInternals)});
     },
-    removeNode: (id: string) => {
-      const { nodeInternals, getNodes } = get();
-      set({ nodeInternals: createNodeInternals(getNodes().filter((node) => node.id !== id), nodeInternals)});
+    removeNode: (changes: RemoveNodeChangeData[]) => {
+      const { triggerNodeChanges } = get();
+      triggerNodeChanges(createChange<RemoveNodeChange>(changes,'remove'))
     },
     updateNodePosition: (changes: NodePositionChangeData[]) => {
       const { triggerNodeChanges } = get();
@@ -72,6 +72,10 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     addEdge: (changes: EdgeAddChangeData[]) => {
       const { triggerEdgeChanges } = get();
       triggerEdgeChanges(createChange<EdgeAddChange>(changes, 'add'));
+    },
+    removeEdge: (changes: RemoveEdgeChangeData[]) => {
+      const { triggerEdgeChanges } = get();
+      triggerEdgeChanges(createChange<RemoveEdgeChange>(changes, 'remove'));
     },
     setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),
     updateSelectedEdges: (edgeChanges: EdgeSelectionChangeData[]) => {

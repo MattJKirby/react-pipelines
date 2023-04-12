@@ -1,7 +1,7 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData } from "./changes";
+import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
 import { ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
@@ -13,6 +13,7 @@ export interface IGraphStore {
   graphTransform: ITransform;
   enableDraggableNodes: boolean;
   enableSelectableNodes: boolean;
+  multiSelectionActive: boolean;
   selectNodesOnDrag: boolean;
   enableSelectableEdges: boolean;
 
@@ -45,7 +46,7 @@ export interface IGraphStoreActions {
   getNodes: () => INode[];
   addNode: (changes: NodeAddChangeData[]) => void;
   setNodes: (nodes: INode[]) => void;
-  removeNode: (id: string) => void;
+  removeNode: (changes: RemoveNodeChangeData[]) => void;
   updateNodePosition: (changes: NodePositionChangeData[]) => void;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
   updateSelectedNodes: (changes: NodeSelectionChangeData[]) => void;
@@ -56,6 +57,7 @@ export interface IGraphStoreActions {
   getEdges: () => IEdge[];
   setEdges: (edges: IEdge[]) => void;
   addEdge: (changes: EdgeAddChangeData[]) => void;
+  removeEdge: (changes: RemoveEdgeChangeData[]) => void;
   setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
   triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => void;
   updateSelectedEdges: (edgeChanges: EdgeSelectionChangeData[]) => void;
@@ -80,7 +82,7 @@ export type IInitialGraphProps = Subset<IGraphStore, {
   graphId: string;
 }>
 
-export interface IGraphProps {
+export interface IStoreUpdaterProps {
   id?: string;
   nodes?: INode[];
   nodeTypes?: { [key: string]: ComponentType<INodeProps> };
@@ -92,6 +94,14 @@ export interface IGraphProps {
   onNodesChange?: OnNodesChange;
   onEdgesChange?: OnEdgesChange;
 }
+
+export interface GraphViewProps {
+  deleteKeyCode?: string;
+  deselectKeyCode?: string;
+  multiSelectionKeyCode?: string;
+}
+
+export interface IGraphProps extends IStoreUpdaterProps, GraphViewProps {}
 
 export type OnNodesChange = (changes: NodeChangeTypes[]) => void;
 

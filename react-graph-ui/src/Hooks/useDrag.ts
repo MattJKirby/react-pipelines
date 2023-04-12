@@ -13,9 +13,8 @@ const useDrag = ({
   disabled = false, 
   nodeId,
   position,
-  selectOnDrag: selectNodesOnDrag = true,
+  selectOnDrag = true,
 }: IUseDragProps) => {
- 
     const { graphTransform, updateNodePosition } = store.getState();
     const [dragging, setDragging] = useState<boolean>(false);
     const lastPos = useRef<{ x: number | null; y: number | null; }>({ x: null, y: null });
@@ -33,12 +32,11 @@ const useDrag = ({
     const dragHandler = drag()
       .on('start', (event: useDragEvent) => {
         setDragging(true);
-        nodeSelectHandler({id: nodeId, store});
         const newPos = getProjectedPosition(event, position)
         lastPos.current = newPos;
 
-        if(selectNodesOnDrag){
-          nodeSelectHandler({id: nodeId, store: store})
+        if(selectOnDrag){
+          nodeSelectHandler({id: nodeId, store: store, disabled: !selectOnDrag})
         }
       })
       .on('drag', (event: useDragEvent) => {

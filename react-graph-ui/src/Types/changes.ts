@@ -11,11 +11,13 @@ export type NodeChange<Type, ChangeData> = {
 export type NodeChangeTypes =
   | NodePositionChange 
   | NodeSelectionChange
-  | NodeAddChange;
+  | NodeAddChange
+  | RemoveNodeChange;
 
 export type NodePositionChange = NodeChange<'position', NodePositionChangeData>;
 export type NodeSelectionChange = NodeChange<'select', NodeSelectionChangeData>;
 export type NodeAddChange = NodeChange<'add', NodeAddChangeData>;
+export type RemoveNodeChange = NodeChange<'remove', RemoveNodeChangeData>;
 
 export type NodePositionChangeData = {
   id: string;
@@ -32,12 +34,18 @@ export type NodeAddChangeData<NodeData = any> = {
   item: INode<NodeData>;
 }
 
+export type RemoveNodeChangeData = {
+  id: string;
+}
+
 export type EdgeChangeTypes = 
   | EdgeAddChange
-  | EdgeSelectionChange;
+  | EdgeSelectionChange
+  | RemoveEdgeChange;
 
 export type EdgeAddChange = NodeChange<'add', EdgeAddChangeData>
 export type EdgeSelectionChange = NodeChange<'select', EdgeSelectionChangeData>
+export type RemoveEdgeChange = NodeChange<'remove', RemoveEdgeChangeData>
 
 export type EdgeAddChangeData = {
   item: IEdge;
@@ -46,4 +54,8 @@ export type EdgeAddChangeData = {
 export type EdgeSelectionChangeData = {
   id: string;
   selected: boolean;
+}
+
+export type RemoveEdgeChangeData = {
+  id: string;
 }
