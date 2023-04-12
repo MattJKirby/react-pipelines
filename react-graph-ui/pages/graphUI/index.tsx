@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useCallback, useMemo } from "react"
 import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
@@ -57,6 +57,9 @@ const GraphUI = () => {
           enableDraggableNodes={false} 
           enableSelectableNodes={false}
           enableSelectableEdges={false}
+          deleteKeyCode={"q"}
+          deselectKeyCode={'s'}
+          multiSelectionKeyCode={'a'}
           >
           <GraphCanvas gap={40} size={1} style='grid'/>
         </Graph>
