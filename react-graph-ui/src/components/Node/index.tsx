@@ -1,14 +1,16 @@
-import React, { memo, MouseEvent, useRef } from "react"
+import React, { memo, useRef } from "react"
 import NodeDataContext from "../../Contexts/NodeDataContext"
 import { NodeContainerProps } from "../../Types";
 import { nodeSelectHandler } from "./utils";
 import { useStoreApi } from "../../Hooks/useStoreApi";
 import useDrag from "../../Hooks/useDrag";
+import useNodeDimensions from "../../Hooks/useNodeDimensions";
 
 const Node = ({
   children, 
   id,
   position,
+  dimensions,
   enableSelect,
   enableDrag,
   selectOnDrag,
@@ -18,6 +20,7 @@ const Node = ({
   const store = useStoreApi();
   const nodeRef = useRef<HTMLDivElement>(null);
   const dragging = useDrag({store: store, nodeId: id, nodeRef: nodeRef, position: position, disabled: !enableDrag, selectOnDrag: selectOnDrag && enableSelect});
+  useNodeDimensions({store, nodeId: id, nodeRef: nodeRef, dimensions})
 
   return (
     <NodeDataContext.Provider value={{

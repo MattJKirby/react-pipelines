@@ -33,6 +33,7 @@ export const NodeRenderer = () => {
               id={node.id}
               type={node.type}
               position={node.position}
+              dimensions={node.dimensions}
               selected={selected}
               enableSelect={store.enableNodeSelect && enableSelect}
               enableDrag={store.enableNodeDrag && enableDrag}
@@ -42,6 +43,7 @@ export const NodeRenderer = () => {
                 <NodeType 
                   id={node.id}
                   position={node.position}
+                  dimensions={node.dimensions}
                   selected={selected}
                   dragging={dragging}
                   data={node.data} 

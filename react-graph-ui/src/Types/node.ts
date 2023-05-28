@@ -2,15 +2,14 @@
 import { RefObject } from "react";
 import { StoreApi } from "zustand";
 import { internalsSymbol } from "../Utils";
-import { IXYPosition } from "./generic";
+import { Dimension, IXYPosition } from "./generic";
 import { IGraphState } from "./graph";
 import { IHandle } from "./handle";
 
 export interface INode<T = any> {
   id: string;
   type: string;
-  width?: number | null;
-  height?: number | null;
+  dimensions: Dimension;
   position: IXYPosition;
   selected?: boolean;
   enableSelect?: boolean;
@@ -28,6 +27,7 @@ export interface INode<T = any> {
 export interface INodeProps<T = any> {
   id: string;
   position: IXYPosition;
+  dimensions: Dimension;
   selected: boolean;
   dragging: boolean;
   data: T;
@@ -62,6 +62,7 @@ export interface NodeContainerProps {
   id: string;
   type: string;
   position: IXYPosition;
+  dimensions: Dimension;
   selected: boolean;
   enableSelect: boolean;
   enableDrag: boolean;
