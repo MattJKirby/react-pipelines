@@ -9,8 +9,8 @@ import { IHandle } from "./handle";
 export interface INode<T = any> {
   id: string;
   type: string;
-  dimensions: Dimension;
   position: IXYPosition;
+  dimensions?: Dimension;
   selected?: boolean;
   enableSelect?: boolean;
   dragging?: boolean;
@@ -62,7 +62,6 @@ export interface NodeContainerProps {
   id: string;
   type: string;
   position: IXYPosition;
-  dimensions: Dimension;
   selected: boolean;
   enableSelect: boolean;
   enableDrag: boolean;

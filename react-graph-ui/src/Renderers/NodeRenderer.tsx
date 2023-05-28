@@ -25,6 +25,7 @@ export const NodeRenderer = () => {
           const enableDrag = node.enableDrag === undefined ? true : node.enableDrag;
           const selected = store.enableNodeSelect && (node.selected || false);
           const dragging = store.enableNodeDrag && (node.dragging || false);
+          const dimensions = node.dimensions === undefined ? {width: 0, height: 0} : node.dimensions
           const zIndex = (node.z || 'initial')
  
           return (
@@ -33,7 +34,6 @@ export const NodeRenderer = () => {
               id={node.id}
               type={node.type}
               position={node.position}
-              dimensions={node.dimensions}
               selected={selected}
               enableSelect={store.enableNodeSelect && enableSelect}
               enableDrag={store.enableNodeDrag && enableDrag}
@@ -43,7 +43,7 @@ export const NodeRenderer = () => {
                 <NodeType 
                   id={node.id}
                   position={node.position}
-                  dimensions={node.dimensions}
+                  dimensions={dimensions}
                   selected={selected}
                   dragging={dragging}
                   data={node.data} 
