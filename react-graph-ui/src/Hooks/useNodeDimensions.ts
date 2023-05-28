@@ -1,28 +1,26 @@
 import { RefObject, useEffect } from "react";
-import { Dimension, INodeStore } from "../Types";
+import { INodeStore } from "../Types";
 import useDynamicDimensions from "./useDynamicDimensions";
 
 type useNodeDimensionsProps = {
   store: INodeStore
   nodeRef: RefObject<HTMLElement>;
   nodeId: string;
-  dimensions: Dimension;
 }
 
 const useNodeDimensions = ({
   store,
   nodeRef,
   nodeId,
-  dimensions,
 }: useNodeDimensionsProps) => {
     const newDimensions = useDynamicDimensions({itemRef: nodeRef});
-    const { updateNodeDimensions } = store.getState();
+    const { updateNodeDimensions, nodeInternals } = store.getState();
 
     useEffect(() => {
-      if(newDimensions !== dimensions){
+      if(newDimensions !== nodeInternals.get(nodeId)?.dimensions){
         updateNodeDimensions([{id: nodeId, dimensions: newDimensions}])
       }
-    }, [dimensions, newDimensions, nodeId, updateNodeDimensions])
+    }, [newDimensions, nodeId, nodeInternals, updateNodeDimensions])
 
   return (
     newDimensions

@@ -10,7 +10,6 @@ const Node = ({
   children, 
   id,
   position,
-  dimensions,
   enableSelect,
   enableDrag,
   selectOnDrag,
@@ -20,7 +19,7 @@ const Node = ({
   const store = useStoreApi();
   const nodeRef = useRef<HTMLDivElement>(null);
   const dragging = useDrag({store: store, nodeId: id, nodeRef: nodeRef, position: position, disabled: !enableDrag, selectOnDrag: selectOnDrag && enableSelect});
-  useNodeDimensions({store, nodeId: id, nodeRef: nodeRef, dimensions})
+  const dimensions = useNodeDimensions({store, nodeId: id, nodeRef: nodeRef});
 
   return (
     <NodeDataContext.Provider value={{
