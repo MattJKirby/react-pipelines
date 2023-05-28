@@ -1,15 +1,16 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
+import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData, NodeDimensionChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
-import { ITransform, IXYPosition } from "./generic";
+import { Dimension, ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode, INodeProps, NodeInternals } from "./node";
 
 export interface IGraphStore {
   // Graph Store
   graphId: string;
+  graphDimensions: Dimension;
   graphTransform: ITransform;
   enableDraggableNodes: boolean;
   enableSelectableNodes: boolean;
@@ -41,6 +42,7 @@ export interface IGraphStore {
 export interface IGraphStoreActions {
   // Graph Store Actions
   setGraphTransform: (graphTransform: ITransform) => void;
+  setGraphDimensions: (graphDimensions: Dimension) => void;
 
   // Node Store Actions
   getNodes: () => INode[];
@@ -48,6 +50,7 @@ export interface IGraphStoreActions {
   setNodes: (nodes: INode[]) => void;
   removeNode: (changes: RemoveNodeChangeData[]) => void;
   updateNodePosition: (changes: NodePositionChangeData[]) => void;
+  updateNodeDimensions: (changes: NodeDimensionChangeData[]) => void;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
   updateSelectedNodes: (changes: NodeSelectionChangeData[]) => void;
   resetSelectedNodes: () => void;
