@@ -1,6 +1,6 @@
 import { StoreApi } from "zustand";
 import { createStore } from "zustand";
-import { IGraphState, IInitialGraphProps, ITransform, IXYPosition } from "../Types";
+import { Dimension, IGraphState, IInitialGraphProps, ITransform, IXYPosition } from "../Types";
 import { initialGraphState } from "./initialState";
 import { ComponentType } from "react";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
@@ -9,7 +9,7 @@ import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
 import { createEdgeInternals, createNodeInternals } from "./utils";
 import { internalsSymbol } from "../Utils";
-import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, EdgeSelectionChange, RemoveNodeChangeData, RemoveNodeChange, RemoveEdgeChangeData, RemoveEdgeChange } from "../Types/changes";
+import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, EdgeSelectionChange, RemoveNodeChangeData, RemoveNodeChange, RemoveEdgeChangeData, RemoveEdgeChange, NodeDimensionChangeData, NodeDimensionChange } from "../Types/changes";
 import { createChange, applyNodeChanges, applyEdgeChanges } from "../Changes";
 
 
@@ -20,6 +20,7 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
    
     // Graph Store Actions
     setGraphTransform: (graphTransform: ITransform) => set({graphTransform}),
+    setGraphDimensions: (graphDimensions: Dimension) => set({graphDimensions}),
 
     // Node Store Actions
     getNodes: () => {
@@ -44,6 +45,10 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     updateNodePosition: (changes: NodePositionChangeData[]) => {
       const { triggerNodeChanges } = get();
       triggerNodeChanges(createChange<NodePositionChange>(changes, 'position'));
+    },
+    updateNodeDimensions: (changes: NodeDimensionChangeData[]) => {
+      const { triggerNodeChanges } = get()
+      triggerNodeChanges(createChange<NodeDimensionChange>(changes, 'dimensions'))
     },
     setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<INodeProps> }) => set({customNodeTypes}),
     updateSelectedNodes: (changes: NodeSelectionChangeData[]) => {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IEdge } from "./edge";
-import { IXYPosition } from "./generic"
+import { Dimension, IXYPosition } from "./generic"
 import { INode } from "./node";
 
 export type NodeChange<Type, ChangeData> = {
@@ -10,11 +10,13 @@ export type NodeChange<Type, ChangeData> = {
 
 export type NodeChangeTypes =
   | NodePositionChange 
+  | NodeDimensionChange
   | NodeSelectionChange
   | NodeAddChange
   | RemoveNodeChange;
 
 export type NodePositionChange = NodeChange<'position', NodePositionChangeData>;
+export type NodeDimensionChange = NodeChange<'dimensions', NodeDimensionChangeData>;
 export type NodeSelectionChange = NodeChange<'select', NodeSelectionChangeData>;
 export type NodeAddChange = NodeChange<'add', NodeAddChangeData>;
 export type RemoveNodeChange = NodeChange<'remove', RemoveNodeChangeData>;
@@ -23,6 +25,11 @@ export type NodePositionChangeData = {
   id: string;
   position: IXYPosition;
   dragging: boolean;
+}
+
+export type NodeDimensionChangeData = {
+  id: string,
+  dimensions: Dimension;
 }
 
 export type NodeSelectionChangeData = {

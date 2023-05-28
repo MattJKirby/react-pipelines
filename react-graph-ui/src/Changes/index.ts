@@ -23,6 +23,9 @@ const applyChanges = (changes: any[], elements: any[]): any[] => {
             updateItem.dragging = currentChange.dragging;
             break;
           }
+          case 'dimensions': {
+            updateItem.dimensions = currentChange.dimensions
+          }
           case 'select': {
             updateItem.selected = currentChange.selected;
             break;

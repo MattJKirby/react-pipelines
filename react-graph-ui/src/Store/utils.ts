@@ -8,8 +8,6 @@ export const createNodeInternals = (nodes: INode[], nodeInternals: NodeInternals
     const existingInternals = nodeInternals.get(node.id);
 
     const internals: INode = {
-      width: existingInternals?.width,
-      height: existingInternals?.height,
       [internalsSymbol]: {
         handles: existingInternals?.[internalsSymbol]?.handles === undefined ? createHandles() : existingInternals?.[internalsSymbol]?.handles 
       },
