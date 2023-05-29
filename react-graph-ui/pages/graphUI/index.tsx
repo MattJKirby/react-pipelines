@@ -5,6 +5,7 @@ import GraphProvider from "../../src/Components/GraphProvider"
 import TestNode from "../../src/Components/Node/TestNode"
 import { useEdgeStore, useNodesStore } from "../../src/Hooks/useStoreItemState"
 import { INode } from "../../src/Types"
+import MiniMap from "../../src/Components/MiniMap"
 
 
 const initialNodeList: INode<any>[] = [
@@ -33,7 +34,7 @@ const GraphUI = () => {
   }, [nodes, setNodes]);
 
   return ( <div>
-    <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
+    <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "200px"}}>
       <button onClick={addNode}>Add Node</button>
       <GraphProvider>
         <Graph 
@@ -43,12 +44,13 @@ const GraphUI = () => {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
         >
+          <MiniMap top right/>
           <GraphCanvas gap={40} size={1} />
         </Graph>
       </GraphProvider>
     </div>
 
-     <div style={{flex: '1', overflow: "hidden", margin: "5rem", height: "500px"}}>
+     <div style={{overflow: "hidden", margin: "5rem", height: "500px"}}>
         <Graph 
           id="abc" 
           nodes={nodes} 
@@ -61,6 +63,7 @@ const GraphUI = () => {
           deselectKeyCode={'s'}
           multiSelectionKeyCode={'a'}
           >
+            <MiniMap top right/>
           <GraphCanvas gap={40} size={1} style='grid'/>
         </Graph>
       </div>
