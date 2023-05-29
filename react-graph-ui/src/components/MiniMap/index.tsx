@@ -1,4 +1,4 @@
-import { FC, memo } from "react"
+import React, { FC, memo } from "react"
 import Panel from "../Panel";
 import { useStore } from "../../Hooks/useStore";
 import { IGraphState } from "../../Types";
@@ -38,7 +38,7 @@ const MiniMap: FC<MiniMapProps> = ({
   width = 200,
   height = 150,
 }) => {
-  const {nodes, viewRect, contentRect} = useStore(selector)
+  const {nodes, viewRect, contentRect} = useStore(selector);
   
   const scaledWidth = contentRect.width / width;
   const scaledHeight = contentRect.height / height;
@@ -59,7 +59,7 @@ const MiniMap: FC<MiniMapProps> = ({
       width={width} 
       height={height} 
       style={{bottom: positionBottom, left: positionLeft, zIndex: 9999}}>
-        <svg 
+        <svg
           style={{width: `${width}px`, height: `${height}px`, backgroundColor: "white"}} 
           viewBox={`${x} ${y} ${viewBoxWidth} ${viewBoxHeight}`}
         >

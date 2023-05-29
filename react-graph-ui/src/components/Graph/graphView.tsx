@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useRef, MouseEvent } from "react";
+import { FC, PropsWithChildren, useRef, MouseEvent, use, useEffect } from "react";
 import ZoomContainer from "../../Containers/ZoomContainer";
 import UseGlobalKeyHandler from "../../Hooks/useGlobalKeyHandler";
 import { useStore } from "../../Hooks/useStore";
@@ -7,15 +7,18 @@ import { InteractionRenderer } from "../../Renderers/InteractionRenderer";
 import NodeRenderer from "../../Renderers/NodeRenderer";
 import { GraphViewProps, IGraphState } from "../../Types";
 import { calculateScaledMousePosition } from "./utils";
+import useDynamicDimensions from "../../Hooks/useDynamicDimensions";
 
 const selector = (s: IGraphState) => ({
   transform: s.graphTransform,
+  dimensions: s.graphDimensions,
   handleInteraction: s.handleInteraction,
   multiSelectionActive: s.multiSelectionActive,
   setHandleInteraction: s.setHandleInteraction,
   resetHandleInteraction: s.resetHandleInteraction,
   resetSelectedNodes: s.resetSelectedNodes,
-  resetSelectedEdges: s.resetSelectedEdges
+  resetSelectedEdges: s.resetSelectedEdges,
+  setGraphDimensions: s.setGraphDimensions
 });
 
 const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
@@ -26,8 +29,15 @@ const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
 }) => {
   const flowRef = useRef<HTMLDivElement>(null);
   const store = useStore(selector);
+  const dimensions = useDynamicDimensions({itemRef: flowRef});
   UseGlobalKeyHandler({deselectKeyCode, deleteKeyCode, multiSelectionKeyCode});
-  
+
+  useEffect(() => {
+    if(dimensions !== store.dimensions){
+      store.setGraphDimensions(dimensions);
+    }
+  }, [dimensions, store])
+
   const handleMouseMove = (e: MouseEvent) => {
     if(store.handleInteraction !== undefined && flowRef.current !== null){
       store.setHandleInteraction({...store.handleInteraction, mousePosition: calculateScaledMousePosition(e, flowRef.current, store.transform)})
@@ -50,12 +60,13 @@ const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
       onMouseDownCapture={(e) => handleMouseDown(e)}
       style={{width: "100%", height: "100%", overflow: "hidden", position: "relative"}}
       >
+        {children}
         <ZoomContainer>
           <InteractionRenderer />
           <EdgeRenderer />
           <NodeRenderer />    
         </ZoomContainer>
-        {children}
+        
     </div>
   )
 }

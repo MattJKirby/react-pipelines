@@ -5,7 +5,7 @@ import {select} from 'd3-selection'
 
 type useGraphTransformProps = {
   store: INodeStore;
-  transformerRef: RefObject<HTMLDivElement>;
+  transformerRef: RefObject<HTMLDivElement | SVGSVGElement>;
 }
 
 /**
