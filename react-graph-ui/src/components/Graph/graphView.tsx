@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, useRef, MouseEvent, use, useEffect } from "react";
-import ZoomContainer from "../../Containers/ZoomContainer";
+import { FC, PropsWithChildren, useRef, MouseEvent, useEffect } from "react";
+import ZoomContainer from "../../Containers/ZoomContainer/ZoomContainer";
 import UseGlobalKeyHandler from "../../Hooks/useGlobalKeyHandler";
 import { useStore } from "../../Hooks/useStore";
 import EdgeRenderer from "../../Renderers/EdgeRenderer";
