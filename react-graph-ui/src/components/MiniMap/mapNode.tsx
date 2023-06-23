@@ -20,6 +20,8 @@ const MapNode: FC<MapNodeProps> = ({
       y={position.y}
       width={dimensions.width}
       height={dimensions.height}
+      opacity={0.85}
+      fill={"rgb(163 163 163)"}
     />  
   )
 }
