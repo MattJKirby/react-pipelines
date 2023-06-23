@@ -4,6 +4,8 @@ import { useStore } from "../../Hooks/useStore";
 import { IGraphState } from "../../Types";
 import { boxToRect, computeBoxBounds, computeNodeBoundingBox, rectToBox } from "./utils";
 import MapNode from "./mapNode";
+import { CalculateGraphTransformForViewport, CalculateGraphViewportRect } from "../Graph/utils";
+import { CreateZoomIdentity } from "../../Containers/ZoomContainer/utils";
 
 type MiniMapProps = {
   top?: boolean;
@@ -16,19 +18,18 @@ const selector = (s: IGraphState) => {
   const nodes = s.getNodes()
   const transform = s.graphTransform;
   const dimensions = s.graphDimensions;
-  const viewRect = {
-    x: -s.graphTransform.translateX / s.graphTransform.scale,
-    y: -s.graphTransform.translateY / s.graphTransform.scale,
-    width: s.graphDimensions.width / s.graphTransform.scale,
-    height: s.graphDimensions.height / s.graphTransform.scale
-  };
+  const viewRect = CalculateGraphViewportRect(transform, dimensions);
+  const setTransform = s.setGraphTransform;
 
   return {
     transform,
     dimensions,
-    viewRect,
-    nodes: nodes.filter(n => n.dimensions !==undefined),
-    contentRect: nodes.length > 0 ? boxToRect(computeBoxBounds(computeNodeBoundingBox(nodes), rectToBox(viewRect))) : viewRect
+    viewRect: viewRect,
+    nodes: nodes.filter(n => n.dimensions !== undefined),
+    contentRect: nodes.length > 0 ? boxToRect(computeBoxBounds(computeNodeBoundingBox(nodes), rectToBox(viewRect))) : viewRect,
+    setTransform,
+    d3Zoom: s.d3Zoom,
+    d3Selection: s.d3Selection
   }
 };
 
@@ -38,7 +39,7 @@ const MiniMap: FC<MiniMapProps> = ({
   width = 200,
   height = 150,
 }) => {
-  const {nodes, viewRect, contentRect} = useStore(selector);
+  const {nodes, viewRect, contentRect, dimensions, d3Zoom, d3Selection, setTransform} = useStore(selector);
   
   const scaledWidth = contentRect.width / width;
   const scaledHeight = contentRect.height / height;
@@ -53,6 +54,16 @@ const MiniMap: FC<MiniMapProps> = ({
 
   const positionBottom = top ? `calc(100% - ${height}px)` : `0%`;
   const positionLeft = right ? `calc(100% - ${width}px)` : `0%`;
+
+  const test = () => {
+    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions)
+    // setTransform(transform)
+ 
+
+    if(d3Zoom && d3Selection){
+      d3Zoom.duration(700).transform(d3Selection, CreateZoomIdentity(transform))
+    }
+  }
   
   return (
     <Panel 
@@ -85,6 +96,8 @@ const MiniMap: FC<MiniMapProps> = ({
         })}
   
         </svg>
+
+        <button onClick={() => test()}>Test</button>
     </Panel>
   )
 }
