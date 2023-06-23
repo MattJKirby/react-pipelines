@@ -20,16 +20,14 @@ const GraphCanvas = ({
   backgroundColor, 
   style = 'dots'
 }: IGraphCanvasProps) => {
-  
-  
-  
   const {transform, graphId} = useStore(selector)
   const [scaledGap, setScaledGap] = useState(gap * transform.scale)
   const [xOffset, setXOffset] = useState(transform.translateX % scaledGap)
   const [yOffset, setYOffset] = useState(transform.translateY % scaledGap)
 
   useEffect(() => {
-    setScaledGap(gap * transform.scale)
+    const newGap = gap * transform.scale;    
+    setScaledGap(newGap)
     setXOffset(transform.translateX % scaledGap)
     setYOffset(transform.translateY % scaledGap)
   }, [gap, scaledGap, transform])
