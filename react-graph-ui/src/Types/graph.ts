@@ -6,6 +6,7 @@ import { EdgeInternals, IEdge } from "./edge";
 import { Dimension, ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode, INodeProps, NodeInternals } from "./node";
+import { Selection as D3Selection, ZoomBehavior } from "d3";
 
 export interface IGraphStore {
   // Graph Store
@@ -17,6 +18,10 @@ export interface IGraphStore {
   multiSelectionActive: boolean;
   selectNodesOnDrag: boolean;
   enableSelectableEdges: boolean;
+
+  //D3 Store
+  d3Zoom: ZoomBehavior<Element, unknown> | null;
+  d3Selection: D3Selection<Element, unknown, null, undefined> | null;
 
   // Node Store
   nodeInternals: NodeInternals;
