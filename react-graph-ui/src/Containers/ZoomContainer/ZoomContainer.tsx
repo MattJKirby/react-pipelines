@@ -15,13 +15,14 @@ const selector = (s: IGraphState) => ({
   transform: s.graphTransform,
   d3Zoom: s.d3Zoom,
   d3Selection: s.d3Selection,
+  zoomExtent: s.zoomExtent,
   setGraphTransform: s.setGraphTransform,
 });
 
 export const ZoomContainer = ({children}: FlowZoomProps) => {
   const zoomContainer = useRef<HTMLDivElement>(null);
   const storeApi = useStoreApi();
-  const {transform, d3Zoom, d3Selection, setGraphTransform} = useStore(selector)
+  const {transform, d3Zoom, d3Selection, zoomExtent, setGraphTransform} = useStore(selector)
 
   /**
    * Register the d3ZoomInstance and d3Selection in the store.
@@ -29,7 +30,7 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
   useEffect(() => {
     if(zoomContainer.current){
       const zoomFilter = (e: any) => e.target.closest('.flow-ui-noZoom') === null;
-      const d3ZoomInstance = d3.zoom().scaleExtent([0.1,2]).filter(event => zoomFilter(event));
+      const d3ZoomInstance = d3.zoom().scaleExtent(zoomExtent).filter(event => zoomFilter(event));
       const d3Selection = select(zoomContainer.current as Element).call(d3ZoomInstance);
 
       storeApi.setState({
@@ -37,7 +38,7 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
         d3Selection: d3Selection
       })
     }
-  }, [storeApi]);
+  }, [storeApi, zoomExtent]);
 
   useEffect(() => {
     if(zoomContainer.current){
