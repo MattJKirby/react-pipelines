@@ -3,7 +3,7 @@ import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData, NodeDimensionChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
-import { Dimension, ITransform, IXYPosition } from "./generic";
+import { BoundedValueExtent, Dimension, ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode, INodeProps, NodeInternals } from "./node";
 import { Selection as D3Selection, ZoomBehavior } from "d3";
@@ -18,6 +18,7 @@ export interface IGraphStore {
   multiSelectionActive: boolean;
   selectNodesOnDrag: boolean;
   enableSelectableEdges: boolean;
+  zoomExtent: BoundedValueExtent;
 
   //D3 Store
   d3Zoom: ZoomBehavior<Element, unknown> | null;
@@ -99,6 +100,7 @@ export interface IStoreUpdaterProps {
   enableSelectableNodes?: boolean;
   selectNodesOnDrag?: boolean;
   enableSelectableEdges?: boolean;
+  zoomExtent?: BoundedValueExtent;
   onNodesChange?: OnNodesChange;
   onEdgesChange?: OnEdgesChange;
 }
@@ -109,7 +111,7 @@ export interface GraphViewProps {
   multiSelectionKeyCode?: string;
 }
 
-export interface IGraphProps extends IStoreUpdaterProps, GraphViewProps {}
+export interface IGraphProps extends IStoreUpdaterProps, GraphViewProps {};
 
 export type OnNodesChange = (changes: NodeChangeTypes[]) => void;
 

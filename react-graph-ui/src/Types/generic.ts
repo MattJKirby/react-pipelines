@@ -27,3 +27,9 @@ export interface ITransform {
   translateX: number,
   translateY: number,
 }
+
+export type ValueExtent<LimitsRequired extends boolean> = LimitsRequired extends true ? [min: number, max: number] : [min: number | null, max: number | null]
+
+export type BoundedValueExtent = ValueExtent<true>;
+
+export type UnboundedValueExtent = ValueExtent<false>;
