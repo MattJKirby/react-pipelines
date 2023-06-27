@@ -5,7 +5,7 @@ import { IGraphState } from "../../Types";
 import { boxToRect, computeBoxBounds, computeNodeBoundingBox, rectToBox } from "./utils";
 import MapNode from "./mapNode";
 import { CalculateGraphTransformForViewport, CalculateGraphViewportRect } from "../Graph/utils";
-import { CreateZoomIdentity } from "../../Containers/ZoomContainer/utils";
+import { CreateD3ZoomIdentity } from "../../Containers/ZoomContainer/utils";
 
 type MiniMapProps = {
   top?: boolean;
@@ -19,7 +19,6 @@ const selector = (s: IGraphState) => {
   const transform = s.graphTransform;
   const dimensions = s.graphDimensions;
   const viewRect = CalculateGraphViewportRect(transform, dimensions);
-  const setTransform = s.setGraphTransform;
 
   return {
     transform,
@@ -27,9 +26,9 @@ const selector = (s: IGraphState) => {
     viewRect: viewRect,
     nodes: nodes.filter(n => n.dimensions !== undefined),
     contentRect: nodes.length > 0 ? boxToRect(computeBoxBounds(computeNodeBoundingBox(nodes), rectToBox(viewRect))) : viewRect,
-    setTransform,
     d3Zoom: s.d3Zoom,
-    d3Selection: s.d3Selection
+    d3Selection: s.d3Selection,
+    zoomExtent: s.zoomExtent
   }
 };
 
@@ -39,7 +38,7 @@ const MiniMap: FC<MiniMapProps> = ({
   width = 200,
   height = 150,
 }) => {
-  const {nodes, viewRect, contentRect, dimensions, d3Zoom, d3Selection, setTransform} = useStore(selector);
+  const {nodes, viewRect, contentRect, dimensions, d3Zoom, d3Selection, zoomExtent} = useStore(selector);
   
   const scaledWidth = contentRect.width / width;
   const scaledHeight = contentRect.height / height;
@@ -56,12 +55,11 @@ const MiniMap: FC<MiniMapProps> = ({
   const positionLeft = right ? `calc(100% - ${width}px)` : `0%`;
 
   const test = () => {
-    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions)
-    // setTransform(transform)
- 
+    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions, zoomExtent);
 
     if(d3Zoom && d3Selection){
-      d3Zoom.duration(700).transform(d3Selection, CreateZoomIdentity(transform))
+      const transition = d3Selection.transition().duration(400);
+      transition.call(d3Zoom.transform, CreateD3ZoomIdentity(transform)).transition();
     }
   }
   
