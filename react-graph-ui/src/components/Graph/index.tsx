@@ -22,6 +22,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
   deleteKeyCode,
   deselectKeyCode,
   multiSelectionKeyCode,
+  zoomExtent,
   onNodesChange,
   onEdgesChange,
 }) => {
@@ -38,6 +39,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
           enableSelectableNodes={enableSelectableNodes}
           selectNodesOnDrag={selectNodesOnDrag}
           enableSelectableEdges={enableSelectableEdges}
+          zoomExtent={zoomExtent}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
       />
