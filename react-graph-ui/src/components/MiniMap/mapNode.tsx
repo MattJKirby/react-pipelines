@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Dimension, IXYPosition } from "../../Types";
 
 type MapNodeProps = {
@@ -20,10 +20,9 @@ const MapNode: FC<MapNodeProps> = ({
       y={position.y}
       width={dimensions.width}
       height={dimensions.height}
-      opacity={0.85}
-      fill={"rgb(163 163 163)"}
+      fill={"#e2e2e2"}
     />  
   )
 }
 
-export default MapNode;
+export default memo(MapNode);

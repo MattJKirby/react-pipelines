@@ -52,11 +52,8 @@ const MiniMap: FC<MiniMapProps> = ({
   const viewBoxWidth = (mappedWidth + offset * 2);
   const viewBoxHeight = (mappedHeight + offset * 2);
 
-  const positionBottom = top ? `calc(100% - ${height}px)` : `0%`;
-  const positionLeft = right ? `calc(100% - ${width}px)` : `0%`;
-
   const test = () => {
-    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions, zoomExtent, translateExtent);
+    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions, zoomExtent, translateExtent, 0.85);
 
     if(d3Zoom && d3Selection){
       const transition = d3Selection.transition().duration(400);
@@ -65,25 +62,12 @@ const MiniMap: FC<MiniMapProps> = ({
   }
   
   return (
-    <Panel 
-      width={width} 
-      height={height} 
-      style={{bottom: positionBottom, left: positionLeft, zIndex: 9999}}>
+    <Panel
+      style={{right: right ? 0 : "auto", bottom: !top ? 0 : "auto",zIndex: 5}}>
         <svg
           style={{width: `${width}px`, height: `${height}px`, backgroundColor: "white"}} 
           viewBox={`${x} ${y} ${viewBoxWidth} ${viewBoxHeight}`}
         >
-
-        <path
-          className="RP_MiniMap__Mask"
-          d={`M${x - offset},${y - offset}h${viewBoxWidth + offset * 2}v${viewBoxHeight + offset * 2}h${-viewBoxWidth - offset * 2}z
-            M${viewRect.x},${viewRect.y}h${viewRect.width}v${viewRect.height}h${-viewRect.width}z`}
-          fill={"#eee"}
-          fillRule="evenodd"
-          stroke="red"
-          strokeWidth={0}
-          pointerEvents="none"
-        />
 
         {nodes.map((node) => {
           return (<MapNode 
@@ -93,7 +77,18 @@ const MiniMap: FC<MiniMapProps> = ({
             dimensions={node.dimensions || {width: 0, height: 0}}
           />)
         })}
-  
+
+        <path
+          className="RP_MiniMap__Mask"
+          d={`M${x - offset},${y - offset}h${viewBoxWidth + offset * 2}v${viewBoxHeight + offset * 2}h${-viewBoxWidth - offset * 2}z
+            M${viewRect.x},${viewRect.y}h${viewRect.width}v${viewRect.height}h${-viewRect.width}z`}
+          fill={"rgba(240, 240, 240, 0.6)"}
+          fillRule="evenodd"
+          stroke="red"
+          strokeWidth={0}
+          pointerEvents="none"
+        />
+
         </svg>
 
         <button onClick={() => test()}>Test</button>
