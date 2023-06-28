@@ -37,7 +37,11 @@ const Controls: FC<PropsWithChildren<ControlsProps>> = ({
     store.setState({
       enableDraggableNodes: !isInteractive
     })
-  }
+  };
+
+  const handleZoomIn = () => viewportFunctions()?.zoomIn();
+
+  const handleZoomOut = () => viewportFunctions()?.zoomOut();
 
   return (
     <Panel
@@ -48,6 +52,8 @@ const Controls: FC<PropsWithChildren<ControlsProps>> = ({
         flexDirection: horizontal ? "row" : "column",
       }}>
         <ControlButton controlName="Fit" controlFunction={handleFitView}/>
+        <ControlButton controlName="+" controlFunction={handleZoomIn}/>
+        <ControlButton controlName="-" controlFunction={handleZoomOut}/>
         <ControlButton controlName="Lock" controlFunction={handleLock}/>
         {children}
       </div>
