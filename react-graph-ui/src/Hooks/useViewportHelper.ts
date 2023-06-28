@@ -26,7 +26,6 @@ const useViewportHelper = () => {
 
   const ViewportHelperFunctions = () => {
     if(d3Zoom && d3Selection){
-      const transition = d3Selection.transition().duration(400);
       const zoomIncrementCount = 4;
       const intervalSize = Math.pow(zoomExtent[1] / zoomExtent[0], 1 / zoomIncrementCount);
       return {
@@ -34,7 +33,8 @@ const useViewportHelper = () => {
          * Fits the viewport to the bounding box containing a given selection of nodes.
          * @param nodes 
          */
-        fitView: (nodes: INode[], scaleOffset = 0.85) => {
+        fitView: (nodes: INode[], scaleOffset = 0.5) => {
+          const transition = d3Selection.transition().duration(200);
           const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions, zoomExtent, translateExtent, scaleOffset);
           transition.call(d3Zoom.transform, CreateD3ZoomIdentity(transform)).transition();
         },
@@ -43,14 +43,17 @@ const useViewportHelper = () => {
          * @param incrementCount 
          */
         zoomIn: () => {
-          const nextZoomIncrement = clamp(transform.scale * intervalSize, zoomExtent[0], zoomExtent[1]);
+          const transition = d3Selection.transition().duration(100);
+          const nextZoomIncrement = clamp(Math.round(transform.scale * intervalSize * 5) / 5, zoomExtent[0], zoomExtent[1]);
           transition.call(d3Zoom.scaleTo, nextZoomIncrement).transition();
+          
         },
         /**
          * Programatically decrease the viewport scale.
          */
         zoomOut: () => {
-          const previousZoomIncrement = clamp(transform.scale / intervalSize, zoomExtent[0], zoomExtent[1]);
+          const transition = d3Selection.transition().duration(100);
+          const previousZoomIncrement = clamp(Math.round(transform.scale / intervalSize * 5) / 5, zoomExtent[0], zoomExtent[1]);
           transition.call(d3Zoom.scaleTo, previousZoomIncrement).transition();
         }
       }
