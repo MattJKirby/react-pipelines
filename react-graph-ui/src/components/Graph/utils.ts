@@ -1,5 +1,5 @@
 import { MouseEvent } from 'react'
-import { Dimension, ITransform, IXYPosition, Rect, ZoomExtent } from "../../Types";
+import { BoundedValueExtent, Dimension, ITransform, IXYPosition, Rect, CoordinateExtent } from "../../Types";
 import { clamp } from '../../Utils';
 
 /**
@@ -45,11 +45,12 @@ export const CalculateGraphViewportRect = (transform: ITransform, graphDimension
 
 /**
  * Calculate the required graph transform for a given viewport rect
+ * Includes optional extent arguments used to caluclate graph transforms that take into account bounds.
  * @param viewportRect 
  * @param graphDimensions 
  * @returns 
  */
-export const CalculateGraphTransformForViewport = (viewportRect: Rect, graphDimensions: Dimension, zoomExtent?: ZoomExtent): ITransform => {
+export const CalculateGraphTransformForViewport = (viewportRect: Rect, graphDimensions: Dimension, zoomExtent?: BoundedValueExtent, translateExtent?: CoordinateExtent): ITransform => {
   const scaleX = graphDimensions.width / viewportRect.width;
   const scaleY = graphDimensions.height / viewportRect.height;
   const scaleAxis = Math.min(scaleX, scaleY);
@@ -59,8 +60,8 @@ export const CalculateGraphTransformForViewport = (viewportRect: Rect, graphDime
   const translateY = -viewportRect.y * scale + (graphDimensions.height - viewportRect.height * scale) / 2;
 
   return {
-    translateX,
-    translateY,
+    translateX: translateExtent ? clamp(translateX, translateExtent[0][0], translateExtent[0][1]) : translateX,
+    translateY: translateExtent ? clamp(translateY, translateExtent[1][0], translateExtent[1][1]) : translateY,
     scale,
   };
 };

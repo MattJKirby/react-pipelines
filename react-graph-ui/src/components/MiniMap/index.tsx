@@ -28,7 +28,8 @@ const selector = (s: IGraphState) => {
     contentRect: nodes.length > 0 ? boxToRect(computeBoxBounds(computeNodeBoundingBox(nodes), rectToBox(viewRect))) : viewRect,
     d3Zoom: s.d3Zoom,
     d3Selection: s.d3Selection,
-    zoomExtent: s.zoomExtent
+    zoomExtent: s.zoomExtent,
+    translateExtent: s.translateExtent,
   }
 };
 
@@ -38,7 +39,7 @@ const MiniMap: FC<MiniMapProps> = ({
   width = 200,
   height = 150,
 }) => {
-  const {nodes, viewRect, contentRect, dimensions, d3Zoom, d3Selection, zoomExtent} = useStore(selector);
+  const {nodes, viewRect, contentRect, dimensions, d3Zoom, d3Selection, zoomExtent, translateExtent} = useStore(selector);
   
   const scaledWidth = contentRect.width / width;
   const scaledHeight = contentRect.height / height;
@@ -55,7 +56,7 @@ const MiniMap: FC<MiniMapProps> = ({
   const positionLeft = right ? `calc(100% - ${width}px)` : `0%`;
 
   const test = () => {
-    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions, zoomExtent);
+    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions, zoomExtent, translateExtent);
 
     if(d3Zoom && d3Selection){
       const transition = d3Selection.transition().duration(400);
