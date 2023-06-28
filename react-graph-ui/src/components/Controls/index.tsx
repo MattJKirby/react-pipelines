@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, memo, useEffect, useState } from "react";
+import { FC, PropsWithChildren, memo } from "react";
 import Panel from "../Panel";
 import { IGraphState } from "../../Types";
 import { useStore } from "../../Hooks/useStore";
@@ -16,6 +16,9 @@ const selector = (s: IGraphState) => {
   return {
     nodes: s.getNodes(),
     isInteractive: s.enableDraggableNodes,
+    zoomExtent: s.zoomExtent,
+    transform: s.graphTransform,
+    setTransform: s.setGraphTransform
   }
 }
 
@@ -25,7 +28,7 @@ const Controls: FC<PropsWithChildren<ControlsProps>> = ({
   right = false,
   children
 }) => {
-  const {nodes, isInteractive} = useStore(selector);
+  const {nodes, isInteractive, zoomExtent, transform} = useStore(selector);
   const store = useStoreApi();
   const viewportFunctions = useViewportHelper();
 
@@ -50,11 +53,13 @@ const Controls: FC<PropsWithChildren<ControlsProps>> = ({
       <div style={{
         display: "flex", 
         flexDirection: horizontal ? "row" : "column",
+        background: "#FFF",
+        padding: "2px"
       }}>
-        <ControlButton controlName="Fit" controlFunction={handleFitView}/>
-        <ControlButton controlName="+" controlFunction={handleZoomIn}/>
-        <ControlButton controlName="-" controlFunction={handleZoomOut}/>
-        <ControlButton controlName="Lock" controlFunction={handleLock}/>
+        <ControlButton controlName="Fit" controlFunction={handleFitView}>abc</ControlButton>
+        <ControlButton controlName="+" controlFunction={handleZoomIn} disabled={zoomExtent[1] === transform.scale}/>
+        <ControlButton controlName="-" controlFunction={handleZoomOut} disabled={zoomExtent[0] === transform.scale}/>
+        <ControlButton controlName="Lock" controlFunction={handleLock} active={!isInteractive}/>
         {children}
       </div>
     </Panel>

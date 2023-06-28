@@ -1,26 +1,26 @@
-import { FC, PropsWithChildren, ReactNode, memo } from "react";
+import { FC, PropsWithChildren, memo } from "react";
 import { ControlButtonStyles, ControlNameStyles } from "../../Styles/Controls";
 
 type ControlButtonProps = {
   controlFunction: () => void;
-  buttonNode?: ReactNode;
   controlName: string;
-  
+  disabled?: boolean;
+  active?: boolean
 }
 
 const ControlButton: FC<PropsWithChildren<ControlButtonProps>> = ({
   controlFunction,
-  buttonNode,
-  controlName
+  children,
+  controlName,
+  disabled = false,
+  active = false,
 }) => {
 
   return (
-    <button style={ControlButtonStyles} onClick={controlFunction}>
-      {buttonNode === undefined ? (
-        <p style={ControlNameStyles}>{controlName}</p>
-      ) : (
-        <>{buttonNode}</>
-      )}
+    <button style={{...ControlButtonStyles, borderColor: disabled ? "#ccc" : "initial"}} onClick={controlFunction} disabled={disabled}>
+      {children === undefined ? (
+        <p style={{...ControlNameStyles, color: disabled || active ? "#ccc" : "initial"}}>{controlName}</p>
+      ) : children}
     </button>
   )
 };
