@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 
 export const PanelContainer: CSSProperties = {
-  position: "absolute"
+  position: "absolute",
+  margin: "16px"
 }

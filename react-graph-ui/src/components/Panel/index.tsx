@@ -1,10 +1,7 @@
 import { FC, HTMLAttributes, PropsWithChildren } from "react";
 import { PanelContainer } from "../../Styles/Panel";
 
-type PanelProps = HTMLAttributes<HTMLDivElement> & {
-  width: number;
-  height: number;
-}
+type PanelProps = HTMLAttributes<HTMLDivElement> 
 
 /**
  * Component for creating floating containers on top of the graph view window.
@@ -12,8 +9,6 @@ type PanelProps = HTMLAttributes<HTMLDivElement> & {
  * @returns 
  */
 const Panel: FC<PropsWithChildren<PanelProps>> = ({
-  width,
-  height,
   style,
   children,
   ...rest
@@ -21,7 +16,7 @@ const Panel: FC<PropsWithChildren<PanelProps>> = ({
   return (
     <div 
       className="RP_Panel" 
-      style={{...PanelContainer, ...style, width: width, height: height}} 
+      style={{...PanelContainer, ...style}} 
       {...rest}>
         {children}
     </div>
