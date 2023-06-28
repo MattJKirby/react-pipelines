@@ -2,7 +2,7 @@ import { ComponentType, useEffect } from "react";
 import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
 import { useStoreApi } from "../../Hooks/useStoreApi";
-import { BoundedValueExtent, IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange } from "../../Types";
+import { BoundedValueExtent, IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange, CoordinateExtent } from "../../Types";
 
 /**
  * StoreUpdater hook for graph store keys that don't have a dedicated setter.
@@ -45,6 +45,7 @@ const StoreUpdater = (props: IStoreUpdaterProps) => {
   useDirectStoreUpdater<boolean>('selectNodesOnDrag', props.selectNodesOnDrag, storeApi.setState);
   useDirectStoreUpdater<boolean>('enableSelectableEdges', props.enableSelectableEdges, storeApi.setState);
   useDirectStoreUpdater<BoundedValueExtent>('zoomExtent', props.zoomExtent, storeApi.setState);
+  useDirectStoreUpdater<CoordinateExtent>('translateExtent', props.translateExtent, storeApi.setState);
   useDirectStoreUpdater<OnNodesChange>('onNodesChange', props.onNodesChange, storeApi.setState);
   useDirectStoreUpdater<OnEdgesChange>('onEdgesChange', props.onEdgesChange, storeApi.setState)
 

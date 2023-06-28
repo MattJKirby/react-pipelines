@@ -3,7 +3,7 @@ import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData, NodeDimensionChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
-import { BoundedValueExtent, Dimension, ITransform, IXYPosition } from "./generic";
+import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode, INodeProps, NodeInternals } from "./node";
 import { Selection as D3Selection, ZoomBehavior } from "d3";
@@ -19,6 +19,7 @@ export interface IGraphStore {
   selectNodesOnDrag: boolean;
   enableSelectableEdges: boolean;
   zoomExtent: BoundedValueExtent;
+  translateExtent: CoordinateExtent;
 
   //D3 Store
   d3Zoom: ZoomBehavior<Element, unknown> | null;
@@ -101,6 +102,7 @@ export interface IStoreUpdaterProps {
   selectNodesOnDrag?: boolean;
   enableSelectableEdges?: boolean;
   zoomExtent?: BoundedValueExtent;
+  translateExtent?: CoordinateExtent;
   onNodesChange?: OnNodesChange;
   onEdgesChange?: OnEdgesChange;
 }

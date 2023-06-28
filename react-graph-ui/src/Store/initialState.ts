@@ -21,5 +21,6 @@ export const initialGraphState: IGraphStore = {
   onEdgesChange: undefined,
   d3Zoom: null,
   d3Selection: null,
-  zoomExtent: [0.5,2]
+  zoomExtent: [0.5,2],
+  translateExtent: [[-Infinity,Infinity], [-Infinity,Infinity]]
 };
