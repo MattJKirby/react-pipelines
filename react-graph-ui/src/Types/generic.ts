@@ -33,3 +33,5 @@ export type ValueExtent<LimitsRequired extends boolean> = LimitsRequired extends
 export type BoundedValueExtent = ValueExtent<true>;
 
 export type UnboundedValueExtent = ValueExtent<false>;
+
+export type CoordinateExtent = [x: BoundedValueExtent, y: BoundedValueExtent];
