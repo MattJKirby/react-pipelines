@@ -1,6 +1,8 @@
 import { MouseEvent } from 'react'
-import { BoundedValueExtent, Dimension, ITransform, IXYPosition, Rect, CoordinateExtent } from "../../Types";
-import { clamp } from '../../Utils';
+import { BoundedValueExtent, Dimension, ITransform, IXYPosition, Rect, CoordinateExtent, INode, Box } from "../../Types";
+import { clamp, computeBoxBounds, rectToBox } from '../../Utils';
+
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 /**
  * Method for calculating scaled mouse position relative to a given element
@@ -50,18 +52,39 @@ export const CalculateGraphViewportRect = (transform: ITransform, graphDimension
  * @param graphDimensions 
  * @returns 
  */
-export const CalculateGraphTransformForViewport = (viewportRect: Rect, graphDimensions: Dimension, zoomExtent?: BoundedValueExtent, translateExtent?: CoordinateExtent): ITransform => {
+export const CalculateGraphTransformForViewport = (viewportRect: Rect, graphDimensions: Dimension, zoomExtent?: BoundedValueExtent, translateExtent?: CoordinateExtent, scaleOffset = 1): ITransform => {
   const scaleX = graphDimensions.width / viewportRect.width;
   const scaleY = graphDimensions.height / viewportRect.height;
-  const scaleAxis = Math.min(scaleX, scaleY);
-  const scale = zoomExtent ? clamp(scaleAxis, zoomExtent[0], zoomExtent[1]) : scaleAxis;
-
+  const scale = Math.min(scaleX, scaleY) * scaleOffset;
+ 
   const translateX = -viewportRect.x * scale + (graphDimensions.width - viewportRect.width * scale) / 2;
   const translateY = -viewportRect.y * scale + (graphDimensions.height - viewportRect.height * scale) / 2;
 
   return {
     translateX: translateExtent ? clamp(translateX, translateExtent[0][0], translateExtent[0][1]) : translateX,
     translateY: translateExtent ? clamp(translateY, translateExtent[1][0], translateExtent[1][1]) : translateY,
-    scale,
+    scale: zoomExtent ? clamp(scale, zoomExtent[0], zoomExtent[1]) : scale
   };
 };
+
+/**
+ * Function to compute the bunding box of a list of nodes.
+ * Return a box of size 0
+ * @param nodeInternals 
+ */
+export const computeNodeBoundingBox = (nodes: INode[]): Box => {
+  if(nodes.length > 0){
+    const nodeRects = nodes
+    .filter(node => node.dimensions !== undefined)
+    .map(node => ({
+      x: node.position.x, 
+      y: node.position.y, 
+      width: node.dimensions!.width,
+      height: node.dimensions!.height
+    }))
+
+    return nodeRects.reduce((boundingBox: Box, nodeRect: Rect) => computeBoxBounds(boundingBox, rectToBox(nodeRect)), rectToBox(nodeRects[0]))
+  } else {
+    return {x: 0, y: 0, x2: 0, y2: 0};
+  }
+}
