@@ -59,19 +59,18 @@ const useDrag = ({
       })
       .filter((e) => dragFilter(e));
 
-    useEffect(() => {
-      if(nodeRef?.current){
-        if(disabled){
-          selection.on('drag', null);
-        } else {
-          selection.call(dragHandler);
-
-          return () => {
-            selection.on('drag', null);
+      useEffect(() => {
+        const nodeElement = nodeRef.current;
+        if (nodeElement) {
+          const dragSelection = select(nodeElement);
+      
+          if (disabled) {
+            dragSelection.on('.drag', null); // Remove all drag event listeners
+          } else {
+            dragSelection.call(dragHandler);
           }
         }
-      }
-    }, [disabled, dragHandler, nodeRef, selection]);
+      }, [disabled, dragHandler, nodeRef]);
 
   return dragging;
 };
