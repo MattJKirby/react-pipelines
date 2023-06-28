@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
@@ -6,6 +6,7 @@ import TestNode from "../../src/Components/Node/TestNode"
 import { useEdgeStore, useNodesStore } from "../../src/Hooks/useStoreItemState"
 import { INode } from "../../src/Types"
 import MiniMap from "../../src/Components/MiniMap"
+import Controls from "../../src/Components/Controls"
 
 
 const initialNodeList: INode<any>[] = [
@@ -44,7 +45,8 @@ const GraphUI = () => {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
         >
-          <MiniMap top right/>
+          <MiniMap right/>
+          <Controls top />
           <GraphCanvas gap={40} size={1} />
         </Graph>
       </GraphProvider>
@@ -62,24 +64,14 @@ const GraphUI = () => {
           deleteKeyCode={"q"}
           deselectKeyCode={'s'}
           multiSelectionKeyCode={'a'}
+          zoomExtent={[0.5,2]}
+          translateExtent={[[-Infinity,Infinity], [-Infinity,Infinity]]}
           >
-            <MiniMap top right/>
+          <MiniMap top right/>
+          <Controls top />
           <GraphCanvas gap={40} size={1} style='grid'/>
         </Graph>
       </div>
-
-      <div style={{position: "relative"}}>
-        <div id="container2" style={{position: 'absolute'}}>
-          <div id="child2" style={{zIndex: 2, position: 'absolute'}}>Child 2</div>
-        </div>
-
-        <div id="container1" style={{position: 'absolute'}}>
-          <div id="child1" style={{zIndex: 1, position: 'absolute', color: 'red'}}>Child 1</div>
-        </div>
-      </div>
-
-
-
 
 
   </div>
