@@ -2,10 +2,9 @@ import React, { FC, memo } from "react"
 import Panel from "../Panel";
 import { useStore } from "../../Hooks/useStore";
 import { IGraphState } from "../../Types";
-import { boxToRect, computeBoxBounds, computeNodeBoundingBox, rectToBox } from "./utils";
 import MapNode from "./mapNode";
-import { CalculateGraphTransformForViewport, CalculateGraphViewportRect } from "../Graph/utils";
-import { CreateD3ZoomIdentity } from "../../Containers/ZoomContainer/utils";
+import { CalculateGraphViewportRect, computeNodeBoundingBox } from "../Graph/utils";
+import { boxToRect, computeBoxBounds, rectToBox } from "../../Utils";
 
 type MiniMapProps = {
   top?: boolean;
@@ -25,11 +24,7 @@ const selector = (s: IGraphState) => {
     dimensions,
     viewRect: viewRect,
     nodes: nodes.filter(n => n.dimensions !== undefined),
-    contentRect: nodes.length > 0 ? boxToRect(computeBoxBounds(computeNodeBoundingBox(nodes), rectToBox(viewRect))) : viewRect,
-    d3Zoom: s.d3Zoom,
-    d3Selection: s.d3Selection,
-    zoomExtent: s.zoomExtent,
-    translateExtent: s.translateExtent,
+    contentRect: nodes.length > 0 ? boxToRect(computeBoxBounds(computeNodeBoundingBox(nodes), rectToBox(viewRect))) : viewRect
   }
 };
 
@@ -39,7 +34,7 @@ const MiniMap: FC<MiniMapProps> = ({
   width = 200,
   height = 150,
 }) => {
-  const {nodes, viewRect, contentRect, dimensions, d3Zoom, d3Selection, zoomExtent, translateExtent} = useStore(selector);
+  const {nodes, viewRect, contentRect} = useStore(selector);
   
   const scaledWidth = contentRect.width / width;
   const scaledHeight = contentRect.height / height;
@@ -51,15 +46,6 @@ const MiniMap: FC<MiniMapProps> = ({
   const y = contentRect.y - (mappedHeight - contentRect.height) / 2 - offset;
   const viewBoxWidth = (mappedWidth + offset * 2);
   const viewBoxHeight = (mappedHeight + offset * 2);
-
-  const test = () => {
-    const transform = CalculateGraphTransformForViewport((boxToRect(computeNodeBoundingBox(nodes))), dimensions, zoomExtent, translateExtent, 0.85);
-
-    if(d3Zoom && d3Selection){
-      const transition = d3Selection.transition().duration(400);
-      transition.call(d3Zoom.transform, CreateD3ZoomIdentity(transform)).transition();
-    }
-  }
   
   return (
     <Panel
@@ -90,8 +76,6 @@ const MiniMap: FC<MiniMapProps> = ({
         />
 
         </svg>
-
-        <button onClick={() => test()}>Test</button>
     </Panel>
   )
 }
