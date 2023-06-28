@@ -56,7 +56,7 @@ const Controls: FC<PropsWithChildren<ControlsProps>> = ({
         background: "#FFF",
         padding: "2px"
       }}>
-        <ControlButton controlName="Fit" controlFunction={handleFitView}>abc</ControlButton>
+        <ControlButton controlName="Fit" controlFunction={handleFitView}></ControlButton>
         <ControlButton controlName="+" controlFunction={handleZoomIn} disabled={zoomExtent[1] === transform.scale}/>
         <ControlButton controlName="-" controlFunction={handleZoomOut} disabled={zoomExtent[0] === transform.scale}/>
         <ControlButton controlName="Lock" controlFunction={handleLock} active={!isInteractive}/>
