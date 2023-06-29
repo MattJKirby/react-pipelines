@@ -87,4 +87,27 @@ export const computeNodeBoundingBox = (nodes: INode[]): Box => {
   } else {
     return {x: 0, y: 0, x2: 0, y2: 0};
   }
+};
+
+/**
+ * Method that returns the overlapping rect between two rect objects.
+ * Returns null if no overlap
+ */
+export const CalculateRectOverlap = (rect1: Rect, rect2: Rect): Rect | null => {
+  const box1 = rectToBox(rect1);
+  const box2 = rectToBox(rect2);
+
+  const left = Math.max(box1.x, box2.x);
+  const right = Math.min(box1.x2, box2.x2);
+  const top = Math.max(box1.y, box2.y);
+  const bottom = Math.min(box1.y2, box2.y2);
+
+  if (right >= left && bottom >= top) {
+    const width = right - left;
+    const height = bottom - top;
+
+    return { x: left, y: top, width, height };
+  }
+
+  return null; // No overlapping rectangle
 }
