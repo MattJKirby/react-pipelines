@@ -57,7 +57,7 @@ export const EdgeRenderer = () => {
       if(source && target){
         const enableSelect = edge.enableSelect === undefined ? true : edge.enableSelect;
         const selected = enableSelectableEdges && (edge.selected || false);
-        const path = edgePathTypeMap.get(edge.pathType || 'straight')?.(source, target);
+        const path = edgePathTypeMap.get(edge.pathType || 'bezier')?.(source.position, target.position);
         const interactionWidth = edge.interactionWidth || 20;
         const dragging = (nodes.get(edge.sourceNodeId)?.dragging || nodes.get(edge.targetNodeId)?.dragging) || false;
 
