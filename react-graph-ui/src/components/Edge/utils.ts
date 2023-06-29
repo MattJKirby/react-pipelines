@@ -1,5 +1,5 @@
 import { PathTypeMap, SelectHandlerProps } from "../../Types"
-import { CalculateStraightPath } from "./pathTypes";
+import { CalculateBezierPath, CalculateStraightPath } from "./pathTypes";
 
 export const edgeSelectHandler = ({
   id,
@@ -18,8 +18,10 @@ export const edgeSelectHandler = ({
       updateSelectedEdges([{id, selected: false}])
     }
   }
-}
+};
 
 export const edgePathTypeMap: PathTypeMap = new Map([
-  ['straight', CalculateStraightPath]
-])
+  ['straight', CalculateStraightPath],
+  ['bezier', CalculateBezierPath]
+]);
+
