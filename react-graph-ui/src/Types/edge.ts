@@ -1,3 +1,4 @@
+import { IXYPosition, Position } from "./generic";
 import { IHandle } from "./handle";
 import { INodeStore } from "./node";
 
@@ -30,8 +31,9 @@ export type EdgeInternals = Map<string, IEdge>;
 
 export type PathType = 
 | 'straight'
+| 'bezier'
 
-export type PathTypeMap = Map<PathType, (source: IHandle, target: IHandle) => string>
+export type PathTypeMap = Map<PathType, (source: IXYPosition, target: IXYPosition, sourcePosition?: Position, targetPosition?: Position, curvature?: number) => string>
 
 // TODO: Make Generic for nodes and edge types
 export type SelectHandlerProps = {
