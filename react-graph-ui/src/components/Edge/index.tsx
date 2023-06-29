@@ -23,6 +23,7 @@ const Edge: FC<PropsWithChildren<IEdgeContainerProps>> = ({
       width={pathDimensions.width}
       height={pathDimensions.height}
       onClickCapture={() => edgeSelectHandler({id, store, disabled: !enableSelect})}
+      fill="none"
     >
       <path d={path} style={{stroke: 'transparent'}} strokeWidth={interactionWidth}/>
       {children}
