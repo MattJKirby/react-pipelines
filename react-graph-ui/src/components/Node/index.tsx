@@ -13,7 +13,8 @@ const Node = ({
   enableSelect,
   enableDrag,
   selectOnDrag,
-  z
+  z,
+  selected
   
 }: NodeContainerProps) => {
   const store = useStoreApi();
@@ -24,7 +25,8 @@ const Node = ({
   return (
     <NodeDataContext.Provider value={{
       id: id, 
-      position: position
+      position: position,
+      selected
     }}>
       <div
         className="RP_Node__Container"
