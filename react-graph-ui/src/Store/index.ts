@@ -4,13 +4,13 @@ import { Dimension, IGraphState, IInitialGraphProps, ITransform, IXYPosition } f
 import { initialGraphState } from "./initialState";
 import { ComponentType } from "react";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { INode, INodeProps } from "../Types/node";
+import { INode, INodeProps, NodeDOMUpdate } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { IHandle, IHandleInteraction } from "../Types/handle";
-import { createEdgeInternals, createNodeInternals } from "./utils";
-import { internalsSymbol } from "../Utils";
-import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, EdgeSelectionChange, RemoveNodeChangeData, RemoveNodeChange, RemoveEdgeChangeData, RemoveEdgeChange, NodeDimensionChangeData, NodeDimensionChange } from "../Types/changes";
+import { createEdgeInternals, createNodeInternals, extractHandlesFromDOMData } from "./utils";
+import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, EdgeSelectionChange, RemoveNodeChangeData, RemoveNodeChange, RemoveEdgeChangeData, RemoveEdgeChange, NodeDOMChange, NodeDOMChangeData } from "../Types/changes";
 import { createChange, applyNodeChanges, applyEdgeChanges } from "../Changes";
+import { getElementDimensions } from "../Components/Graph/utils";
 
 
 export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IGraphState> => {
@@ -46,9 +46,26 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       const { triggerNodeChanges } = get();
       triggerNodeChanges(createChange<NodePositionChange>(changes, 'position'));
     },
-    updateNodeDimensions: (changes: NodeDimensionChangeData[]) => {
-      const { triggerNodeChanges } = get()
-      triggerNodeChanges(createChange<NodeDimensionChange>(changes, 'dimensions'))
+    updateNodeDimensions: (updates: NodeDOMUpdate[]) => {
+      const { triggerNodeChanges, graphTransform, nodeInternals } = get()
+      
+      const changes = updates.reduce((res: NodeDOMChangeData[], item: NodeDOMUpdate) => {
+      const updateNode = nodeInternals.get(item.id);
+      
+      const sourceHandles = extractHandlesFromDOMData('source', item.nodeElement, graphTransform.scale);
+      const targetHandles = extractHandlesFromDOMData('target', item.nodeElement, graphTransform.scale);
+
+      const updateDimensions = (updateNode?.dimensions !== getElementDimensions(item.nodeElement)) && item.dimensions;
+      const updatePosition = (updateNode?.position !== item.position) && item.position
+
+      if(updateDimensions || updatePosition || item.forceUpdate){
+        res.push({id: item.id, dimensions: item.dimensions, sourceHandles, targetHandles})
+      }
+
+        return res;
+      }, []);
+
+      triggerNodeChanges(createChange<NodeDOMChange>(changes, 'dom'));
     },
     setCustomNodeTypes: (customNodeTypes: { [key: string]: ComponentType<INodeProps> }) => set({customNodeTypes}),
     updateSelectedNodes: (changes: NodeSelectionChangeData[]) => {
@@ -105,38 +122,6 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
 
         onEdgesChange?.(edgeChanges);
       };
-    },
-
-    // Handle Store Actions
-    addHandle: (nodeId: string, newHandle: IHandle) => {
-      const { nodeInternals, getNodes } = get();
-      const handles = nodeInternals.get(nodeId)?.[internalsSymbol]?.handles;
-
-      if(handles !== undefined){
-        handles[newHandle.type] = (handles[newHandle.type]).set(newHandle.id, newHandle);
-        const nodes = getNodes().map(node => node.id === nodeId? {...node, [internalsSymbol]: {...node[internalsSymbol], handles: handles}} : node);
-        set({ nodeInternals: createNodeInternals(nodes, nodeInternals)})
-      }
-    },
-    updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => {
-      const { nodeInternals, getNodes, getHandle } = get();
-      const handle = getHandle(nodeId, handleId);
-      const handles = nodeInternals.get(nodeId)?.[internalsSymbol]?.handles;
-
-      if(handle && handles){
-        const updatedHandle = {...handle, position: position};
-        handles[updatedHandle.type].set(handleId, updatedHandle);
-        const nodes = getNodes().map(node => node.id === nodeId ? {...node, handles: handles} : node);
-        set({nodeInternals: createNodeInternals(nodes, nodeInternals)});
-      }
-    },
-    getHandle: (nodeId: string, handleId: string) => {
-      const { nodeInternals } = get();
-      const handles = nodeInternals.get(nodeId)?.[internalsSymbol]?.handles;
-
-      if(handles !== undefined){
-        return new Map([...handles.source.entries(), ...handles.target.entries()]).get(handleId);
-      }
     },
     
     // Interaction Store Actions

@@ -1,11 +1,11 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
-import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData, NodeDimensionChangeData } from "./changes";
+import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
 import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform, IXYPosition } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
-import { INode, INodeProps, NodeInternals } from "./node";
+import { INode, INodeProps, NodeDOMUpdate, NodeInternals } from "./node";
 import { Selection as D3Selection, ZoomBehavior } from "d3";
 
 export interface IGraphStore {
@@ -57,7 +57,7 @@ export interface IGraphStoreActions {
   setNodes: (nodes: INode[]) => void;
   removeNode: (changes: RemoveNodeChangeData[]) => void;
   updateNodePosition: (changes: NodePositionChangeData[]) => void;
-  updateNodeDimensions: (changes: NodeDimensionChangeData[]) => void;
+  updateNodeDimensions: (updates: NodeDOMUpdate[]) => void;
   setCustomNodeTypes: (nodeTypes: { [key: string]: ComponentType<INodeProps> }) => void;
   updateSelectedNodes: (changes: NodeSelectionChangeData[]) => void;
   resetSelectedNodes: () => void;
@@ -72,11 +72,6 @@ export interface IGraphStoreActions {
   triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => void;
   updateSelectedEdges: (edgeChanges: EdgeSelectionChangeData[]) => void;
   resetSelectedEdges: () => void;
-
-  // Handle Store Actions
-  addHandle: (nodeId: string, newHandle: IHandle) => void;
-  updateHandlePosition: (nodeId: string, handleId: string, position: IXYPosition) => void;
-  getHandle: (nodeId: string, handleId: string) => IHandle | undefined;
 
   // Interaction Store Actions
   setNodeDragInteraction: (nodeId: string) => void;

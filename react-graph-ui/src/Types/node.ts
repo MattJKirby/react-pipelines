@@ -73,3 +73,9 @@ export interface INodeHandles {
   source: Map<string, IHandle>;
   target: Map<string, IHandle>;
 }
+
+export type NodeDOMUpdate = {
+  id: string,
+  nodeElement: HTMLDivElement,
+  forceUpdate?: boolean
+}
