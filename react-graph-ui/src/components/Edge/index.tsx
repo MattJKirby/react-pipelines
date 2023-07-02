@@ -15,7 +15,7 @@ const Edge: FC<PropsWithChildren<IEdgeContainerProps>> = ({
   dragging
 }) => {
   const store = useStoreApi();
-  const pathDimensions = {width: Math.abs(target.position.x - source.position.x), height: Math.abs(target.position.y - source.position.y)}
+  const pathDimensions = {width: Math.abs(target.x - source.x), height: Math.abs(target.y - source.y)}
 
   return (
     <g
