@@ -6,7 +6,7 @@ const TestNode = ({data}: INodeProps) => {
   return (
     <>
       (Test: {data?.test})
-      <Handle id="target" type="target" />
+      <Handle id="target" type="target" position="left"/>
     </>
   )
 }

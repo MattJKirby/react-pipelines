@@ -19,7 +19,7 @@ const DefaultNode = ({
         <div className={`${styles.RP_DefaultNode__Content}`}>
           <p className={`${styles.RP_DefaultNode__OutputName}`}>Output 1</p>
           <div className={`${styles.RP_DefaultNode__Output}`}>
-            <Handle id="source"/>
+            <Handle id="source" position="right"/>
           </div>
         </div>
       </div>
