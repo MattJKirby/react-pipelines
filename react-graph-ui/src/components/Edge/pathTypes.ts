@@ -16,9 +16,7 @@ export const CalculateStraightPath = (source: IXYPosition, target: IXYPosition):
  * @param target 
  * @returns 
  */
-export const CalculateBezierPath = (source: IXYPosition, target: IXYPosition): string => {
-  const sourcePosition = "right";
-  const targetPosition = "left";
+export const CalculateBezierPath = (source: IXYPosition, target: IXYPosition, sourcePosition: Position = "right", targetPosition: Position = "left"): string => {
   const curvature = 0.5;
   const sourceControl = calculateBezierControl(sourcePosition, source, target, curvature);
   const targetControl = calculateBezierControl(targetPosition, target, source, curvature);
