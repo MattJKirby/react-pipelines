@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IEdge, INode } from "../Types";
 import { EdgeChangeTypes, NodeChangeTypes } from "../Types/changes";
+import { internalsSymbol } from "../Utils";
 
 const applyChanges = (changes: any[], elements: any[]): any[] => {
   const initElements: any[] = changes.filter((c) => c.type === 'add').map((c) => c.item);
@@ -23,8 +24,16 @@ const applyChanges = (changes: any[], elements: any[]): any[] => {
             updateItem.dragging = currentChange.dragging;
             break;
           }
-          case 'dimensions': {
-            updateItem.dimensions = currentChange.dimensions
+          case 'dom': {
+            if(updateItem.dimensions !== undefined){
+              updateItem.dimensions = currentChange.dimensions;
+            }
+            
+            if(updateItem[internalsSymbol]?.handles !== undefined){
+              updateItem[internalsSymbol].handles.source = currentChange.sourceHandles;
+              updateItem[internalsSymbol].handles.target = currentChange.targetHandles;
+            }
+            break;
           }
           case 'select': {
             updateItem.selected = currentChange.selected;

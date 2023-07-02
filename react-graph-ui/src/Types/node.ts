@@ -70,12 +70,14 @@ export interface NodeContainerProps {
 }
 
 export interface INodeHandles {
-  source: Map<string, IHandle>;
-  target: Map<string, IHandle>;
+  source: Map<string, IHandle> | null;
+  target: Map<string, IHandle> | null;
 }
 
 export type NodeDOMUpdate = {
   id: string,
-  nodeElement: HTMLDivElement,
-  forceUpdate?: boolean
+  nodeElement: HTMLElement,
+  forceUpdate?: boolean,
+  dimensions?: Dimension,
+  position?: IXYPosition,
 }
