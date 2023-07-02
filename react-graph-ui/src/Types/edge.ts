@@ -22,7 +22,7 @@ export interface IEdgeContainerProps {
   target: IHandle;
   selected: boolean;
   enableSelect: boolean;
-  path: string
+  path: string;
   interactionWidth: number;
   dragging: boolean;
 }
