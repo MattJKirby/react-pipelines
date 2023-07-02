@@ -1,7 +1,7 @@
 import React, { ComponentType, memo, useEffect } from "react"
 import Edge from "../Components/Edge";
 import DefaultEdge from "../Components/Edge/DefaultEdge"
-import { edgePathTypeMap } from "../Components/Edge/utils";
+import { edgePathTypeMap, getEdgePositions, getNodeData } from "../Components/Edge/utils";
 import { useStore } from "../Hooks/useStore"
 import { IGraphState, IHandle } from "../Types"
 
@@ -20,13 +20,12 @@ const selector = (s: IGraphState) => ({
   handleInteraction: s.handleInteraction,
   enableSelectableEdges: s.enableSelectableEdges,
   addEdge: s.addEdge,
-  getHandle: s.getHandle,
   resetHandleInteraction: s.resetHandleInteraction
 });
 
 
 export const EdgeRenderer = () => {
-  const { customEdgeTypes, edges, handleInteraction, enableSelectableEdges, addEdge, getHandle, resetHandleInteraction, nodes} = useStore(selector)
+  const { customEdgeTypes, edges, handleInteraction, enableSelectableEdges, addEdge, resetHandleInteraction, nodes} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
 
   useEffect(() => {
@@ -49,15 +48,23 @@ export const EdgeRenderer = () => {
   return (
     <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
       {[...edges.values()].map((edge, index) => {
-        const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default'];
+      const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default'];
 
-        const source = getHandle(edge.sourceNodeId, edge.sourceNodeOutput);
-        const target = getHandle(edge.targetNodeId, edge.targetNodeInput);
-       
-      if(source && target){
+      const [sourceHandles, sourcePosition, validSource] = getNodeData(nodes.get(edge.sourceNodeId));
+      const [targetHandles, targetPosition, validTarget] = getNodeData(nodes.get(edge.targetNodeId));
+
+      if(!validSource || !validTarget){
+        return null;
+      };
+
+      const sourceHandle = sourceHandles?.source?.get(edge.sourceNodeOutput);
+      const targetHandle = targetHandles?.target?.get(edge.targetNodeInput);
+
+      if(sourceHandle && targetHandle){
+        const { sourceX, sourceY, targetX, targetY } = getEdgePositions(sourcePosition, sourceHandle, targetPosition, targetHandle)
         const enableSelect = edge.enableSelect === undefined ? true : edge.enableSelect;
         const selected = enableSelectableEdges && (edge.selected || false);
-        const path = edgePathTypeMap.get(edge.pathType || 'bezier')?.(source.position, target.position);
+        const path = edgePathTypeMap.get(edge.pathType || 'bezier')?.({x: sourceX, y: sourceY}, {x: targetX, y: targetY}, sourceHandle.position, targetHandle.position);
         const interactionWidth = edge.interactionWidth || 20;
         const dragging = (nodes.get(edge.sourceNodeId)?.dragging || nodes.get(edge.targetNodeId)?.dragging) || false;
 
@@ -65,8 +72,8 @@ export const EdgeRenderer = () => {
           <Edge 
             key={index}
             id={edge.id}
-            source={source} 
-            target={target}
+            source={sourceHandle} 
+            target={targetHandle}
             selected={selected}
             enableSelect={enableSelectableEdges && enableSelect}
             path={path}
@@ -74,8 +81,8 @@ export const EdgeRenderer = () => {
             dragging={dragging}
           >
             <EdgeType
-              sourceHandle={source}
-              targetHandle={target}
+              sourceHandle={sourceHandle}
+              targetHandle={targetHandle}
               selected={selected}
               path={path}
             />
