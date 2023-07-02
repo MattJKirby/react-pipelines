@@ -110,4 +110,16 @@ export const CalculateRectOverlap = (rect1: Rect, rect2: Rect): Rect | null => {
   }
 
   return null; // No overlapping rectangle
+};
+
+/**
+ * Get the dimensions of a HTML element
+ * @param element 
+ * @returns 
+ */
+export const getElementDimensions = (element: HTMLElement): Dimension => {
+  return {
+    width: element.offsetWidth,
+    height: element.offsetHeight
+  }
 }
