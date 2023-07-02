@@ -55,11 +55,11 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       const sourceHandles = extractHandlesFromDOMData('source', item.nodeElement, graphTransform.scale);
       const targetHandles = extractHandlesFromDOMData('target', item.nodeElement, graphTransform.scale);
 
-      const updateDimensions = (updateNode?.dimensions !== getElementDimensions(item.nodeElement)) && item.dimensions;
-      const updatePosition = (updateNode?.position !== item.position) && item.position
+      const dimensions = getElementDimensions(item.nodeElement);
+      const updateDimensions = updateNode?.dimensions?.width !== dimensions.width && updateNode?.dimensions?.height !== dimensions.height;
 
-      if(updateDimensions || updatePosition || item.forceUpdate){
-        res.push({id: item.id, dimensions: item.dimensions, sourceHandles, targetHandles})
+      if(updateDimensions || item.forceUpdate){
+        res.push({id: item.id, dimensions, sourceHandles, targetHandles})
       }
 
         return res;

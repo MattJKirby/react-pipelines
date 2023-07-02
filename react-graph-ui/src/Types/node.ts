@@ -77,7 +77,5 @@ export interface INodeHandles {
 export type NodeDOMUpdate = {
   id: string,
   nodeElement: HTMLElement,
-  forceUpdate?: boolean,
-  dimensions?: Dimension,
-  position?: IXYPosition,
+  forceUpdate?: boolean
 }
