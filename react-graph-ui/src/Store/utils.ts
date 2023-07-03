@@ -75,8 +75,10 @@ export const createNodeInternals = (nodes: INode[], nodeInternals: NodeInternals
       elementId: handle.getAttribute("data-id") as string,
       type: handle.getAttribute("data-handle-type") as HandleType,
       position: handle.getAttribute("data-position") as Position,
-      x: (handleBounds.left - nodeBounds.left) + (handleBounds.width / 2) / scale,
-      y: (handleBounds.top - nodeBounds.top) + (handleBounds.height / 2) / scale,
+      x: (handleBounds.left - nodeBounds.left) / scale,
+      y: (handleBounds.top - nodeBounds.top) / scale,
+      width: handleBounds.width,
+      height: handleBounds.height
     };
 
     map.set(handleData.id, handleData);

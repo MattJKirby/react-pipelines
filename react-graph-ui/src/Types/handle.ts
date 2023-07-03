@@ -6,6 +6,8 @@ export type IHandle =  IXYPosition & {
   type: HandleType;
   position: Position;
   elementId: string;
+  width: number;
+  height: number;
 }
 
 export interface HandleProps {
