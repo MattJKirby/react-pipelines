@@ -2,6 +2,8 @@ import React, { useRef, MouseEvent } from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
 import { useStore } from "../../Hooks/useStore";
 import { HandleProps, IGraphState, INode } from "../../Types";
+import styles from '../../Styles/Handle/Handle.module.css'
+import InsertHelper from "./insertHelper";
 
 const selector = (s: IGraphState) => ({
   handleInteraction: s.handleInteraction,
@@ -24,40 +26,23 @@ export const Handle = ({
 }: HandleProps) => {
     const handleRef = useRef<HTMLDivElement>(null)
     const node = useNodeContext() as INode
-    const { handleInteraction, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector)
+    const { handleInteraction, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector);
+    const elementId = `node_${node.id}-handle_${id}-${type}`;
 
-
-
-    const handleMouseUp = (e: MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if(handleInteraction !== undefined){
-        if(handleInteraction.sourceHandle.type !== type){
-          setHandleInteraction({...handleInteraction, targetHandle: getHandle(node.id, id)})
-          return
-        } 
-        resetHandleInteraction()
-      }
-    }
-
-    const handleMouseDown = () => {
-      const handle = getHandle(node.id, id);
-      if(handle !== undefined){
-        newHandleInteraction(handle, handle.position, edgeType)
-      }
-    }
 
     return (
-        <div
-        className={`RP_Node__Handle RP_Node__Handle-${type} ${type}`}
+
+      <div
+        className={`RP_Node__Handle RP_Node__Handle-${type} ${type} ${styles['RP_Node__Handle-' + position]}`}
         ref={handleRef}
-        style={{border: "1px solid black", width: "16px", height: "16px", background: "#FFF"}}
+        style={{border: "1px solid black", width: "16px", height: "16px", position: 'absolute'}}
         data-node-id={node.id}
         data-handle-id={id}
-        data-id={`node_${node.id}-handle_${id}-${type}`}
+        data-id={elementId}
         data-handle-type={type}
         data-position={position}
+        onMouseDownCapture={handleMouseDown}
       >
-    </div>
+      </div>  
     )
 }
