@@ -50,8 +50,8 @@ export const EdgeRenderer = () => {
       {[...edges.values()].map((edge, index) => {
       const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default'];
 
-      const [sourceHandles, sourcePosition, validSource] = getNodeData(nodes.get(edge.sourceNodeId));
-      const [targetHandles, targetPosition, validTarget] = getNodeData(nodes.get(edge.targetNodeId));
+      const [sourceHandles, sourcePosition, sourceDims, validSource] = getNodeData(nodes.get(edge.sourceNodeId));
+      const [targetHandles, targetPosition, targetDims, validTarget] = getNodeData(nodes.get(edge.targetNodeId));
 
       if(!validSource || !validTarget){
         return null;
@@ -61,7 +61,7 @@ export const EdgeRenderer = () => {
       const targetHandle = targetHandles?.target?.get(edge.targetNodeInput);
 
       if(sourceHandle && targetHandle){
-        const { sourceX, sourceY, targetX, targetY } = getEdgePositions(sourcePosition, sourceHandle, targetPosition, targetHandle)
+        const { sourceX, sourceY, targetX, targetY } = getEdgePositions(sourceHandle.position, sourcePosition, sourceHandle, sourceDims, targetHandle.position, targetPosition, targetHandle, targetDims)
         const enableSelect = edge.enableSelect === undefined ? true : edge.enableSelect;
         const selected = enableSelectableEdges && (edge.selected || false);
         const path = edgePathTypeMap.get(edge.pathType || 'bezier')?.({x: sourceX, y: sourceY}, {x: targetX, y: targetY}, sourceHandle.position, targetHandle.position);
