@@ -17,7 +17,7 @@ const DefaultNode = ({
         </div>
 
 
-          <Handle id="source" position="bottom"/>
+          <Handle id="source" position="right"/>
 
       </div>
     </>
