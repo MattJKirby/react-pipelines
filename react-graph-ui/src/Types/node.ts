@@ -70,8 +70,8 @@ export interface NodeContainerProps {
 }
 
 export interface INodeHandles {
-  source: Map<string, IHandle> | null;
-  target: Map<string, IHandle> | null;
+  source: Map<string, IHandle>;
+  target: Map<string, IHandle>;
 }
 
 export type NodeDOMUpdate = {
