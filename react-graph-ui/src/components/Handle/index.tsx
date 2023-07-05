@@ -6,6 +6,7 @@ import styles from '../../Styles/Handle/Handle.module.css'
 import InsertHelper from "./insertHelper";
 import { getUniqueHandleId } from "./utils";
 
+
 const selector = (s: IGraphState) => ({
   handleInteraction: s.handleInteraction,
   setHandleInteraction: s.setHandleInteraction,
@@ -30,8 +31,6 @@ export const Handle = ({
     const handleId = getUniqueHandleId(node.id, id);
     const { handleInteraction, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector);
     
-
-
     return (
 
       <div
@@ -39,11 +38,30 @@ export const Handle = ({
         ref={handleRef}
         style={{border: "1px solid black", width: "16px", height: "16px", position: 'absolute'}}
         data-node-id={node.id}
+
         data-handle-id={handleId}
         data-id={`${handleId}-${type}`}
+
         data-handle-type={type}
         data-position={position}
+
       >
+
+          {handleRef.current && node.selected && type === 'source' &&
+            <InsertHelper position={position} handleElement={handleRef.current}>
+              <div
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  border: '2px dashed #ccc',
+                  borderRadius: "8px",
+                  background: "#fff"
+              
+                }}>
+              </div>
+            </InsertHelper>
+          }
+
       </div>  
     )
 }
