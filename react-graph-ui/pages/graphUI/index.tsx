@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useMemo } from "react"
 import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
@@ -17,7 +17,7 @@ const initialNodeList: INode<any>[] = [
 
   const initialEdgeList = [
     {id: "edge-0-1", sourceNodeId: '0', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default', enableSelect: false},
-    {id: "edge-2-1", sourceNodeId: '2', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default'}
+    {id: "edge-2-1", sourceNodeId: '2', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', pathType: 'bezier'}
   ]
 
 /**
@@ -59,7 +59,7 @@ const GraphUI = () => {
           nodeTypes={nodeTypes} 
           edges={edges} 
           enableDraggableNodes={false} 
-          enableSelectableNodes={false}
+          enableSelectableNodes={true}
           enableSelectableEdges={false}
           deleteKeyCode={"q"}
           deselectKeyCode={'s'}
