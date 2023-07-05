@@ -4,6 +4,7 @@ import DefaultEdge from "../Components/Edge/DefaultEdge"
 import { edgePathTypeMap, getEdgePositions, getNodeData } from "../Components/Edge/utils";
 import { useStore } from "../Hooks/useStore"
 import { IGraphState, IHandle } from "../Types"
+import { getUniqueHandleId } from "../Components/Handle/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface EdgeTypeProps {
@@ -57,8 +58,8 @@ export const EdgeRenderer = () => {
         return null;
       };
 
-      const sourceHandle = sourceHandles?.source?.get(edge.sourceNodeOutput);
-      const targetHandle = targetHandles?.target?.get(edge.targetNodeInput);
+      const sourceHandle = sourceHandles?.source?.get(getUniqueHandleId(edge.sourceNodeId,edge.sourceNodeOutput));
+      const targetHandle = targetHandles?.target?.get(getUniqueHandleId(edge.targetNodeId,edge.targetNodeInput));
 
       if(sourceHandle && targetHandle){
         const { sourceX, sourceY, targetX, targetY } = getEdgePositions(sourceHandle.position, sourcePosition, sourceHandle, sourceDims, targetHandle.position, targetPosition, targetHandle, targetDims)

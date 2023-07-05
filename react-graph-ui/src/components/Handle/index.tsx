@@ -4,6 +4,7 @@ import { useStore } from "../../Hooks/useStore";
 import { HandleProps, IGraphState, INode } from "../../Types";
 import styles from '../../Styles/Handle/Handle.module.css'
 import InsertHelper from "./insertHelper";
+import { getUniqueHandleId } from "./utils";
 
 const selector = (s: IGraphState) => ({
   handleInteraction: s.handleInteraction,
@@ -26,8 +27,9 @@ export const Handle = ({
 }: HandleProps) => {
     const handleRef = useRef<HTMLDivElement>(null)
     const node = useNodeContext() as INode
+    const handleId = getUniqueHandleId(node.id, id);
     const { handleInteraction, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector);
-    const elementId = `node_${node.id}-handle_${id}-${type}`;
+    
 
 
     return (
@@ -37,11 +39,10 @@ export const Handle = ({
         ref={handleRef}
         style={{border: "1px solid black", width: "16px", height: "16px", position: 'absolute'}}
         data-node-id={node.id}
-        data-handle-id={id}
-        data-id={elementId}
+        data-handle-id={handleId}
+        data-id={`${handleId}-${type}`}
         data-handle-type={type}
         data-position={position}
-        onMouseDownCapture={handleMouseDown}
       >
       </div>  
     )
