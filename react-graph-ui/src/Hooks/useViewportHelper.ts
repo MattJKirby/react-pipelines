@@ -1,4 +1,4 @@
-import { BoundedValueExtent, IGraphState, INode } from "../Types";
+import { IGraphState, INode } from "../Types";
 import { useStore } from "./useStore";
 import { CalculateGraphTransformForViewport, computeNodeBoundingBox } from "../Components/Graph/utils";
 import { boxToRect, clamp } from "../Utils";
