@@ -1,12 +1,12 @@
 import { StoreApi } from "zustand";
 import { createStore } from "zustand";
-import { Dimension, IGraphState, IInitialGraphProps, ITransform, IXYPosition } from "../Types";
+import { Dimension, IGraphState, IInitialGraphProps, ITransform } from "../Types";
 import { initialGraphState } from "./initialState";
 import { ComponentType } from "react";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { INode, INodeProps, NodeDOMUpdate } from "../Types/node";
 import { IEdge } from "../Types/edge";
-import { IHandle, IHandleInteraction } from "../Types/handle";
+import { IHandleInteraction } from "../Types/handle";
 import { createEdgeInternals, createNodeInternals, extractHandlesFromDOMData } from "./utils";
 import { NodeChangeTypes, NodeAddChange, NodeAddChangeData, NodePositionChange, NodePositionChangeData, NodeSelectionChange, NodeSelectionChangeData, EdgeAddChange, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, EdgeSelectionChange, RemoveNodeChangeData, RemoveNodeChange, RemoveEdgeChangeData, RemoveEdgeChange, NodeDOMChange, NodeDOMChangeData } from "../Types/changes";
 import { createChange, applyNodeChanges, applyEdgeChanges } from "../Changes";
@@ -127,7 +127,7 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
     // Interaction Store Actions
     setNodeDragInteraction: (nodeId: string) => set((state) => ({nodeDragInteraction: state.nodeInternals.get(nodeId)})),
     resetNodeDragInteraction: () => set({nodeDragInteraction: undefined}),
-    newHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => set({handleInteraction: {sourceHandle: handle, mousePosition: mousePosition, edgeType: edgeType === undefined ? "default" : edgeType, targetHandle: undefined}}),
+    newHandleInteraction: (handleElementId: string, edgeType?: string) => set({handleInteraction: {sourceHandleElement: handleElementId, edgeType: edgeType === undefined ? "default" : edgeType, targetHandle: undefined}}),
     setHandleInteraction: (interaction: IHandleInteraction) => set({handleInteraction: interaction}),
     resetHandleInteraction: () => set({handleInteraction: undefined}),
   }))}

@@ -3,7 +3,7 @@ import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
-import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform, IXYPosition } from "./generic";
+import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform } from "./generic";
 import { IHandle, IHandleInteraction } from "./handle";
 import { INode, INodeProps, NodeDOMUpdate, NodeInternals } from "./node";
 import { Selection as D3Selection, ZoomBehavior } from "d3";
@@ -76,7 +76,7 @@ export interface IGraphStoreActions {
   // Interaction Store Actions
   setNodeDragInteraction: (nodeId: string) => void;
   resetNodeDragInteraction: () => void;
-  newHandleInteraction: (handle: IHandle, mousePosition: IXYPosition, edgeType?: string) => void;
+  newHandleInteraction: (handleElementId: string, edgeType?: string) => void;
   setHandleInteraction: (interaction: IHandleInteraction) => void;
   resetHandleInteraction: () => void;
 }

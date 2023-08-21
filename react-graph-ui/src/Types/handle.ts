@@ -21,8 +21,7 @@ export interface HandleProps {
 export type HandleType = 'source' | 'target';
 
 export interface IHandleInteraction {
-  sourceHandle: IHandle;
+  sourceHandleElement: string;
   targetHandle: IHandle | undefined;
-  mousePosition: IXYPosition;
   edgeType: string;
 }
