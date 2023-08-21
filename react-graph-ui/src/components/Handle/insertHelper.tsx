@@ -27,6 +27,7 @@ const InsertHelper: FC<PropsWithChildren<InsertHelperProps>> = ({
           left: "50%",
           position: "absolute",
           transform: 'translate(-50%, -50%)',
+          pointerEvents: 'none'
         }}
       >
         <path 
