@@ -15,7 +15,7 @@ const Edge: FC<PropsWithChildren<IEdgeContainerProps>> = ({
   dragging
 }) => {
   const store = useStoreApi();
-  const pathDimensions = {width: Math.abs(target.position.x - source.position.x), height: Math.abs(target.position.y - source.position.y)}
+  const pathDimensions = {width: Math.abs(target.x - source.x), height: Math.abs(target.y - source.y)}
 
   return (
     <g
@@ -23,6 +23,7 @@ const Edge: FC<PropsWithChildren<IEdgeContainerProps>> = ({
       width={pathDimensions.width}
       height={pathDimensions.height}
       onClickCapture={() => edgeSelectHandler({id, store, disabled: !enableSelect})}
+      fill="none"
     >
       <path d={path} style={{stroke: 'transparent'}} strokeWidth={interactionWidth}/>
       {children}

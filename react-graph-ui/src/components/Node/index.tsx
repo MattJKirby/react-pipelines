@@ -4,7 +4,8 @@ import { NodeContainerProps } from "../../Types";
 import { nodeSelectHandler } from "./utils";
 import { useStoreApi } from "../../Hooks/useStoreApi";
 import useDrag from "../../Hooks/useDrag";
-import useNodeDimensions from "../../Hooks/useNodeDimensions";
+import useTrackNodeDOMUpdates from "../../Hooks/useTrackNodeDOMUpdates";
+
 
 const Node = ({
   children, 
@@ -13,18 +14,22 @@ const Node = ({
   enableSelect,
   enableDrag,
   selectOnDrag,
-  z
+  z,
+  selected
   
 }: NodeContainerProps) => {
   const store = useStoreApi();
   const nodeRef = useRef<HTMLDivElement>(null);
-  const dragging = useDrag({store: store, nodeId: id, nodeRef: nodeRef, position: position, disabled: !enableDrag, selectOnDrag: selectOnDrag && enableSelect});
-  const dimensions = useNodeDimensions({store, nodeId: id, nodeRef: nodeRef});
+  const dragging = useDrag({store: store, nodeId: id, nodeRef: nodeRef, position, disabled: !enableDrag, selectOnDrag: selectOnDrag && enableSelect});
+  const dimensions = useTrackNodeDOMUpdates({store, nodeId: id, nodeRef: nodeRef, position});
+
+  
 
   return (
     <NodeDataContext.Provider value={{
       id: id, 
-      position: position
+      position,
+      selected
     }}>
       <div
         className="RP_Node__Container"

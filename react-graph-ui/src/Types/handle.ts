@@ -1,26 +1,27 @@
-import { IXYPosition } from "./generic";
+import { IXYPosition, Position } from "./generic";
 
-export interface IHandle {
+export type IHandle =  IXYPosition & {
   id: string;
   nodeId: string;
-  name: string;
   type: HandleType;
-  position: IXYPosition;
+  position: Position;
+  elementId: string;
+  width: number;
+  height: number;
 }
 
 export interface HandleProps {
   children?: React.ReactNode;
   id: string;
-  name?: string;
   type?: HandleType;
   edgeType?: string;
+  position?: Position
 }
 
-type HandleType = 'source' | 'target';
+export type HandleType = 'source' | 'target';
 
 export interface IHandleInteraction {
-  sourceHandle: IHandle;
+  sourceHandleElement: string;
   targetHandle: IHandle | undefined;
-  mousePosition: IXYPosition;
   edgeType: string;
 }

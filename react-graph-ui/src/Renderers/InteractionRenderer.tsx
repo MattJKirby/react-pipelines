@@ -10,7 +10,9 @@ const selector = (s: IGraphState) => ({
  * @returns 
  */
 export const InteractionRenderer = () => {
-  const {handleInteraction} = useStore(selector)
+  const {handleInteraction} = useStore(selector);
+
+
 
   return (
     <svg 
@@ -19,11 +21,12 @@ export const InteractionRenderer = () => {
       overflow="visible" 
       style={{position: "absolute", pointerEvents: "none", zIndex: 1}}
       >
-      {handleInteraction && 
+      {/* {handleInteraction && 
         <path 
           d={`M${handleInteraction.sourceHandle.position.x} ${handleInteraction.sourceHandle.position.y} L${handleInteraction.mousePosition. x} ${handleInteraction.mousePosition.y}`} 
           style={{stroke: '#bbb'}}
-        />}
+          fill={"none"}
+        />} */}
     </svg>
   )
 }

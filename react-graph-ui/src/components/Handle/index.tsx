@@ -1,15 +1,14 @@
-import React, { useEffect, useRef, MouseEvent } from "react"
+import React, { useRef, MouseEvent } from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
 import { useStore } from "../../Hooks/useStore";
 import { HandleProps, IGraphState, INode } from "../../Types";
-import { calculateHandleCenter } from "./utils";
-import styles from '../../Styles/Handle/DefaultHandle.module.css'
+import styles from '../../Styles/Handle/Handle.module.css'
+import InsertHelper from "./insertHelper";
+import { getUniqueHandleId } from "./utils";
+
 
 const selector = (s: IGraphState) => ({
   handleInteraction: s.handleInteraction,
-  addHandle: s.addHandle,
-  getHandle: s.getHandle,
-  updateHandlePosition: s.updateHandlePosition,
   setHandleInteraction: s.setHandleInteraction,
   newHandleInteraction: s.newHandleInteraction,
   resetHandleInteraction: s.resetHandleInteraction,
@@ -23,58 +22,46 @@ const selector = (s: IGraphState) => ({
 export const Handle = ({ 
   children, 
   id, 
-  name, 
   type = 'source',
-  edgeType
+  edgeType,
+  position = "left"
 }: HandleProps) => {
     const handleRef = useRef<HTMLDivElement>(null)
     const node = useNodeContext() as INode
-    const handleName = name === undefined ? "handle" : name
-    const { handleInteraction, getHandle, addHandle, updateHandlePosition, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector)
- 
-    useEffect(() => {
-      if(handleRef.current !== null && getHandle(node.id, id) === undefined){
-        addHandle(node.id, {nodeId: node.id, id: id, name: handleName, type: type, position: calculateHandleCenter(node.position, handleRef.current)})
-      }
-    })
+    const handleId = getUniqueHandleId(node.id, id);
+    const { handleInteraction, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector);
     
-    useEffect(() => {
-      if(handleRef.current !== null){
-        const handlePosition = calculateHandleCenter(node.position, handleRef.current);
-        updateHandlePosition(node.id, id, handlePosition);
-      }
-    }, [id, node.id, node.position, getHandle, updateHandlePosition])
-
-    const handleMouseUp = (e: MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if(handleInteraction !== undefined){
-        if(handleInteraction.sourceHandle.type !== type){
-          setHandleInteraction({...handleInteraction, targetHandle: getHandle(node.id, id)})
-          return
-        } 
-        resetHandleInteraction()
-      }
-    }
-
-    const handleMouseDown = () => {
-      const handle = getHandle(node.id, id);
-      if(handle !== undefined){
-        newHandleInteraction(handle, handle.position, edgeType)
-      }
-    }
-
     return (
-        <div className={`flow-ui-noDrag flow-ui-noZoom ${styles.RP_DefaultHandle__Wrapper} ${type === 'source' ? styles.RP_Handle_Source : null}`} 
-          onMouseDown={() => handleMouseDown()}
-          onMouseUp={(e: MouseEvent) => handleMouseUp(e)}
-        >
-        {children}
-        {children === undefined && 
-        <div
-          ref={handleRef} 
-          className={styles.RP_DefaultHandle__Container}>
-        </div>}
-      </div>
+
+      <div
+        className={`RP_Node__Handle RP_Node__Handle-${type} ${type} ${styles['RP_Node__Handle-' + position]}`}
+        ref={handleRef}
+        style={{border: "1px solid black", width: "16px", height: "16px", position: 'absolute'}}
+        data-node-id={node.id}
+
+        data-handle-id={handleId}
+        data-id={`${handleId}-${type}`}
+
+        data-handle-type={type}
+        data-position={position}
+
+      >
+
+          {handleRef.current && node.selected && type === 'source' &&
+            <InsertHelper position={position} handleElement={handleRef.current}>
+              <div
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  border: '2px dashed #ccc',
+                  borderRadius: "8px",
+                  background: "#fff"
+              
+                }}>
+              </div>
+            </InsertHelper>
+          }
+
+      </div>  
     )
 }

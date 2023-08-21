@@ -13,15 +13,12 @@ const DefaultNode = ({
     <>
       <div className={`${styles.RP_DefaultNode__Container} ${selected ? styles['RP_DefaultNode__Container--Selected'] : null}`}>
         <div className={`${styles.RP_DefaultNode__Content} ${styles.RP_DefaultNode__LabelHeader}`}>
-          Node Id: {id} Label: {data?.label}
+          Node Id: {id} 
         </div>
 
-        <div className={`${styles.RP_DefaultNode__Content}`}>
-          <p className={`${styles.RP_DefaultNode__OutputName}`}>Output 1</p>
-          <div className={`${styles.RP_DefaultNode__Output}`}>
-            <Handle id="source"/>
-          </div>
-        </div>
+
+          <Handle id="source" position="right"/>
+
       </div>
     </>
   )

@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useMemo } from "react"
 import GraphCanvas from "../../src/Components/Canvas"
 import Graph from "../../src/Components/Graph"
 import GraphProvider from "../../src/Components/GraphProvider"
 import TestNode from "../../src/Components/Node/TestNode"
 import { useEdgeStore, useNodesStore } from "../../src/Hooks/useStoreItemState"
-import { INode } from "../../src/Types"
+import { IEdge, INode } from "../../src/Types"
 import MiniMap from "../../src/Components/MiniMap"
 import Controls from "../../src/Components/Controls"
 
@@ -15,9 +15,9 @@ const initialNodeList: INode<any>[] = [
   {id: '2', type: 'default', position: {x: 50, y: 100}, data: {label: "asdf"}}
 ]
 
-  const initialEdgeList = [
+  const initialEdgeList: IEdge[] = [
     {id: "edge-0-1", sourceNodeId: '0', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default', enableSelect: false},
-    {id: "edge-2-1", sourceNodeId: '2', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default'}
+    {id: "edge-2-1", sourceNodeId: '2', sourceNodeOutput: 'source', targetNodeId: '1', targetNodeInput: 'target', type: 'default', pathType: 'bezier'}
   ]
 
 /**
@@ -59,7 +59,7 @@ const GraphUI = () => {
           nodeTypes={nodeTypes} 
           edges={edges} 
           enableDraggableNodes={false} 
-          enableSelectableNodes={false}
+          enableSelectableNodes={true}
           enableSelectableEdges={false}
           deleteKeyCode={"q"}
           deselectKeyCode={'s'}

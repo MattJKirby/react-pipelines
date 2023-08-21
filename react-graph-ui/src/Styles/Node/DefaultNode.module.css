@@ -1,41 +1,15 @@
 .RP_DefaultNode__Container {
   background-color: #fff;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  border-color: rgba(148,163,184,.2);
-  border-style: solid;
-  border-width: 1px;
+  border: 1px solid black;
   min-width: 200px;
   border-radius: 8px;
   overflow: none;
-  margin: 4px;
+  height: 60px;
+  font-size: small;
 }
 
 .RP_DefaultNode__Container--Selected {
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-.RP_DefaultNode__Content {
-  padding: 8px 0px;
-  display: flex;
-  align-items: center;
-}
-
-.RP_DefaultNode__LabelHeader {
-  padding: 8px 8px;
-  font-size: small;
-  display: flex;
-  width: 100%;
-  border-bottom: 1px solid rgba(148,163,184,.2);
-  z-index: -1;
-}
-
-.RP_DefaultNode__Output{
-  width: 100%;
-}
-
-.RP_DefaultNode__OutputName{
-  margin: 0px;
-  font-size: small;
-  padding: 0px 8px;
-  white-space: nowrap;
-}
