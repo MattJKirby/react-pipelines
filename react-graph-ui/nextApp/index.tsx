@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo } from "react"
-import GraphCanvas from "../../src/Components/Canvas"
-import Graph from "../../src/Components/Graph"
-import GraphProvider from "../../src/Components/GraphProvider"
-import TestNode from "../../src/Components/Node/TestNode"
-import { useEdgeStore, useNodesStore } from "../../src/Hooks/useStoreItemState"
-import { IEdge, INode } from "../../src/Types"
-import MiniMap from "../../src/Components/MiniMap"
-import Controls from "../../src/Components/Controls"
+import GraphCanvas from "../core/src/Components/Canvas"
+import Graph from "../core/src/Components/Graph"
+import GraphProvider from "../core/src/Components/GraphProvider"
+import TestNode from "../core/src/Components/Node/TestNode"
+import { useEdgeStore, useNodesStore } from "../core/src/Hooks/useStoreItemState"
+import { IEdge, INode } from "../core/src/Types"
+import MiniMap from "../core/src/Components/MiniMap"
+import Controls from "../core/src/Components/Controls"
 
 
 const initialNodeList: INode<any>[] = [

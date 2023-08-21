@@ -1,13 +1,14 @@
 {
-  "name": "react-graph-ui",
-  "version": "0.1.0",
+  "name": "core",
+  "version": "1.0.0",
+  "description": "React Pipelines Core",
+  "main": "index.ts",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "Matthew Kirby",
+  "license": "ISC",
   "dependencies": {
     "@types/d3": "^7.4.0",
     "@types/node": "18.11.11",
