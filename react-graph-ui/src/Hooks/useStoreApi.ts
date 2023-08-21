@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
 import GraphStoreContext from "../Contexts/GraphStoreContext";
 
-export const useStoreApi = () => {
+const useStoreApi = () => {
   const store = useContext(GraphStoreContext);
 
   if (store === null) {
@@ -18,3 +18,5 @@ export const useStoreApi = () => {
     [store]
   );
 };
+
+export default useStoreApi

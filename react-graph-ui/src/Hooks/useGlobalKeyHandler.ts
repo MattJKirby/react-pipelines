@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useKeyPress from "./useKeyPress";
-import { useStoreApi } from "./useStoreApi";
+import useStoreApi from "./useStoreApi";
 
 type GlobalKeyHandlerProps = {
   deselectKeyCode?: string;

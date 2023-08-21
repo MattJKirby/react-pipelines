@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from "react";
 import React from "react";
-import { useStoreApi } from "../../Hooks/useStoreApi";
+import useStoreApi from "../../Hooks/useStoreApi";
 import * as d3 from "d3-zoom";
 import {select} from 'd3-selection'
 import { useStore } from "../../Hooks/useStore";

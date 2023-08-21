@@ -4,7 +4,7 @@ import { IGraphState } from "../../Types";
 import { useStore } from "../../Hooks/useStore";
 import useViewportHelper from "../../Hooks/useViewportHelper";
 import ControlButton from "./controlButton";
-import { useStoreApi } from "../../Hooks/useStoreApi";
+import useStoreApi from "../../Hooks/useStoreApi";
 
 type ControlsProps = {
   horizontal?: boolean,

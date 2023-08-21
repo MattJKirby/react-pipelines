@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import { useStoreApi } from "../../Hooks/useStoreApi";
+import useStoreApi from "../../Hooks/useStoreApi";
 import GraphProvider from "../GraphProvider";
 
 /**

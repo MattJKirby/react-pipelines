@@ -1,4 +1,4 @@
-import React, { useRef, MouseEvent } from "react"
+import React, { useRef, MouseEvent, memo } from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
 import { useStore } from "../../Hooks/useStore";
 import { HandleProps, IGraphState, INode } from "../../Types";
@@ -19,7 +19,7 @@ const selector = (s: IGraphState) => ({
  * @param param0 
  * @returns 
  */
-export const Handle = ({ 
+const Handle = ({ 
   children, 
   id, 
   type = 'source',
@@ -65,3 +65,5 @@ export const Handle = ({
       </div>  
     )
 }
+
+export default memo(Handle)

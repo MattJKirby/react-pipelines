@@ -1,5 +1,5 @@
 import { FC, memo, PropsWithChildren } from "react"
-import { useStoreApi } from "../../Hooks/useStoreApi"
+import useStoreApi from "../../Hooks/useStoreApi"
 import { IEdgeContainerProps } from "../../Types"
 import { edgeSelectHandler } from "./utils"
 

@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { INodeProps } from "../../Types";
-import { Handle } from "../Handle";
+import Handle from "../Handle";
 
 const TestNode = ({data}: INodeProps) => {
   return (

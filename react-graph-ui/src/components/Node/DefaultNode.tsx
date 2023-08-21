@@ -1,6 +1,6 @@
 import React, { memo } from "react"
 import { INodeProps } from "../../Types";
-import { Handle } from "../Handle";
+import Handle from "../Handle";
 import styles from '../../Styles/Node/DefaultNode.module.css'
 
 const DefaultNode = ({

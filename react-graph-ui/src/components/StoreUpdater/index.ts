@@ -1,7 +1,7 @@
 import { ComponentType, useEffect } from "react";
 import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
-import { useStoreApi } from "../../Hooks/useStoreApi";
+import useStoreApi from "../../Hooks/useStoreApi";
 import { BoundedValueExtent, IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange, CoordinateExtent } from "../../Types";
 
 /**
