@@ -2,11 +2,17 @@
   "name": "core",
   "version": "1.0.0",
   "description": "React Pipelines Core",
-  "main": "index.ts",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rollup": "rollup -c"
   },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
   "author": "Matthew Kirby",
   "license": "ISC",
   "dependencies": {
@@ -26,5 +32,12 @@
     "react-dom": "18.2.0",
     "typescript": "4.9.3",
     "zustand": "^4.1.5"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "rollup": "^3.28.1",
+    "rollup-plugin-dts": "^6.0.0"
   }
 }
