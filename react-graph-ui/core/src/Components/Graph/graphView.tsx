@@ -38,17 +38,18 @@ const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
     }
   }, [dimensions, store])
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if(store.handleInteraction !== undefined && flowRef.current !== null){
-      store.setHandleInteraction({...store.handleInteraction, mousePosition: calculateScaledMousePosition(e, flowRef.current, store.transform)})
-    }
-  }
+  // const handleMouseMove = (e: MouseEvent) => {
+  //   if(store.handleInteraction !== undefined && flowRef.current !== null){
+  //     store.setHandleInteraction({...store.handleInteraction, mousePosition: calculateScaledMousePosition(e, flowRef.current, store.transform)})
+  //   }
+  // }
 
-  const handleMouseDown = (e: MouseEvent & {target: HTMLElement}) => {    
-    if(e.target.classList.length < 2 && !store.multiSelectionActive){
-      store.resetSelectedNodes();
-      store.resetSelectedEdges();
-    }
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement; 
+      if(target.classList.length < 2 && !store.multiSelectionActive){
+        store.resetSelectedNodes();
+        store.resetSelectedEdges();
+      }
   }
 
   return (
@@ -56,7 +57,7 @@ const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
       className="RP_GraphView"
       ref={flowRef}
       onMouseUp={() => store.resetHandleInteraction()}
-      onMouseMove={(e: MouseEvent) => handleMouseMove(e)}
+      // onMouseMove={(e: MouseEvent) => handleMouseMove(e)}
       onMouseDownCapture={(e) => handleMouseDown(e)}
       style={{width: "100%", height: "100%", overflow: "hidden", position: "relative"}}
       >

@@ -29,21 +29,21 @@ export const EdgeRenderer = () => {
   const { customEdgeTypes, edges, handleInteraction, enableSelectableEdges, addEdge, resetHandleInteraction, nodes} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
 
-  useEffect(() => {
-    if(handleInteraction !== undefined){
-      const {sourceHandle: source, targetHandle: target, edgeType} = handleInteraction
-      if(source !== undefined && target !== undefined){
-        const edgeId = `edge-${source.nodeId}_${source.id}-${target.nodeId}_${target?.id}`
-        const existingEdge = edges.get(edgeId);
+  // useEffect(() => {
+  //   if(handleInteraction !== undefined){
+  //     const {sourceHandle: source, targetHandle: target, edgeType} = handleInteraction
+  //     if(source !== undefined && target !== undefined){
+  //       const edgeId = `edge-${source.nodeId}_${source.id}-${target.nodeId}_${target?.id}`
+  //       const existingEdge = edges.get(edgeId);
 
-        if(existingEdge === undefined){
-          addEdge([{item: {id: edgeId, sourceNodeId: source.nodeId, sourceNodeOutput: source.id, targetNodeId: target.nodeId, targetNodeInput: target.id, type: edgeType}}])
-        }
-        resetHandleInteraction()
-      }
+  //       if(existingEdge === undefined){
+  //         addEdge([{item: {id: edgeId, sourceNodeId: source.nodeId, sourceNodeOutput: source.id, targetNodeId: target.nodeId, targetNodeInput: target.id, type: edgeType}}])
+  //       }
+  //       resetHandleInteraction()
+  //     }
       
-    }
-  },[edges,handleInteraction, addEdge, resetHandleInteraction])
+  //   }
+  // },[edges,handleInteraction, addEdge, resetHandleInteraction])
 
 
   return (
