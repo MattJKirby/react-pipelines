@@ -1,11 +1,14 @@
 {
-  "name": "core",
+  "name": "@mattjkirby/react-pipeline-ui",
   "version": "1.0.0",
   "description": "React Pipelines Core",
-  "private": true,
+  "private": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup -c"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/mattjkirby"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -38,6 +41,7 @@
     "@rollup/plugin-node-resolve": "^15.2.1",
     "@rollup/plugin-typescript": "^11.1.2",
     "rollup": "^3.28.1",
-    "rollup-plugin-dts": "^6.0.0"
+    "rollup-plugin-dts": "^6.0.0",
+    "rollup-plugin-postcss": "^4.0.2"
   }
 }
