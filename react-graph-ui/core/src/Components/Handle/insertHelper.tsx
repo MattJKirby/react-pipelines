@@ -11,7 +11,7 @@ type InsertHelperProps = {
 const InsertHelper: FC<PropsWithChildren<InsertHelperProps>> = ({
   position,
   handleElement,
-  pathLength = 100,
+  pathLength = 25,
   children
 }) => {
   const pathBounds = getInsertPathBounds(position, handleElement, pathLength);
@@ -32,7 +32,7 @@ const InsertHelper: FC<PropsWithChildren<InsertHelperProps>> = ({
       >
         <path 
           d={`M${pathBounds[0]} ${pathBounds[1]} L${pathBounds[2]} ${pathBounds[3]}`}
-          stroke={"#ccc"}
+          // stroke={"#ccc"}
           strokeDasharray="2 1"
         />
       </svg>

@@ -36,7 +36,7 @@ const Handle = ({
       <div
         className={`RP_Node__Handle RP_Node__Handle-${type} ${type} ${styles['RP_Node__Handle-' + position]}`}
         ref={handleRef}
-        style={{border: "1px solid black", width: "16px", height: "16px", position: 'absolute'}}
+        style={{width: "10px", height: "10px", position: 'absolute'}}
         data-node-id={node.id}
 
         data-handle-id={handleId}
@@ -51,16 +51,22 @@ const Handle = ({
             <InsertHelper position={position} handleElement={handleRef.current}>
               <div
                 style={{
-                  width: '30px',
-                  height: '30px',
-                  border: '2px dashed #ccc',
-                  borderRadius: "8px",
-                  background: "#fff"
-              
+                  width: '16px',
+                  height: '16px',
+                  border: '1px dashed #ccc',
+                  borderRadius: "4px",
+                  background: "#fff",
+                  color: '#ccc',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}>
+                  +
               </div>
             </InsertHelper>
           }
+
+          {children}
 
       </div>  
     )

@@ -1,8 +1,6 @@
 .RP_Node__Handle {
-  position: absolute;
+  /* position: absolute; */
   pointer-events: none;
-  min-width: 5px;
-  min-height: 5px;
   cursor: crosshair;
   border: 1px solid red
 }
@@ -15,24 +13,24 @@
 .RP_Node__Handle-bottom {
   top: auto;
   left: 50%;
-  bottom: -4px;
+  bottom: 0px;
   transform: translate(-50%, 0);
 }
 
 .RP_Node__Handle-top {
   left: 50%;
-  top: -4px;
+  top: 0px;
   transform: translate(-50%, 0);
 }
 
 .RP_Node__Handle-left {
   top: 50%;
-  left: -4px;
+  left: 0px;
   transform: translate(0, -50%);
 }
 
 .RP_Node__Handle-right {
-  right: -4px;
+  right: 0px;
   top: 50%;
   transform: translate(0, -50%);
 }

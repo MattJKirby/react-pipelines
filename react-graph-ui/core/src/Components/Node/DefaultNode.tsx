@@ -17,7 +17,14 @@ const DefaultNode = ({
         </div>
 
 
-          <Handle id="source" position="right"/>
+          
+          <div style={{height: '20px', width: '100%', position: 'relative'}}>
+            <Handle id="source" position="right"/>
+          </div>
+          <div style={{height: '20px', width: '100%', position: 'relative'}}>
+            <Handle id="kjsgkj" position="right"/>
+          </div>
+          
 
       </div>
     </>
