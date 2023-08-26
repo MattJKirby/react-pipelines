@@ -1,18 +1,9 @@
-import React, { useRef, MouseEvent, memo } from "react"
+import React, { useRef, memo } from "react"
 import { useNodeContext } from "../../Contexts/NodeDataContext";
-import { useStore } from "../../Hooks/useStore";
-import { HandleProps, IGraphState, INode } from "../../Types";
+import { HandleProps, INode } from "../../Types";
 import styles from '../../Styles/Handle/Handle.module.css'
 import InsertHelper from "./insertHelper";
 import { getUniqueHandleId } from "./utils";
-
-
-const selector = (s: IGraphState) => ({
-  handleInteraction: s.handleInteraction,
-  setHandleInteraction: s.setHandleInteraction,
-  newHandleInteraction: s.newHandleInteraction,
-  resetHandleInteraction: s.resetHandleInteraction,
-});
 
 /**
  * Node handle component
@@ -29,14 +20,13 @@ const Handle = ({
     const handleRef = useRef<HTMLDivElement>(null)
     const node = useNodeContext() as INode
     const handleId = getUniqueHandleId(node.id, id);
-    const { handleInteraction, setHandleInteraction, resetHandleInteraction, newHandleInteraction }  = useStore(selector);
     
     return (
 
       <div
-        className={`RP_Node__Handle RP_Node__Handle-${type} ${type} ${styles['RP_Node__Handle-' + position]}`}
+        className={`RP_Node__Handle RP_Node__Handle-${type} ${type} ${styles['RP_Node__Handle-' + position]} ${styles['RP_Node__Handle']}`}
         ref={handleRef}
-        style={{width: "10px", height: "10px", position: 'absolute'}}
+        style={{position: 'absolute'}}
         data-node-id={node.id}
 
         data-handle-id={handleId}
@@ -65,8 +55,6 @@ const Handle = ({
               </div>
             </InsertHelper>
           }
-
-          {children}
 
       </div>  
     )

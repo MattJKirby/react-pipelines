@@ -1,4 +1,4 @@
-import React, { ComponentType, memo, useEffect } from "react"
+import React, { ComponentType, memo } from "react"
 import Edge from "../Components/Edge";
 import DefaultEdge from "../Components/Edge/DefaultEdge"
 import { edgePathTypeMap, getEdgePositions, getNodeData } from "../Components/Edge/utils";
@@ -18,32 +18,14 @@ const selector = (s: IGraphState) => ({
   customEdgeTypes: s.customEdgeTypes,
   edges: s.edgeInternals,
   nodes: s.nodeInternals,
-  handleInteraction: s.handleInteraction,
   enableSelectableEdges: s.enableSelectableEdges,
   addEdge: s.addEdge,
-  resetHandleInteraction: s.resetHandleInteraction
 });
 
 
 export const EdgeRenderer = () => {
-  const { customEdgeTypes, edges, handleInteraction, enableSelectableEdges, addEdge, resetHandleInteraction, nodes} = useStore(selector)
+  const { customEdgeTypes, edges, enableSelectableEdges, addEdge, nodes} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
-
-  // useEffect(() => {
-  //   if(handleInteraction !== undefined){
-  //     const {sourceHandle: source, targetHandle: target, edgeType} = handleInteraction
-  //     if(source !== undefined && target !== undefined){
-  //       const edgeId = `edge-${source.nodeId}_${source.id}-${target.nodeId}_${target?.id}`
-  //       const existingEdge = edges.get(edgeId);
-
-  //       if(existingEdge === undefined){
-  //         addEdge([{item: {id: edgeId, sourceNodeId: source.nodeId, sourceNodeOutput: source.id, targetNodeId: target.nodeId, targetNodeInput: target.id, type: edgeType}}])
-  //       }
-  //       resetHandleInteraction()
-  //     }
-      
-  //   }
-  // },[edges,handleInteraction, addEdge, resetHandleInteraction])
 
 
   return (

@@ -11,7 +11,7 @@ type InsertHelperProps = {
 const InsertHelper: FC<PropsWithChildren<InsertHelperProps>> = ({
   position,
   handleElement,
-  pathLength = 25,
+  pathLength = 20,
   children
 }) => {
   const pathBounds = getInsertPathBounds(position, handleElement, pathLength);
