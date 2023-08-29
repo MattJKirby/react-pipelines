@@ -3,7 +3,6 @@ import ZoomContainer from "../../Containers/ZoomContainer/ZoomContainer";
 import UseGlobalKeyHandler from "../../Hooks/useGlobalKeyHandler";
 import { useStore } from "../../Hooks/useStore";
 import EdgeRenderer from "../../Renderers/EdgeRenderer";
-import { InteractionRenderer } from "../../Renderers/InteractionRenderer";
 import NodeRenderer from "../../Renderers/NodeRenderer";
 import { GraphViewProps, IGraphState } from "../../Types";
 import useDynamicDimensions from "../../Hooks/useDynamicDimensions";
@@ -52,7 +51,6 @@ const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
       >
         {children}
         <ZoomContainer>
-          <InteractionRenderer />
           <EdgeRenderer />
           <NodeRenderer />    
         </ZoomContainer>
