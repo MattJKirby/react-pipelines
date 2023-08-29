@@ -1,36 +1,44 @@
 .RP_Node__Handle {
   /* position: absolute; */
-  pointer-events: none;
   cursor: crosshair;
-  border: 1px solid red
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  z-index: 100;
+  border: 1px solid black;
+  background-color: #fff;
 }
 
-.RP_Node__Handle.connectionindicator {
+.RP_Node__Handle-connecting {
   pointer-events: all;
-  
+  animation: bounce 1600ms infinite ease-out;
 }
 
 .RP_Node__Handle-bottom {
-  top: auto;
-  left: 50%;
-  bottom: 0px;
-  transform: translate(-50%, 0);
+  position: relative;
+  bottom: -10px;
 }
 
 .RP_Node__Handle-top {
-  left: 50%;
-  top: 0px;
-  transform: translate(-50%, 0);
+  position: relative;
+  top: -10px;
 }
 
 .RP_Node__Handle-left {
-  top: 50%;
-  left: 0px;
-  transform: translate(0, -50%);
+  position: relative;
+  left: -10px;
 }
 
 .RP_Node__Handle-right {
-  right: 0px;
-  top: 50%;
-  transform: translate(0, -50%);
+  position: relative;
+  right: -10px;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
 }
