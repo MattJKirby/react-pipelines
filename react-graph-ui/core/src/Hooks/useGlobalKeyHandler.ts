@@ -35,9 +35,10 @@ export const UseGlobalKeyHandler = ({
 
   useEffect(() => {
     if(deselectKeyPressed){
-      const { resetSelectedNodes, resetSelectedEdges  } = store.getState();
+      const { resetSelectedNodes, resetSelectedEdges, setSelectedHandle } = store.getState();
       resetSelectedNodes();
       resetSelectedEdges();
+      setSelectedHandle(null)
     }
   }, [store, deselectKeyPressed]);
 
