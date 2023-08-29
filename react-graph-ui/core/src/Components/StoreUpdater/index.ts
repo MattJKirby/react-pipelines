@@ -2,7 +2,7 @@ import { ComponentType, useEffect } from "react";
 import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
 import useStoreApi from "../../Hooks/useStoreApi";
-import { BoundedValueExtent, IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange, CoordinateExtent } from "../../Types";
+import { BoundedValueExtent, IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange, CoordinateExtent, IsValidConnection } from "../../Types";
 
 /**
  * StoreUpdater hook for graph store keys that don't have a dedicated setter.
@@ -48,6 +48,7 @@ const StoreUpdater = (props: IStoreUpdaterProps) => {
   useDirectStoreUpdater<CoordinateExtent>('translateExtent', props.translateExtent, storeApi.setState);
   useDirectStoreUpdater<OnNodesChange>('onNodesChange', props.onNodesChange, storeApi.setState);
   useDirectStoreUpdater<OnEdgesChange>('onEdgesChange', props.onEdgesChange, storeApi.setState)
+  useDirectStoreUpdater<IsValidConnection>('isValidConnection', props.isValidConnection, storeApi.setState);
 
   useDedicatedStoreUpdater<INode[]>(props.nodes, store.setNodes);
   useDedicatedStoreUpdater<IEdge[]>(props.edges, store.setEdges);

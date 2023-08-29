@@ -3,8 +3,8 @@ import { Subset } from ".";
 import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
 import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
-import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform } from "./generic";
-import { IHandle, IHandleInteraction } from "./handle";
+import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform, IsValidConnection } from "./generic";
+import { IHandle, ISelectedHandle } from "./handle";
 import { INode, INodeProps, NodeDOMUpdate, NodeInternals } from "./node";
 import { Selection as D3Selection, ZoomBehavior } from "d3";
 
@@ -39,7 +39,8 @@ export interface IGraphStore {
 
   // Interaction Store
   nodeDragInteraction: INode | undefined;
-  handleInteraction: IHandleInteraction | undefined;
+  selectedHandle: ISelectedHandle | null;
+  isValidConnection: IsValidConnection | undefined
 
   // Changes store
   onNodesChange: OnNodesChange | undefined;
@@ -75,10 +76,8 @@ export interface IGraphStoreActions {
 
   // Interaction Store Actions
   setNodeDragInteraction: (nodeId: string) => void;
-  resetNodeDragInteraction: () => void;
-  newHandleInteraction: (handleElementId: string, edgeType?: string) => void;
-  setHandleInteraction: (interaction: IHandleInteraction) => void;
-  resetHandleInteraction: () => void;
+  resetNodeDragInteraction: () => void
+  setSelectedHandle: (handle: ISelectedHandle | null) => void
 }
 
 export interface IGraphState extends IGraphStore, IGraphStoreActions {}
@@ -98,6 +97,7 @@ export interface IStoreUpdaterProps {
   enableSelectableEdges?: boolean;
   zoomExtent?: BoundedValueExtent;
   translateExtent?: CoordinateExtent;
+  isValidConnection?: IsValidConnection;
   onNodesChange?: OnNodesChange;
   onEdgesChange?: OnEdgesChange;
 }

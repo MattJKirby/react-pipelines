@@ -1,3 +1,5 @@
+import { IEdge } from "./edge";
+
 export type Position = "top" | "bottom" | "left" | "right";
 
 export interface IXYPosition {
@@ -37,3 +39,12 @@ export type BoundedValueExtent = ValueExtent<true>;
 export type UnboundedValueExtent = ValueExtent<false>;
 
 export type CoordinateExtent = [x: BoundedValueExtent, y: BoundedValueExtent];
+
+export type Connection = {
+  source: string | null,
+  target: string | null,
+  sourceHandle: string | null,
+  targetHandle: string | null
+}
+
+export type IsValidConnection = (edge: IEdge | Connection) => boolean;

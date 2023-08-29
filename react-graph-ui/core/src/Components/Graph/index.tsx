@@ -26,6 +26,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
   translateExtent,
   onNodesChange,
   onEdgesChange,
+  isValidConnection,
 }) => {
   const graphId = id || '1';
 
@@ -44,6 +45,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
           translateExtent={translateExtent}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          isValidConnection={isValidConnection}
       />
       <GraphView
         deleteKeyCode={deleteKeyCode}
