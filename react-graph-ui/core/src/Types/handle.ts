@@ -20,8 +20,9 @@ export interface HandleProps {
 
 export type HandleType = 'source' | 'target';
 
-export interface IHandleInteraction {
-  sourceHandleElement: string;
-  targetHandle: IHandle | undefined;
-  edgeType: string;
+export interface ISelectedHandle {
+  sourceHandle: string;
+  sourceNode: string
+  sourceHandleType: HandleType
+  uniqueHandleId: string
 }
