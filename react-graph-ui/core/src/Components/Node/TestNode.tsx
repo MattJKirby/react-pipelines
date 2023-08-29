@@ -4,16 +4,15 @@ import Handle from "../Handle";
 
 const TestNode = ({data}: INodeProps) => {
   return (
-    <>
-      <div
-        style={{padding: "10px", border: "1px solid red", display: "flex", alignItems: "center", justifyContent: "center"}}
-      >
-        (Test: {data?.test})
-        <Handle id="target" type="source" position="right"/>
+    <div style={{ border: "1px solid red", fontSize: 'small', width: '150px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      <div style={{ marginBottom: '4px' }}>
+        Test: {data?.test}
+      </div>
+
+      <div style={{marginBottom: '16px'}}>
         <Handle id="target" type="target" position="left"/>
       </div>
-      
-    </>
+    </div>
   )
 }
 

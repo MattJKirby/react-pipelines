@@ -12,20 +12,13 @@ const DefaultNode = ({
   return (
     <>
       <div className={`${styles.RP_DefaultNode__Container} ${selected ? styles['RP_DefaultNode__Container--Selected'] : null}`}>
-        <div className={`${styles.RP_DefaultNode__Content} ${styles.RP_DefaultNode__LabelHeader}`}>
+        <div className={``}>
           Node Id: {id} 
         </div>
-
-
-          
-          <div style={{height: '20px', width: '100%', position: 'relative'}}>
-            <Handle id="source" position="right"/>
-          </div>
-          <div style={{height: '20px', width: '100%', position: 'relative'}}>
-            <Handle id="kjsgkj" position="right"/>
-          </div>
-          
-
+ 
+        <div style={{width: '100%', display: 'flex', alignItems: 'end', flexDirection: 'column', marginBottom: '16px'}}>
+          <Handle id="source" position="right"/>
+        </div>
       </div>
     </>
   )
