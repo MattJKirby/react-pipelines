@@ -15,6 +15,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
   nodes,
   edges,
   nodeTypes,
+  edgeTypes,
   enableDraggableNodes,
   enableSelectableNodes,
   selectNodesOnDrag,
@@ -37,6 +38,7 @@ export const Graph: FC<PropsWithChildren<IGraphProps>> = ({
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           enableDraggableNodes={enableDraggableNodes}
           enableSelectableNodes={enableSelectableNodes}
           selectNodesOnDrag={selectNodesOnDrag}

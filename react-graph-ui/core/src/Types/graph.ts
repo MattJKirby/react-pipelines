@@ -91,6 +91,7 @@ export interface IStoreUpdaterProps {
   nodes?: INode[];
   nodeTypes?: { [key: string]: ComponentType<INodeProps> };
   edges?: IEdge[];
+  edgeTypes?: { [key: string]: ComponentType<EdgeTypeProps> };
   enableDraggableNodes?: boolean;
   enableSelectableNodes?: boolean;
   selectNodesOnDrag?: boolean;

@@ -2,6 +2,7 @@
 export { default as GraphCanvas } from './Components/Canvas'
 export { default as Controls } from './Components/Controls'
 export { default as DefaultEdge } from './Components/Edge/DefaultEdge'
+export { default as RemovableEdge } from './Components/Edge/RemovableEdge'
 export { default as Graph } from './Components/Graph'
 export { default as GraphProvider } from './Components/GraphProvider'
 export { default as Handle } from './Components/Handle'
