@@ -1,6 +1,8 @@
+import { ComponentType } from "react";
 import { IXYPosition, Position } from "./generic";
 import { IHandle } from "./handle";
 import { INodeStore } from "./node";
+import { EdgeProps } from "../Renderers/EdgeRenderer";
 
 export interface IEdge {
   id: string;
@@ -15,16 +17,20 @@ export interface IEdge {
   interactionWidth?: number;
 }
 
-export interface IEdgeContainerProps {
+export interface IEdgeWrapperProps {
   children: React.ReactNode;
   id: string;
+  EdgeType: ComponentType<EdgeProps>;
   source: IHandle;
   target: IHandle;
+  sourceX: number,
+  sourceY: number,
+  targetX: number, 
+  targetY: number,
   selected: boolean;
   enableSelect: boolean;
-  path: string;
-  interactionWidth: number;
   dragging: boolean;
+  interactionWidth: number
 }
 
 export type EdgeInternals = Map<string, IEdge>;

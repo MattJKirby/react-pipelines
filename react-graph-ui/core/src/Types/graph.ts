@@ -1,6 +1,6 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
-import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
+import { EdgeProps } from "../Renderers/EdgeRenderer";
 import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
 import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform, IsValidConnection } from "./generic";
@@ -32,7 +32,7 @@ export interface IGraphStore {
 
   // Edge Store
   edgeInternals: EdgeInternals;
-  customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> };
+  customEdgeTypes: { [key: string]: ComponentType<EdgeProps> };
 
   // Handle Store
   handles: IHandle[];
@@ -69,7 +69,7 @@ export interface IGraphStoreActions {
   setEdges: (edges: IEdge[]) => void;
   addEdge: (changes: EdgeAddChangeData[]) => void;
   removeEdge: (changes: RemoveEdgeChangeData[]) => void;
-  setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => void;
+  setCustomEdgeTypes: (edgeTypes: { [key: string]: ComponentType<EdgeProps> }) => void;
   triggerEdgeChanges: (edgeChanges: EdgeChangeTypes[]) => void;
   updateSelectedEdges: (edgeChanges: EdgeSelectionChangeData[]) => void;
   resetSelectedEdges: () => void;
@@ -91,7 +91,7 @@ export interface IStoreUpdaterProps {
   nodes?: INode[];
   nodeTypes?: { [key: string]: ComponentType<INodeProps> };
   edges?: IEdge[];
-  edgeTypes?: { [key: string]: ComponentType<EdgeTypeProps> };
+  edgeTypes?: { [key: string]: ComponentType<EdgeProps> };
   enableDraggableNodes?: boolean;
   enableSelectableNodes?: boolean;
   selectNodesOnDrag?: boolean;

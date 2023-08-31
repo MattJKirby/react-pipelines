@@ -3,7 +3,7 @@ import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
 import useStoreApi from "../../Hooks/useStoreApi";
 import { BoundedValueExtent, IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange, CoordinateExtent, IsValidConnection } from "../../Types";
-import { EdgeTypeProps } from "../../Renderers/EdgeRenderer";
+import { EdgeProps } from "../../Renderers/EdgeRenderer";
 
 /**
  * StoreUpdater hook for graph store keys that don't have a dedicated setter.
@@ -55,7 +55,7 @@ const StoreUpdater = (props: IStoreUpdaterProps) => {
   useDedicatedStoreUpdater<INode[]>(props.nodes, store.setNodes);
   useDedicatedStoreUpdater<IEdge[]>(props.edges, store.setEdges);
   useDedicatedStoreUpdater<{[key: string]: ComponentType<INodeProps>}>(props.nodeTypes, store.setCustomNodeTypes);
-  useDedicatedStoreUpdater<{[key: string]: ComponentType<EdgeTypeProps>}>(props.edgeTypes, store.setCustomEdgeTypes);
+  useDedicatedStoreUpdater<{[key: string]: ComponentType<EdgeProps>}>(props.edgeTypes, store.setCustomEdgeTypes);
 
   return null;
 }

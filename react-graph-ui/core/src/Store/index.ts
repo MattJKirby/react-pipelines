@@ -3,7 +3,7 @@ import { createStore } from "zustand";
 import { Dimension, IGraphState, IInitialGraphProps, ISelectedHandle, ITransform } from "../Types";
 import { initialGraphState } from "./initialState";
 import { ComponentType } from "react";
-import { EdgeTypeProps } from "../Renderers/EdgeRenderer";
+import { EdgeProps } from "../Renderers/EdgeRenderer";
 import { INode, INodeProps, NodeDOMUpdate } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { createEdgeInternals, createNodeInternals, extractHandlesFromDOMData } from "./utils";
@@ -102,7 +102,7 @@ export const createGraphStore = (initialProps?: IInitialGraphProps): StoreApi<IG
       const { triggerEdgeChanges } = get();
       triggerEdgeChanges(createChange<RemoveEdgeChange>(changes, 'remove'));
     },
-    setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeTypeProps> }) => set({customEdgeTypes}),
+    setCustomEdgeTypes: (customEdgeTypes: { [key: string]: ComponentType<EdgeProps> }) => set({customEdgeTypes}),
     updateSelectedEdges: (edgeChanges: EdgeSelectionChangeData[]) => {
       const { triggerEdgeChanges } = get();
       triggerEdgeChanges(createChange<EdgeSelectionChange>(edgeChanges, 'select'));

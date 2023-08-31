@@ -1,17 +1,25 @@
-import React, { ComponentType, memo } from "react"
-import Edge from "../Components/Edge";
-import DefaultEdge from "../Components/Edge/DefaultEdge"
-import { edgePathTypeMap, getEdgePositions, getNodeData } from "../Components/Edge/utils";
+import { CSSProperties, ComponentType, memo } from "react"
+import EdgeWrapper from "../Components/Edge/EdgeWrapper";
+import { getEdgePositions, getNodeData } from "../Components/Edge/utils";
 import { useStore } from "../Hooks/useStore"
-import { IGraphState, IHandle } from "../Types"
+import { IGraphState, Position } from "../Types"
 import { getUniqueHandleId } from "../Components/Handle/utils";
+import BezierEdge from "../Components/Edge/BezierEdge";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface EdgeTypeProps {
-  sourceHandle: IHandle;
-  targetHandle: IHandle;
-  selected: boolean;
-  path?: string;
+export interface EdgeProps {
+  id: string,
+  sourceX: number,
+  sourceY: number,
+  targetX: number,
+  targetY: number,
+  sourcePosition: Position,
+  targetPosition: Position,
+  selected: boolean,
+  enableSelect: boolean,
+  interactionWidth: number,
+  dragging: boolean,
+  style: CSSProperties
 }
 
 const selector = (s: IGraphState) => ({
@@ -25,13 +33,13 @@ const selector = (s: IGraphState) => ({
 
 export const EdgeRenderer = () => {
   const { customEdgeTypes, edges, enableSelectableEdges, addEdge, nodes} = useStore(selector)
-  const edgeTypes: { [key: string]: ComponentType<EdgeTypeProps> } = {...{default: DefaultEdge}, ...customEdgeTypes}
+  const edgeTypes: { [key: string]: ComponentType<EdgeProps> } = {...{default: BezierEdge}, ...customEdgeTypes}
 
 
   return (
     <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
       {[...edges.values()].map((edge, index) => {
-      const EdgeType = edgeTypes[edge.type] as ComponentType<EdgeTypeProps> || edgeTypes['default'];
+      const Edge = edgeTypes[edge.type] as ComponentType<EdgeProps> || edgeTypes.default;
 
       const [sourceHandles, sourcePosition, sourceDims, validSource] = getNodeData(nodes.get(edge.sourceNodeId));
       const [targetHandles, targetPosition, targetDims, validTarget] = getNodeData(nodes.get(edge.targetNodeId));
@@ -47,29 +55,26 @@ export const EdgeRenderer = () => {
         const { sourceX, sourceY, targetX, targetY } = getEdgePositions(sourceHandle.position, sourcePosition, sourceHandle, sourceDims, targetHandle.position, targetPosition, targetHandle, targetDims)
         const enableSelect = edge.enableSelect === undefined ? true : edge.enableSelect;
         const selected = enableSelectableEdges && (edge.selected || false);
-        const path = edgePathTypeMap.get(edge.pathType || 'bezier')?.({x: sourceX, y: sourceY}, {x: targetX, y: targetY}, sourceHandle.position, targetHandle.position);
         const interactionWidth = edge.interactionWidth || 20;
         const dragging = (nodes.get(edge.sourceNodeId)?.dragging || nodes.get(edge.targetNodeId)?.dragging) || false;
 
-        return path && (
-          <Edge 
+        return (
+          <EdgeWrapper 
             key={index}
             id={edge.id}
+            EdgeType={Edge}
             source={sourceHandle} 
             target={targetHandle}
+            sourceX={sourceX}
+            sourceY={sourceY}
+            targetX={targetX}
+            targetY={targetY}
             selected={selected}
             enableSelect={enableSelectableEdges && enableSelect}
-            path={path}
-            interactionWidth={interactionWidth}
             dragging={dragging}
+            interactionWidth={interactionWidth}
           >
-            <EdgeType
-              sourceHandle={sourceHandle}
-              targetHandle={targetHandle}
-              selected={selected}
-              path={path}
-            />
-          </Edge>
+          </EdgeWrapper>
         )
       }
       })}
