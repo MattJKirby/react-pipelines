@@ -21,11 +21,6 @@ export const edgeSelectHandler = ({
   }
 };
 
-export const edgePathTypeMap: PathTypeMap = new Map([
-  ['straight', CalculateStraightPath],
-  ['bezier', CalculateBezierPath]
-]);
-
 /**
  * Extracts the relevant handle data from nodes
  * @param node 
