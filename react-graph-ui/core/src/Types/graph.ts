@@ -20,6 +20,7 @@ export interface IGraphStore {
   enableSelectableEdges: boolean;
   zoomExtent: BoundedValueExtent;
   translateExtent: CoordinateExtent;
+  domNode: HTMLDivElement | null;
 
   //D3 Store
   d3Zoom: ZoomBehavior<Element, unknown> | null;

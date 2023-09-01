@@ -23,5 +23,6 @@ export const initialGraphState: IGraphStore = {
   d3Zoom: null,
   d3Selection: null,
   zoomExtent: [0.5,2],
-  translateExtent: [[-Infinity,Infinity], [-Infinity,Infinity]]
+  translateExtent: [[-Infinity,Infinity], [-Infinity,Infinity]],
+  domNode: null
 };

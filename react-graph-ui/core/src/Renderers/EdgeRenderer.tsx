@@ -21,46 +21,49 @@ export const EdgeRenderer = () => {
 
 
   return (
-    <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
-      {[...edges.values()].map((edge, index) => {
-      const WrappedEdge = EdgeWrapper(edgeTypes[edge.type] as ComponentType<EdgeProps> || edgeTypes.default);
+    <>
+      <div className="RP_EdgeContentRenderer" style={{position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none'}}/>
+      <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
+        {[...edges.values()].map((edge, index) => {
+        const WrappedEdge = EdgeWrapper(edgeTypes[edge.type] as ComponentType<EdgeProps> || edgeTypes.default);
 
-      const [sourceHandles, sourcePosition, sourceDims, validSource] = getNodeData(nodes.get(edge.sourceNodeId));
-      const [targetHandles, targetPosition, targetDims, validTarget] = getNodeData(nodes.get(edge.targetNodeId));
+        const [sourceHandles, sourcePosition, sourceDims, validSource] = getNodeData(nodes.get(edge.sourceNodeId));
+        const [targetHandles, targetPosition, targetDims, validTarget] = getNodeData(nodes.get(edge.targetNodeId));
 
-      if(!validSource || !validTarget){
-        return null;
-      };
+        if(!validSource || !validTarget){
+          return null;
+        };
 
-      const sourceHandle = sourceHandles?.source?.get(getUniqueHandleId(edge.sourceNodeId,edge.sourceNodeOutput));
-      const targetHandle = targetHandles?.target?.get(getUniqueHandleId(edge.targetNodeId,edge.targetNodeInput));
+        const sourceHandle = sourceHandles?.source?.get(getUniqueHandleId(edge.sourceNodeId,edge.sourceNodeOutput));
+        const targetHandle = targetHandles?.target?.get(getUniqueHandleId(edge.targetNodeId,edge.targetNodeInput));
 
-      if(sourceHandle && targetHandle){
-        const { sourceX, sourceY, targetX, targetY } = getEdgePositions(sourceHandle.position, sourcePosition, sourceHandle, sourceDims, targetHandle.position, targetPosition, targetHandle, targetDims)
-        const enableSelect = edge.enableSelect === undefined ? true : edge.enableSelect;
-        const selected = enableSelectableEdges && (edge.selected || false);
-        const interactionWidth = edge.interactionWidth || 20;
-        const dragging = (nodes.get(edge.sourceNodeId)?.dragging || nodes.get(edge.targetNodeId)?.dragging) || false;
+        if(sourceHandle && targetHandle){
+          const { sourceX, sourceY, targetX, targetY } = getEdgePositions(sourceHandle.position, sourcePosition, sourceHandle, sourceDims, targetHandle.position, targetPosition, targetHandle, targetDims)
+          const enableSelect = edge.enableSelect === undefined ? true : edge.enableSelect;
+          const selected = enableSelectableEdges && (edge.selected || false);
+          const interactionWidth = edge.interactionWidth || 20;
+          const dragging = (nodes.get(edge.sourceNodeId)?.dragging || nodes.get(edge.targetNodeId)?.dragging) || false;
 
-        return (
-          <WrappedEdge 
-            key={index}
-            id={edge.id}
-            source={sourceHandle} 
-            target={targetHandle}
-            sourceX={sourceX}
-            sourceY={sourceY}
-            targetX={targetX}
-            targetY={targetY}
-            selected={selected}
-            enableSelect={enableSelectableEdges && enableSelect}
-            dragging={dragging}
-            interactionWidth={interactionWidth}
-          />
-        )
-      }
-      })}
-    </svg>
+          return (
+            <WrappedEdge 
+              key={index}
+              id={edge.id}
+              source={sourceHandle} 
+              target={targetHandle}
+              sourceX={sourceX}
+              sourceY={sourceY}
+              targetX={targetX}
+              targetY={targetY}
+              selected={selected}
+              enableSelect={enableSelectableEdges && enableSelect}
+              dragging={dragging}
+              interactionWidth={interactionWidth}
+            />
+          )
+        }
+        })}
+      </svg>
+    </> 
   )
 }
 
