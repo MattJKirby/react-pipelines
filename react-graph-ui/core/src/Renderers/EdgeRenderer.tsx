@@ -39,7 +39,7 @@ export const EdgeRenderer = () => {
   return (
     <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
       {[...edges.values()].map((edge, index) => {
-      const Edge = edgeTypes[edge.type] as ComponentType<EdgeProps> || edgeTypes.default;
+      const WrappedEdge = EdgeWrapper(edgeTypes[edge.type] as ComponentType<EdgeProps> || edgeTypes.default);
 
       const [sourceHandles, sourcePosition, sourceDims, validSource] = getNodeData(nodes.get(edge.sourceNodeId));
       const [targetHandles, targetPosition, targetDims, validTarget] = getNodeData(nodes.get(edge.targetNodeId));
@@ -59,10 +59,9 @@ export const EdgeRenderer = () => {
         const dragging = (nodes.get(edge.sourceNodeId)?.dragging || nodes.get(edge.targetNodeId)?.dragging) || false;
 
         return (
-          <EdgeWrapper 
+          <WrappedEdge 
             key={index}
             id={edge.id}
-            EdgeType={Edge}
             source={sourceHandle} 
             target={targetHandle}
             sourceX={sourceX}
@@ -73,8 +72,7 @@ export const EdgeRenderer = () => {
             enableSelect={enableSelectableEdges && enableSelect}
             dragging={dragging}
             interactionWidth={interactionWidth}
-          >
-          </EdgeWrapper>
+          />
         )
       }
       })}

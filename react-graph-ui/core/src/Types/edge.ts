@@ -1,8 +1,6 @@
-import { ComponentType } from "react";
 import { IXYPosition, Position } from "./generic";
 import { IHandle } from "./handle";
 import { INodeStore } from "./node";
-import { EdgeProps } from "../Renderers/EdgeRenderer";
 
 export interface IEdge {
   id: string;
@@ -18,9 +16,7 @@ export interface IEdge {
 }
 
 export interface IEdgeWrapperProps {
-  children: React.ReactNode;
   id: string;
-  EdgeType: ComponentType<EdgeProps>;
   source: IHandle;
   target: IHandle;
   sourceX: number,
