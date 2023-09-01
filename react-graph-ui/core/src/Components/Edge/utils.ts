@@ -7,15 +7,20 @@ export const edgeSelectHandler = ({
   disabled = false,
   unselect = true
 }: SelectHandlerProps) => {
-  const { updateSelectedEdges, resetSelectedEdges, edgeInternals } = store.getState();
+  const { updateSelectedEdges, resetSelectedEdges, edgeInternals, multiSelectionActive } = store.getState();
   const edge = edgeInternals.get(id);
 
   if(!disabled){
     if(!edge?.selected){
-      resetSelectedEdges();
-      updateSelectedEdges([{id, selected: true}])
+      !multiSelectionActive ? resetSelectedEdges() : null;
+      updateSelectedEdges([{id, selected: true}]);
     } else if (unselect){
-      updateSelectedEdges([{id, selected: false}])
+      updateSelectedEdges([{id, selected: false}]);
+    }
+
+    if(edge?.selected && !multiSelectionActive){
+      resetSelectedEdges()
+      updateSelectedEdges([{id, selected: true}]);
     }
   }
 };

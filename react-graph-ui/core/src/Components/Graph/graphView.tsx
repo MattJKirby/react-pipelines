@@ -45,8 +45,7 @@ const GraphView: FC<PropsWithChildren<GraphViewProps>> = ({
     <div
       className="RP_GraphView"
       ref={flowRef}
-
-      onMouseDownCapture={(e) => handleMouseDown(e)}
+      onClickCapture={(e) => handleMouseDown(e)}
       style={{width: "100%", height: "100%", overflow: "hidden", position: "relative"}}
       >
         {children}

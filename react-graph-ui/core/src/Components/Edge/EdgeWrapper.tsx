@@ -26,12 +26,17 @@ const EdgeWrapper = (EdgeComponent: ComponentType<EdgeProps>) => {
     const pathDimensions = {width: Math.abs(target.x - source.x), height: Math.abs(target.y - source.y)}
     const style = { stroke: selected ? '#000' : '#ccc'}
 
+    const onEdgeClick = (): void => {
+      edgeSelectHandler({id, store, disabled: !enableSelect})
+    }
+
     return (
       <g
-        style={{width: pathDimensions.width, height: pathDimensions.height, zIndex: dragging? 9999 : 'initial', position: 'absolute', border: '1px solid red'}}
+        style={{width: pathDimensions.width, height: pathDimensions.height, zIndex: dragging? 9999 : 'initial', position: 'absolute', cursor: 'grab'}}
+        className="flow-ui-noZoom"
         width={pathDimensions.width}
         height={pathDimensions.height}
-        onClickCapture={() => edgeSelectHandler({id, store, disabled: !enableSelect})}
+        onClickCapture={onEdgeClick}
         fill="none"
       >
         <EdgeComponent
