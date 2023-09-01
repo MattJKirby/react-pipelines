@@ -26,13 +26,12 @@ const selector = (s: IGraphState) => ({
   customEdgeTypes: s.customEdgeTypes,
   edges: s.edgeInternals,
   nodes: s.nodeInternals,
-  enableSelectableEdges: s.enableSelectableEdges,
-  addEdge: s.addEdge,
+  enableSelectableEdges: s.enableSelectableEdges
 });
 
 
 export const EdgeRenderer = () => {
-  const { customEdgeTypes, edges, enableSelectableEdges, addEdge, nodes} = useStore(selector)
+  const { customEdgeTypes, edges, enableSelectableEdges, nodes} = useStore(selector)
   const edgeTypes: { [key: string]: ComponentType<EdgeProps> } = {...{default: BezierEdge}, ...customEdgeTypes}
 
 
