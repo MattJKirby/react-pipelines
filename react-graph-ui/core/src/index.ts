@@ -21,6 +21,7 @@ export { default as useKeyPress } from './Hooks/useKeyPress'
 export { default as useStoreApi } from './Hooks/useStoreApi'
 export { default as useViewportHelper } from './Hooks/useViewportHelper'
 export { useNodesStore, useEdgeStore } from './Hooks/useStoreItemState'
+export { default as useReactPipelines } from './Hooks/useReactPipelines'
 
 // Types
 export * from './Types'
