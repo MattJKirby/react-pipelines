@@ -5,7 +5,7 @@ import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelecti
 import { EdgeInternals, IEdge } from "./edge";
 import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform, IsValidConnection } from "./generic";
 import { IHandle, ISelectedHandle } from "./handle";
-import { INode, INodeProps, NodeDOMUpdate, NodeInternals } from "./node";
+import { INode, INodeProps, INodeStore, NodeDOMUpdate, NodeInternals } from "./node";
 import { Selection as D3Selection, ZoomBehavior } from "d3";
 
 export interface IGraphStore {
@@ -115,3 +115,10 @@ export interface IGraphProps extends IStoreUpdaterProps, GraphViewProps {};
 export type OnNodesChange = (changes: NodeChangeTypes[]) => void;
 
 export type OnEdgesChange = (changes: EdgeChangeTypes[]) => void;
+
+export interface IElementSelectionHandlerProps {
+  id: string;
+  unselect?: boolean;
+  store: INodeStore;
+  disabled?: boolean;
+}

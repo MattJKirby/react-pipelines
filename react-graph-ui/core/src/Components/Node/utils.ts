@@ -1,4 +1,4 @@
-import { IElementSelectionHandlerProps } from "../../Types";
+import { IElementSelectionHandlerProps } from "../../Types/graph";
 
 export const elementSelectionHandler = ({
   id,
