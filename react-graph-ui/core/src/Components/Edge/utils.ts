@@ -1,4 +1,4 @@
-import { Dimension, IHandle, INode, INodeHandles, IXYPosition, Position, SelectHandlerProps } from "../../Types"
+import { Dimension, IHandle, INode, INodeHandles, IXYPosition, PathCenter, Position, SelectHandlerProps } from "../../Types"
 import { internalsSymbol } from "../../Utils";
 
 export const edgeSelectHandler = ({
@@ -107,4 +107,35 @@ export const getEdgePositions = (sourcePosition: Position, sourceNodePosition: I
     targetY: targetHandlePosition.y
   }
 }
+/**
+ * Calculate the center of a bezier path
+ * @param param0 
+ * @returns 
+ */
+export const getBezierPathCenter = (
+  sourceX: number,
+  sourceY: number,
+  targetX: number,
+  targetY: number,
+  sourceControlX: number,
+  sourceControlY: number,
+  targetControlX: number,
+  targetControlY: number
+): PathCenter => {
+  // https://stackoverflow.com/questions/67516101/how-to-find-distance-mid-point-of-bezier-curve
+  const centerX = sourceX * 0.125 + sourceControlX * 0.375 + targetControlX * 0.375 + targetX * 0.125;
+  const centerY = sourceY * 0.125 + sourceControlY * 0.375 + targetControlY * 0.375 + targetY * 0.125;
+  const offsetX = Math.abs(centerX - sourceX);
+  const offsetY = Math.abs(centerY - sourceY);
+
+  return {
+    centerX,
+    centerY,
+    offsetX,
+    offsetY
+  };
+};
+
+
+
 
