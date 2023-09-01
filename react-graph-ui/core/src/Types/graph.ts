@@ -1,6 +1,6 @@
 import { ComponentType } from "react";
 import { Subset } from ".";
-import { EdgeProps } from "../Renderers/EdgeRenderer";
+import { EdgeProps } from "../Types";
 import { NodeChangeTypes, NodeAddChangeData, NodePositionChangeData, NodeSelectionChangeData, EdgeChangeTypes, EdgeAddChangeData, EdgeSelectionChangeData, RemoveNodeChangeData, RemoveEdgeChangeData } from "./changes";
 import { EdgeInternals, IEdge } from "./edge";
 import { BoundedValueExtent, CoordinateExtent, Dimension, ITransform, IsValidConnection } from "./generic";

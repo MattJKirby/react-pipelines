@@ -1,26 +1,11 @@
-import { CSSProperties, ComponentType, memo } from "react"
+import { ComponentType, memo } from "react"
 import EdgeWrapper from "../Components/Edge/EdgeWrapper";
 import { getEdgePositions, getNodeData } from "../Components/Edge/utils";
 import { useStore } from "../Hooks/useStore"
-import { IGraphState, Position } from "../Types"
+import { EdgeProps, IGraphState } from "../Types"
 import { getUniqueHandleId } from "../Components/Handle/utils";
 import BezierEdge from "../Components/Edge/BezierEdge";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface EdgeProps {
-  id: string,
-  sourceX: number,
-  sourceY: number,
-  targetX: number,
-  targetY: number,
-  sourcePosition: Position,
-  targetPosition: Position,
-  selected: boolean,
-  enableSelect: boolean,
-  interactionWidth: number,
-  dragging: boolean,
-  style: CSSProperties
-}
 
 const selector = (s: IGraphState) => ({
   customEdgeTypes: s.customEdgeTypes,

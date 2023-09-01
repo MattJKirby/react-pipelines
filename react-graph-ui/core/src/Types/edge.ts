@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { IXYPosition, Position } from "./generic";
 import { IHandle } from "./handle";
 import { INodeStore } from "./node";
@@ -13,6 +14,21 @@ export interface IEdge {
   enableSelect?: boolean;
   pathType?: PathType;
   interactionWidth?: number;
+}
+
+export interface EdgeProps {
+  id: string,
+  sourceX: number,
+  sourceY: number,
+  targetX: number,
+  targetY: number,
+  sourcePosition: Position,
+  targetPosition: Position,
+  selected: boolean,
+  enableSelect: boolean,
+  interactionWidth: number,
+  dragging: boolean,
+  style: CSSProperties
 }
 
 export interface IEdgeWrapperProps {

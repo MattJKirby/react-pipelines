@@ -1,6 +1,5 @@
 import { ComponentType, FC, memo } from "react";
-import { EdgeProps } from "../../Renderers/EdgeRenderer";
-import { IEdgeWrapperProps } from "../../Types";
+import { IEdgeWrapperProps, EdgeProps } from "../../Types";
 import { edgeSelectHandler } from "./utils";
 import useStoreApi from "../../Hooks/useStoreApi";
 

@@ -1,5 +1,5 @@
 import { memo } from "react"
-import { EdgeProps } from "../../Renderers/EdgeRenderer";
+import { EdgeProps } from "../../Types";
 import { CalculateBezierPath } from "./pathTypes";
 import BaseEdge from "./BaseEdge";
 

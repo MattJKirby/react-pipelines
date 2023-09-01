@@ -1,6 +1,5 @@
-import { Dimension, IHandle, INode, INodeHandles, IXYPosition, PathTypeMap, Position, SelectHandlerProps } from "../../Types"
+import { Dimension, IHandle, INode, INodeHandles, IXYPosition, Position, SelectHandlerProps } from "../../Types"
 import { internalsSymbol } from "../../Utils";
-import { CalculateBezierPath, CalculateStraightPath } from "./pathTypes";
 
 export const edgeSelectHandler = ({
   id,
