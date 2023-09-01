@@ -60,3 +60,10 @@ export type SelectHandlerProps = {
   disabled?: boolean,
   unselect?: boolean
 }
+
+export type PathCenter = {
+  centerX: number, 
+  centerY: number, 
+  offsetX?: number, 
+  offsetY?: number
+}
