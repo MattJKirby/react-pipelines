@@ -1,29 +1,29 @@
-import { INodeSelectHandlerProps } from "../../Types";
+import { IElementSelectionHandlerProps } from "../../Types";
 
-/**
- * Node onClick handler
- * @param param0 
- */
-export const nodeSelectHandler = ({
-  id, 
+export const elementSelectionHandler = ({
+  id,
   store,
   unselect = false,
-  disabled = true,
-}: INodeSelectHandlerProps) => {
-  const { updateSelectedNodes, resetSelectedNodes, nodeInternals, multiSelectionActive } = store.getState()
-  const node = nodeInternals.get(id);
+  disabled = true
+}: IElementSelectionHandlerProps) => {
+  const { updateSelectedNodes, resetSelectedNodes, updateSelectedEdges, resetSelectedEdges, nodeInternals, edgeInternals, multiSelectionActive } = store.getState()
+  const element = nodeInternals.get(id) || edgeInternals.get(id)
 
-  if(!disabled){
-    if(!node?.selected){
-      !multiSelectionActive ? resetSelectedNodes() : null;
-      updateSelectedNodes([{id, selected: true}]);
-    } else if (unselect){
-      updateSelectedNodes([{id, selected: false}]);
+  if(!disabled && element){
+    if (!multiSelectionActive) {
+      resetSelectedNodes();
+      resetSelectedEdges();
+    }
+    
+    const updateFn = nodeInternals.has(element.id) ? updateSelectedNodes : updateSelectedEdges;
+    updateFn([{ id, selected: !element.selected && !unselect }]);
+
+    if (element.selected && !multiSelectionActive) {
+      resetSelectedNodes();
+      resetSelectedEdges();
+      const updateFn = nodeInternals.has(element.id) ? updateSelectedNodes : updateSelectedEdges;
+      updateFn([{ id, selected: true }]);
     }
 
-    if(node?.selected && !multiSelectionActive){
-      resetSelectedNodes()
-      updateSelectedNodes([{id, selected: true}]);
-    }
   }
 }
