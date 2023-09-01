@@ -1,4 +1,5 @@
-import { IXYPosition, Position } from "../../Types"
+import { IXYPosition, PathCenter, Position } from "../../Types"
+import { getBezierPathCenter } from "./utils";
 
 /**
  * Straight vector path
@@ -16,12 +17,17 @@ export const CalculateStraightPath = (source: IXYPosition, target: IXYPosition):
  * @param target 
  * @returns 
  */
-export const CalculateBezierPath = (source: IXYPosition, target: IXYPosition, sourcePosition: Position = "right", targetPosition: Position = "left"): string => {
+export const CalculateBezierPath = (source: IXYPosition, target: IXYPosition, sourcePosition: Position = "right", targetPosition: Position = "left"): [path: string, center: PathCenter] => {
   const curvature = 0.5;
   const sourceControl = calculateBezierControl(sourcePosition, source, target, curvature);
   const targetControl = calculateBezierControl(targetPosition, target, source, curvature);
+  const center = getBezierPathCenter(source.x, source.y, target.x, target.y, sourceControl[0], sourceControl[1], targetControl[0], targetControl[1])
+  const path = `M${source.x},${source.y} C${sourceControl[0]},${sourceControl[1]} ${targetControl[0]},${targetControl[1]} ${target.x},${target.y}`
   
-  return `M${source.x},${source.y} C${sourceControl[0]},${sourceControl[1]} ${targetControl[0]},${targetControl[1]} ${target.x},${target.y}`;
+  return [
+    path,
+    center
+  ];
 }
 
 const calculateControlOffset = (distance: number, curvature: number): number => {
