@@ -27,7 +27,7 @@ const RemovableEdge = (props: EdgeProps) => {
             // if you have an interactive element, set pointer-events: all
             pointerEvents: 'all',
           }}
-          className="nodrag nopan"
+          className="flow-ui-noZoom"
         >
           <button className="edgebutton" onClickCapture={(event) => onEdgeButtonClick(event, props.id)}>
             ×

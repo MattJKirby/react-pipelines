@@ -1,7 +1,7 @@
 import { ComponentType, FC, memo } from "react";
 import { IEdgeWrapperProps, EdgeProps } from "../../Types";
-import { edgeSelectHandler } from "./utils";
 import useStoreApi from "../../Hooks/useStoreApi";
+import { elementSelectionHandler } from "../Node/utils";
 
 /**
  * Wrapper higher order component 
@@ -27,7 +27,7 @@ const EdgeWrapper = (EdgeComponent: ComponentType<EdgeProps>) => {
     const style = { stroke: selected ? '#000' : '#ccc'}
 
     const onEdgeClick = (): void => {
-      edgeSelectHandler({id, store, disabled: !enableSelect})
+      elementSelectionHandler({id, store, disabled: !enableSelect})
     }
 
     return (

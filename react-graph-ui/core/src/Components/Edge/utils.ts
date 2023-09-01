@@ -1,30 +1,6 @@
 import { Dimension, IHandle, INode, INodeHandles, IXYPosition, PathCenter, Position, SelectHandlerProps } from "../../Types"
 import { internalsSymbol } from "../../Utils";
 
-export const edgeSelectHandler = ({
-  id,
-  store,
-  disabled = false,
-  unselect = true
-}: SelectHandlerProps) => {
-  const { updateSelectedEdges, resetSelectedEdges, edgeInternals, multiSelectionActive } = store.getState();
-  const edge = edgeInternals.get(id);
-
-  if(!disabled){
-    if(!edge?.selected){
-      !multiSelectionActive ? resetSelectedEdges() : null;
-      updateSelectedEdges([{id, selected: true}]);
-    } else if (unselect){
-      updateSelectedEdges([{id, selected: false}]);
-    }
-
-    if(edge?.selected && !multiSelectionActive){
-      resetSelectedEdges()
-      updateSelectedEdges([{id, selected: true}]);
-    }
-  }
-};
-
 /**
  * Extracts the relevant handle data from nodes
  * @param node 
