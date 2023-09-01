@@ -22,7 +22,6 @@ export const EdgeRenderer = () => {
 
   return (
     <>
-      <div className="RP_EdgeContentRenderer" style={{position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none'}}/>
       <svg width={'100%'} height={'100%'} overflow="visible" style={{position: "absolute"}}>
         {[...edges.values()].map((edge, index) => {
         const WrappedEdge = EdgeWrapper(edgeTypes[edge.type] as ComponentType<EdgeProps> || edgeTypes.default);
@@ -63,6 +62,7 @@ export const EdgeRenderer = () => {
         }
         })}
       </svg>
+      <div className="RP_EdgeContentRenderer" style={{position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none'}}/>
     </> 
   )
 }
