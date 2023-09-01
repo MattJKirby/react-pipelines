@@ -37,7 +37,8 @@ export const ZoomContainer = ({children}: FlowZoomProps) => {
 
       storeApi.setState({
         d3Zoom: d3ZoomInstance,
-        d3Selection: d3Selection
+        d3Selection: d3Selection,
+        domNode: zoomContainer.current.closest('.RP_GraphView') as HTMLDivElement
       })
     }
   }, [storeApi, translateExtent, zoomExtent]);
