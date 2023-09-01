@@ -3,7 +3,7 @@ import { createStore } from "zustand";
 import { Dimension, IGraphState, IInitialGraphProps, ISelectedHandle, ITransform } from "../Types";
 import { initialGraphState } from "./initialState";
 import { ComponentType } from "react";
-import { EdgeProps } from "../Renderers/EdgeRenderer";
+import { EdgeProps } from "../Types";
 import { INode, INodeProps, NodeDOMUpdate } from "../Types/node";
 import { IEdge } from "../Types/edge";
 import { createEdgeInternals, createNodeInternals, extractHandlesFromDOMData } from "./utils";

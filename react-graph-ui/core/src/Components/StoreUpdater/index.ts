@@ -3,7 +3,7 @@ import { StoreApi } from "zustand";
 import { useStore } from "../../Hooks/useStore";
 import useStoreApi from "../../Hooks/useStoreApi";
 import { BoundedValueExtent, IEdge, IGraphState, IGraphStore, INode, INodeProps, IStoreUpdaterProps, OnEdgesChange, OnNodesChange, CoordinateExtent, IsValidConnection } from "../../Types";
-import { EdgeProps } from "../../Renderers/EdgeRenderer";
+import { EdgeProps } from "../../Types";
 
 /**
  * StoreUpdater hook for graph store keys that don't have a dedicated setter.
