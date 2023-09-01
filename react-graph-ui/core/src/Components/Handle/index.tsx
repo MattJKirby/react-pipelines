@@ -22,7 +22,7 @@ const Handle = ({
   children, 
   id, 
   type = 'source',
-  edgeType,
+  edgeType = 'default',
   position = "left"
 }: HandleProps) => {
     const handleRef = useRef<HTMLDivElement>(null)
@@ -42,7 +42,7 @@ const Handle = ({
         const targetNode = type === 'target' ? node.id : selectedHandle.sourceNode;
         const edgeId = `edge-${sourceNode}_${sourceHandle}-${targetNode}_${targetHandle}`;
     
-        addEdge([{ item: { id: edgeId, sourceNodeId: sourceNode, sourceNodeOutput: sourceHandle, targetNodeId: targetNode, targetNodeInput: targetHandle, type: 'default' } }]);
+        addEdge([{ item: { id: edgeId, sourceNodeId: sourceNode, sourceNodeOutput: sourceHandle, targetNodeId: targetNode, targetNodeInput: targetHandle, type: edgeType } }]);
         setSelectedHandle(null);
       } else {
         setSelectedHandle(null);
@@ -72,12 +72,12 @@ const Handle = ({
         onClick={() => handleSelectionInteraction()}
       >
 
-          {handleRef.current && node.selected && type === 'source' &&
+          {/* {handleRef.current && node.selected && type === 'source' && selectedHandle?.uniqueHandleId !== handleId && 
             <InsertHelper position={position} handleElement={handleRef.current}>
               <div
                 style={{
-                  width: '16px',
-                  height: '16px',
+                  width: '20px',
+                  height: '20px',
                   border: '1px dashed #ccc',
                   borderRadius: "4px",
                   background: "#fff",
@@ -89,7 +89,7 @@ const Handle = ({
                   +
               </div>
             </InsertHelper>
-          }
+          } */}
 
       </div> 
     )
