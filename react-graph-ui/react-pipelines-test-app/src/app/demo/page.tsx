@@ -1,6 +1,6 @@
 "use client";
 
-import { Controls, Graph, GraphCanvas, GraphProvider, IEdge, INode, MiniMap, TestNode, useEdgeStore, useNodesStore } from "@mattjkirby/react-pipeline-ui";
+import { Controls, Graph, GraphCanvas, GraphProvider, IEdge, INode, MiniMap, TestNode, useEdgeStore, useNodesStore } from "@mattjkirby/react-pipelines";
 import React, { useCallback, useMemo } from "react"
 
 
